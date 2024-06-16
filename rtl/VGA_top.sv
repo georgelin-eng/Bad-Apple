@@ -67,6 +67,10 @@ module VGA_top (
     assign reset = ~KEY[3];
     assign LEDR = {reset, {8'b0}};
 
+
+
+
+
     // instantiating clock generation circuits
     pixel_clk_gen PIXEL_CLK_GEN (
         .CLK_50 (CLOCK_50),
@@ -74,13 +78,11 @@ module VGA_top (
         .pixel_clk(pixel_clk)
     );
 
-
     debug_clk_gen DEBUG_CLK_GEN (
         .CLK_50 (CLOCK_50),
         .reset (reset),
         .clk_debug(clk_debug)
     );
-
 
     screenPositionTracker  #(
         .X_DATA_WIDTH(X_DATA_WIDTH),
@@ -95,20 +97,32 @@ module VGA_top (
         .y_pos(y_pos)
     );
 
-
-    hsyn_clk_enable_gen HSYNC_GEN (
+    hsync_gen #(
+        .X_DATA_WIDTH(X_DATA_WIDTH),
+        .h_front_porch(h_front_porch),
+        .h_synch_pulse(h_synch_pulse),
+        .h_back_porch(h_back_porch),
+        .h_area(h_area)
+    ) HSYNC_GEN (
         .CLK_50 (CLOCK_50),
         .pixel_clk (pixel_clk),
         .reset (reset),
+        .x_pos(x_pos),
         .hsync_n(hsync_n),
-        .h_BLANK (h_BLANK),
-        .hsync_clk_enable (hsync_clk_enable)
+        .h_BLANK (h_BLANK)
     );
 
-    vsync_clk_enable_gen VSYNC_GEN (
+    vsync_gen #(
+        .Y_DATA_WIDTH(Y_DATA_WIDTH),
+        .v_front_porch(v_front_porch),
+        .v_synch_pulse(v_synch_pulse),
+        .v_back_porch(v_back_porch),
+        .v_area(v_area)
+    ) VSYNC_GEN (
         .CLK_50 (CLOCK_50),
+        .pixel_clk(pixel_clk),
         .reset (reset),
-        .hsync_clk_enable(hsync_clk_enable),
+        .y_pos(y_pos),
         .vsync_n(vsync_n),
         .v_BLANK(v_BLANK)
     );

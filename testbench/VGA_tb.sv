@@ -6,8 +6,14 @@ module tb ();
     wire        sync, blank;
     wire  [7:0] R, G, B;
 
+    // The two resolutions supported
+//  parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
+    parameter RESOLUTION = "640x480";    // memory will be 160 x 120 -> 288kb/s @ 15Hz
 
-    VGA_top  DUT (
+
+    VGA_top # (
+        .RESOLUTION(RESOLUTION)
+    ) DUT (
         .CLOCK_50(clk_50),
         .KEY ({~reset,3'b0}),
         .VGA_R(R),
@@ -20,25 +26,26 @@ module tb ();
         .VGA_HS(hsync_n)
     );
 
-    parameter line_time  = 2 * 2 * 800;
-    parameter frame_time = line_time * 525;
+    parameter line_time  =      4    * ((RESOLUTION == "640x480") ? 800 : 1056)  ;
+    parameter frame_time = line_time * ((RESOLUTION == "640x480") ? 525 : 628)   ;
+
+    parameter num_frames = 3;
+    parameter num_lines = 3;
+    parameter scaling = 1.05; // used to see a little past 
+
+    parameter sim_time = (num_frames * frame_time + num_lines * line_time) * scaling;
     // initial blocks
     initial begin
         reset = 1;
         @ (posedge clk_50);
         reset = 0;
         
-        // Initialize memory?
+        #(sim_time);
 
-        #(line_time * 10);
-        @ (negedge vsync_n);
-        #(frame_time/2);
-        #(line_time * 2);
-        # 100;
         $stop;
     end
 
-    // One clock cycle should last for 20us, each delay is 1 time unit. 
+    // One clock cycle should last for 20ns, each delay is 1 time unit. 
     initial forever begin
         clk_50 = 1; #1;
         clk_50 = 0; #1;

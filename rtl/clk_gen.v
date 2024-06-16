@@ -60,45 +60,37 @@ module pixel_clk_gen(
     end
 endmodule
 
-module hsyn_clk_enable_gen (
-    input      CLK_50,
-    input      pixel_clk,          // used as clock enable for hsynch pusle generation
-    input      reset,
-    output reg hsync_n,            // used to begin a new scan line
-    output reg h_BLANK,            // control bit used to create the blanking region
-    output reg hsync_clk_enable    // clk enable used control vsynch pulse generation
-);
-    reg [9:0] clk_counter; // 10 bit counter used for frequency division of CLK_50, counts up to 1024
-    
-    parameter h_front_porch = 16;
-    parameter h_synch_pulse = 96; // This means that the negative portion must last for 96 units of pixel_clk
-    parameter h_back_porch  = 48;
-    parameter h_area        = 640; // Marks the end fo the active area
+module hsync_gen # (
+    parameter X_DATA_WIDTH = 10,
+    parameter h_front_porch = 16,
+    parameter h_synch_pulse = 96, // This means that the negative portion must last for 96 units of pixel_clk
+    parameter h_back_porch  = 48,
+    parameter h_area        = 640, // Marks the end of the active area
 
     // Timing parameters to generate hsynch and blanking signal pulse
     // During blanking, BLACK pixels are transmitted
-    parameter h_synch_start = h_area + h_front_porch;  
-    parameter h_synch_end   = h_synch_start + h_synch_pulse;
-    parameter h_line_width  = h_synch_end + h_back_porch; 
+    parameter h_synch_start = h_area + h_front_porch,  
+    parameter h_synch_end   = h_synch_start + h_synch_pulse,
+    parameter h_line_width  = h_synch_end + h_back_porch
+)(
+    input wire                             CLK_50,
+    input wire                             pixel_clk,          // used as clock enable for hsynch pusle generation
+    input wire                             reset,
+    input wire        [X_DATA_WIDTH:0]     x_pos,
+    output reg                             hsync_n,            // used to begin a new scan line
+    output reg                             h_BLANK             // control bit used to create the blanking region
+);
+
 
     // In this design, CLK_50 (system clock) drives the logic and action is controlled via a "clock_enable"
      
     always @(posedge CLK_50) begin
         if (reset) begin
             hsync_n <= 1'b0;
-            clk_counter <= 10'b0;
         end else begin
             if (pixel_clk) begin
-                clk_counter <= clk_counter + 1;
-
-                hsync_n <= (clk_counter >= h_synch_start) && (clk_counter < h_synch_end-1); // Generate 96 pixel long synch pulse
-                h_BLANK <= (clk_counter >= h_area)        && (clk_counter < h_line_width);  // Generating blanking control signal
-                hsync_clk_enable <= (clk_counter == h_synch_end);
-                if (clk_counter == h_line_width) begin
-                    clk_counter <= 0;
-                end
-            end else begin
-                hsync_clk_enable <= 0; // This ensures the clock enable signal only lasts for a single clock cycle -> fixes count by x2 error on the vsynch clock counter
+                hsync_n <= (x_pos >= h_synch_start) && (x_pos < h_synch_end-1); // Generate 96 pixel long synch pulse
+                h_BLANK <= (x_pos >= h_area)        && (x_pos < h_line_width);  // Generating blanking control signal
             end
         end
     end
@@ -108,36 +100,33 @@ endmodule
 
 // @ 60Hz
 // vsynch pulse lasts for ~63.555us
-module vsync_clk_enable_gen (
-    input      CLK_50,
-    input      reset,
-    input      hsync_clk_enable,
-    output reg vsync_n ,    // used to generate new frames
-    output reg v_BLANK      // used to control generation of black pixels for the blanking area
+module vsync_gen # (
+    parameter Y_DATA_WIDTH = 10,
+    parameter v_front_porch = 10,
+    parameter v_synch_pulse = 2, // This must mean that the negative portion must last for 2 scan lines (2 iterations of hsync_clk)_enable
+    parameter v_back_porch  = 33,
+    parameter v_area        = 480,
+    parameter v_synch_start = v_area + v_front_porch, 
+    parameter v_synch_end   = v_synch_start + v_synch_pulse, // marks the end of the synchronization pulse
+    parameter v_line_width  = v_synch_end + v_back_porch    // 525
+)
+(
+    input                              CLK_50,
+    input                              pixel_clk,
+    input                              reset,
+    input  wire  [Y_DATA_WIDTH:0]      y_pos, 
+    output reg                         vsync_n ,    // used to generate new frames
+    output reg                         v_BLANK      // used to control generation of black pixels for the blanking area
 );
-    reg [9:0] clk_counter; // 10 bit counter used for frequency division of CLK_50
-
-    parameter v_front_porch = 10;
-    parameter v_synch_pulse = 2; // This must mean that the negative portion must last for 2 scan lines (2 iterations of hsync_clk)_enable
-    parameter v_back_porch  = 33;
-    parameter v_area        = 480;
-    parameter v_synch_start = v_area + v_front_porch; 
-    parameter v_synch_end   = v_synch_start + v_synch_pulse; // marks the end of the synchronization pulse
-    parameter v_line_width  = v_synch_end + v_back_porch;    // 525 
 
     // Generates vsync_counth pulse
     always @(posedge CLK_50) begin
          if (reset) begin
             vsync_n <= 1'b0;
-            clk_counter <= 10'b0;
         end else begin
-            if (hsync_clk_enable) begin // Can't use this as a clock enable anymore since it'll be positive for 96 clock cycles at a time
-                clk_counter <= clk_counter + 1;
-                vsync_n <= (clk_counter >= v_synch_start) && (clk_counter < v_synch_end);
-                v_BLANK <= (clk_counter >= v_area)        && (clk_counter < v_line_width);
-                if (clk_counter == v_line_width) begin
-                    clk_counter <= 0;
-                end
+            if (pixel_clk) begin // Can't use this as a clock enable anymore since it'll be positive for 96 clock cycles at a time
+                vsync_n <= (y_pos >= v_synch_start) && (y_pos < v_synch_end);
+                v_BLANK <= (y_pos >= v_area)        && (y_pos < v_line_width);
             end
         end
     end
