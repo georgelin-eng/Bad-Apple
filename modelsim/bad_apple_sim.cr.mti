@@ -1,0 +1,15 @@
+{C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module tb
+
+Top level modules:
+	tb
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module VGA_controller
+
+Top level modules:
+	VGA_controller
+
+} {} {}}
