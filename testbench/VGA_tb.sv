@@ -3,42 +3,21 @@ module tb ();
 
     reg         clk_50, reset;
     wire        pixel_clk, hsync_n, vsync_n;
-    wire        h_sync, v_sync;
-    wire        hsync_clk_enable;
-    wire [7:0]  R_dac, B_dac, G_dac;
+    wire        sync, blank;
+    wire  [7:0] R, G, B;
 
-    // instantiating clock generation circuits
-    pixel_clk_gen PIXEL_CLK_GEN (
-        .clk_50 (clk_50),
-        .reset (reset),
-        .pixel_clk(pixel_clk)
-    );
 
-    hsyn_clk_enable_gen HSYNC_GEN (
-        .clk_50 (clk_50),
-        .pixel_clk (pixel_clk),
-        .reset (reset),
-        .hsync_n(hsync_n),
-        .hsync_clk_enable (hsync_clk_enable)
-    );
-
-    vsync_clk_enable_gen VSYNC_GEN (
-        .clk_50 (clk_50),
-        .reset (reset),
-        .hsync_clk_enable(hsync_clk_enable),
-        .vsync_n(vsync_n)
-    );
-
-    VGA_controller DUT (
-        .pixel_clk (pixel_clk),
-        .reset (reset),
-        .hsync_n (hsync_n),
-        .vsync_n(vsync_n),
-        .h_sync (h_sync),
-        .v_sync (v_sync),
-        .R_dac (R_dac),
-        .G_dac (G_dac),
-        .B_dac (B_dac)
+    VGA_top  DUT (
+        .CLOCK_50(clk_50),
+        .KEY ({~reset,3'b0}),
+        .VGA_R(R),
+        .VGA_G(G),
+        .VGA_B(B),
+        .VGA_CLK(pixel_clk),
+        .VGA_SYNC_N(sync),
+        .VGA_BLANK_N(blank),
+        .VGA_VS(vsync_n),
+        .VGA_HS(hsync_n)
     );
 
     parameter line_time  = 2 * 2 * 800;
@@ -48,10 +27,13 @@ module tb ();
         reset = 1;
         @ (posedge clk_50);
         reset = 0;
+        
+        // Initialize memory?
 
         #(line_time * 10);
-        @ (negedge v_sync);
-        #(line_time * 10);
+        @ (negedge vsync_n);
+        #(frame_time/2);
+        #(line_time * 2);
         # 100;
         $stop;
     end

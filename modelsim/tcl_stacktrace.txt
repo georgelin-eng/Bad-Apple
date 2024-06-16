@@ -14,3 +14,16 @@ Trace back: Too many nested dialog boxes
     (command bound to event)
   <2:C:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {Too many nested dialog boxes}
   <1:eval:1: ::tk::dialog::error::bgerror {Too many nested dialog boxes}
+Sun Jun 09 12:47:43 EDT 2024
+Trace back: invalid command name ".main_pane.cs.95.pw"
+    while executing
+"$w cget -opaqueresize"
+    (procedure "::tk::panedwindow::ReleaseSash" line 2)
+    invoked from within
+"::tk::panedwindow::ReleaseSash $w $opaque"
+    (procedure "::tk::panedwindow::2DReleaseSash" line 8)
+    invoked from within
+"::tk::panedwindow::2DReleaseSash .main_pane.cs.pw 1956 99 1964 424 0"
+    (command bound to event)
+  <2:C:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {invalid command name ".main_pane.cs.95.pw"}
+  <1:eval:1: ::tk::dialog::error::bgerror {invalid command name ".main_pane.cs.95.pw"}

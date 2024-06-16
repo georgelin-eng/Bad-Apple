@@ -1,25 +1,30 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /tb/clk_50
-add wave -noupdate /tb/pixel_clk
 add wave -noupdate /tb/reset
-add wave -noupdate /tb/h_sync
-add wave -noupdate /tb/v_sync
-add wave -noupdate -group DUT /tb/hsync_n
-add wave -noupdate -group DUT /tb/vsync_n
-add wave -noupdate -group {pixel clk gen} /tb/PIXEL_CLK_GEN/clk_50
-add wave -noupdate -group {pixel clk gen} /tb/PIXEL_CLK_GEN/clk_counter
-add wave -noupdate -group {pixel clk gen} /tb/PIXEL_CLK_GEN/pixel_clk
-add wave -noupdate -group {pixel clk gen} /tb/PIXEL_CLK_GEN/reset
-add wave -noupdate -group {hsync clk gen} /tb/HSYNC_GEN/pixel_clk
-add wave -noupdate -group {hsync clk gen} /tb/hsync_n
-add wave -noupdate -group {hsync clk gen} -radix unsigned /tb/HSYNC_GEN/clk_counter
-add wave -noupdate -group {vsync clk gen} -radix unsigned /tb/VSYNC_GEN/clk_counter
-add wave -noupdate -group {vsync clk gen} /tb/VSYNC_GEN/hsync_clk_enable
-add wave -noupdate -group {vsync clk gen} /tb/VSYNC_GEN/vsync_n
+add wave -noupdate /tb/pixel_clk
+add wave -noupdate -expand -group DUT -radix unsigned /tb/DUT/VGA_R
+add wave -noupdate -expand -group DUT -radix unsigned /tb/DUT/VGA_G
+add wave -noupdate -expand -group DUT -radix unsigned /tb/DUT/VGA_B
+add wave -noupdate -expand -group DUT /tb/DUT/VGA_BLANK_N
+add wave -noupdate -expand -group DUT /tb/DUT/VGA_SYNC_N
+add wave -noupdate -expand -group DUT /tb/DUT/VGA_HS
+add wave -noupdate -expand -group DUT /tb/DUT/VGA_VS
+add wave -noupdate -expand -group {hsync clk gen} -radix unsigned /tb/DUT/HSYNC_GEN/clk_counter
+add wave -noupdate -expand -group {hsync clk gen} /tb/DUT/h_BLANK
+add wave -noupdate -expand -group {hsync clk gen} /tb/DUT/HSYNC_GEN/hsync_n
+add wave -noupdate -expand -group {hsync clk gen} /tb/DUT/HSYNC_GEN/hsync_clk_enable
+add wave -noupdate -group {vsync clk gen} -radix unsigned /tb/DUT/VSYNC_GEN/clk_counter
+add wave -noupdate -group params -radix ascii /tb/DUT/RESOLUTION
+add wave -noupdate -group params /tb/DUT/X_LINE_WIDTH
+add wave -noupdate -group params /tb/DUT/Y_LINE_WIDTH
+add wave -noupdate -group params /tb/DUT/X_DATA_WIDTH
+add wave -noupdate -group params /tb/DUT/Y_DATA_WIDTH
+add wave -noupdate -radix unsigned /tb/DUT/x_pos
+add wave -noupdate -radix unsigned /tb/DUT/y_pos
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {16823480 ns} 0} {{Cursor 2} {30 ns} 0}
-quietly wave cursor active 1
+WaveRestoreCursors {{Cursor 1} {15392020 ns} 0} {{Cursor 2} {30080 ns} 0}
+quietly wave cursor active 2
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -34,4 +39,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits us
 update
-WaveRestoreZoom {16662010 ns} {17185060 ns}
+WaveRestoreZoom {1421150 ns} {41881240 ns}

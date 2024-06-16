@@ -1,15 +1,41 @@
-{C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv}
+{C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v} {1 {vlog -work work -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module screenPositionTracker
+-- Compiling module pixel_clk_gen
+-- Compiling module hsyn_clk_enable_gen
+-- Compiling module vsync_clk_enable_gen
+-- Compiling module debug_clk_gen
+
+Top level modules:
+	screenPositionTracker
+	pixel_clk_gen
+	hsyn_clk_enable_gen
+	vsync_clk_enable_gen
+	debug_clk_gen
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module tb
 
 Top level modules:
 	tb
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module bram
+
+Top level modules:
+	bram
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module VGA_controller
+-- Compiling module frame_buffer_gen
+-- Compiling module bresenham_circle_calc
 
 Top level modules:
 	VGA_controller
+	frame_buffer_gen
+	bresenham_circle_calc
 
 } {} {}}

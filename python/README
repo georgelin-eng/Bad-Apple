@@ -1,0 +1,11 @@
+# General
+
+Script used to split the video into multiple frames which will be sent over to the FPGA
+
+1 frame = 307200kb
+@60fps, the data rate will need to be at least 18.432Mb/s
+
+This is assuming I transfer only purely B/W pixels. 
+
+Assuming multiple brighness levels (gradient part of the video),
+I'll need to transfer

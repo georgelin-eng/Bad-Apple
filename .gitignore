@@ -1,0 +1,10 @@
+quartus/db/
+quartus/incremental_db/compiled_partitions/
+python/output_bitmaps/
+python/output_images/
+*.png
+*.jpg
+*.txt
+*.cdb
+*.hdb
+*.tdf
