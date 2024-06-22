@@ -3,41 +3,6 @@
 // My implmentation is a chain of clock enable modules. Are h_sync and v_synch even meant to be clocks?
 
 
-module screenPositionTracker #(
-    parameter X_LINE_WIDTH = 640,
-    parameter Y_LINE_WIDTH = 480,
-    parameter X_DATA_WIDTH = $clog2(X_LINE_WIDTH),
-    parameter Y_DATA_WIDTH = $clog2(Y_LINE_WIDTH)
-)
-(
-    input wire                        CLK_40,
-    input wire                        reset,
-    input wire                        clk_en,
-    output reg [X_DATA_WIDTH-1:0]     x_pos,
-    output reg [Y_DATA_WIDTH-1:0]     y_pos
-);
-    always @(posedge CLK_40) begin 
-        if (reset) begin
-            x_pos <= 0;      
-            y_pos <= 0; 
-        end else begin
-            if (clk_en) begin
-                if (x_pos < X_LINE_WIDTH-1) begin
-                    x_pos <= x_pos + 1;
-                end else begin
-                    x_pos <= 0;          // the last assignment wins, we'll go back to incrementing x at the next clock cycle.
-                    y_pos <= y_pos + 1;   
-                    if (y_pos == Y_LINE_WIDTH-1) begin
-                        y_pos <= 0;    // the last assignment wins
-                    end
-                end
-            end
-        end
-    end
-endmodule
-
-
-
 // Changing all my clock generation to now be enables
 // Use deticated resources for creating clocking
 module clk_en_gen(
@@ -114,7 +79,6 @@ module hsync_gen # (
 );
 
     // In this design, CLK_40 (system clock) drives the logic and action is controlled via a "clock_enable"
-     
     always @(posedge CLK_40) begin
         if (reset) begin
             hsync_n <= 1'b0;
@@ -125,7 +89,6 @@ module hsync_gen # (
             end
         end
     end
-
 endmodule
 
 
@@ -170,7 +133,7 @@ module debug_clk_gen (
 );
     reg  [15:0] clk_counter; // 1 bit counter used for frequency division of CLK_40
 
-    parameter divisor = 200;
+    parameter divisor = 8;
     always @(posedge CLK_40) begin
         if (reset) begin
             clk_debug   <= 1'b0;
@@ -239,3 +202,5 @@ module clock_mux (clk,clk_select,clk_out);
 	assign clk_out = |gated_clks;
 
 endmodule
+
+

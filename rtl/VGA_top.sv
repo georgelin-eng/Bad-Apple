@@ -15,28 +15,29 @@ module VGA_top (
     output wire  [7:0]   VGA_R,          // to DAC 
     output wire  [7:0]   VGA_G,          // to DAC 
     output wire  [7:0]   VGA_B,          // to DAC 
-    output wire          VGA_CLK,        // to DAC
-    output wire          VGA_SYNC_N,     // to DAC 
-    output wire          VGA_BLANK_N,    // to DAC 
-    output wire          VGA_VS,         // to VGA
-    output wire          VGA_HS,         // to VGA
-    output wire  [9:0]   LEDR,           // debug
-    output wire          clk_debug       // debug
-);
-//  parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
-    parameter RESOLUTION = "640x480";    // memory will be 160 x 120 -> 288kb/s @ 15Hz
+    output wire          VGA_CLK,        // to DAC, clock signal
+    output wire          VGA_SYNC_N,     // to DAC, Active low for sync
+    output wire          VGA_BLANK_N,    // to DAC, Active low for blanking
+    output wire          VGA_VS,         // to VGA, Active high for sync
+    output wire          VGA_HS,         // to VGA, Active high for sync
 
+    // Debugging
+    output logic [19:0]  GPIO_0,         
+    output logic [9:0]   LEDR,         
+    output logic         clk_debug     
+);
+    parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
 
     // Blank porch and synch porch assignments for these resolutions at 60Hz. 
-    parameter h_front_porch = (RESOLUTION == "640x480")  ? 16 : 40;
-    parameter h_synch_pulse = (RESOLUTION == "640x480")  ? 96 : 128;
-    parameter h_back_porch  = (RESOLUTION == "640x480")  ? 48 : 88;
-    parameter v_front_porch = (RESOLUTION == "640x480")  ? 10 : 1;
-    parameter v_synch_pulse = (RESOLUTION == "640x480")  ? 2 :  4;
-    parameter v_back_porch  = (RESOLUTION == "640x480")  ? 33 : 23;
+    parameter h_front_porch = 40;
+    parameter h_synch_pulse = 128;
+    parameter h_back_porch  = 88;
+    parameter v_front_porch = 1;
+    parameter v_synch_pulse = 4;
+    parameter v_back_porch  = 23;
 
-    parameter h_area        = (RESOLUTION == "640x480")  ? 640 : 800;
-    parameter v_area        = (RESOLUTION == "640x480")  ? 480 : 600;
+    parameter h_area        = 800;
+    parameter v_area        = 600;
 
     // This this will be used to determine default parameters for two different resolutions so that this design can be designed for both 640x480 and 800x600 resolutions. 
     parameter X_LINE_WIDTH = h_area + h_front_porch + h_synch_pulse + h_back_porch;
@@ -44,45 +45,38 @@ module VGA_top (
     parameter X_DATA_WIDTH = $clog2(X_LINE_WIDTH) - 1;
     parameter Y_DATA_WIDTH = $clog2(Y_LINE_WIDTH) - 1;
 
-    wire pixel_clk;
     wire hsync_n, vsync_n;
     wire h_BLANK, v_BLANK;
 
     wire [X_DATA_WIDTH:0] x_pos;
     wire [Y_DATA_WIDTH:0] y_pos;
 
-    assign VGA_CLK = pixel_clk;
+    wire CLK_40, SPI_clk, locked;
+    assign VGA_CLK = CLK_40;
 
-    assign VGA_HS = ~hsync_n;
-    assign VGA_VS = ~vsync_n;
+    assign VGA_HS = hsync_n; // Active high
+    assign VGA_VS = vsync_n; // Active high
 
-    // TODO Read datasheet for what these signals are meant to look like
-    assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); 
-    assign VGA_SYNC_N  = VGA_HS && VGA_VS;
+    assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); // Active low 
+    assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
 
     // Basic color generation test 
     assign VGA_R = VGA_BLANK_N ? 8'd255 : 8'd0; 
     assign VGA_G = VGA_BLANK_N ? 8'd255 : 8'd0; 
     assign VGA_B = VGA_BLANK_N ? 8'd255 : 8'd0; 
 
-    assign reset = ~KEY[3];
-    assign LEDR = {reset, {8'b0}};
 
+    // Debug
+    assign reset     = ~KEY[3];
+    assign LEDR      = {reset, {8'b0}};
+    assign GPIO_0[0] = VGA_CLK;
+    assign GPIO_0[1] = SPI_clk;
+    assign GPIO_0[2] = VGA_BLANK_N;
+    assign GPIO_0[3] = VGA_SYNC_N;
+    assign GPIO_0[4] = VGA_HS;
+    assign GPIO_0[5] = VGA_VS;
+    assign GPIO_0[6] = clk_debug;
 
-    // instantiating clock generation circuits
-    clk_en_gen CLK_EN_GEN (
-        .CLK_50 (CLOCK_50),
-        .reset (reset),
-        .pixel_clk_en(pixel_clk),
-        .SPI_clk_en(SPI_clk_en),
-        .audio_clk_en(audio_clk_en)
-    );
-
-    debug_clk_gen DEBUG_CLK_GEN (
-        .CLK_50 (CLOCK_50),
-        .reset (reset),
-        .clk_debug(clk_debug)
-    );
 
     screenPositionTracker  #(
         .X_DATA_WIDTH(X_DATA_WIDTH),
@@ -90,9 +84,9 @@ module VGA_top (
         .X_LINE_WIDTH(X_LINE_WIDTH),
         .Y_LINE_WIDTH(Y_LINE_WIDTH)
     ) SCREEN_POS (
-        .CLK_50 (CLOCK_50),
+        .CLK_40 (CLK_40),
         .reset(reset),
-        .pixel_clk(pixel_clk),
+        .clk_en(1'b1), // CLK_40 is the pixel clock. Leave as 1
         .x_pos(x_pos),
         .y_pos(y_pos)
     );
@@ -104,10 +98,12 @@ module VGA_top (
         .h_back_porch(h_back_porch),
         .h_area(h_area)
     ) HSYNC_GEN (
-        .CLK_50 (CLOCK_50),
-        .pixel_clk (pixel_clk),
+        .CLK_40 (CLK_40),
+        .pixel_clk (1'b1),
         .reset (reset),
         .x_pos(x_pos),
+
+        // outputs
         .hsync_n(hsync_n),
         .h_BLANK (h_BLANK)
     );
@@ -119,12 +115,33 @@ module VGA_top (
         .v_back_porch(v_back_porch),
         .v_area(v_area)
     ) VSYNC_GEN (
-        .CLK_50 (CLOCK_50),
-        .pixel_clk(pixel_clk),
+        .CLK_40 (CLK_40),
+        .pixel_clk(1'b1),
         .reset (reset),
         .y_pos(y_pos),
+
+        // outputs
         .vsync_n(vsync_n),
         .v_BLANK(v_BLANK)
+    );
+
+
+
+    debug_clk_gen CLK_DEBUG (
+        .CLK_40(CLK_40),
+        .reset(reset),
+        .clk_debug(clk_debug)
+    );
+
+
+    // PLL
+
+    VGA_40MHz clock_generation (
+        .refclk(CLOCK_50),
+        .rst(reset),
+        .outclk_0(CLK_40),
+        .outclk_1(SPI_clk),
+        .locked(locked)
     );
 
 

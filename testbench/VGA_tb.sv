@@ -1,5 +1,5 @@
-`timescale 10ns/10ns
-module tb ();
+`timescale 10ns/100ps
+module VGA_tb ();
 
     reg         clk_50, reset;
     wire        pixel_clk, hsync_n, vsync_n;
@@ -31,7 +31,7 @@ module tb ();
     parameter line_time  =      4    * ((RESOLUTION == "640x480") ? 800 : 1056)  ;
     parameter frame_time = line_time * ((RESOLUTION == "640x480") ? 525 : 628)   ;
 
-    parameter num_frames = 2;
+    parameter num_frames = 0;
     parameter num_lines = 3;
     parameter scaling = 1.05; // used to see a little past 
 
@@ -39,7 +39,7 @@ module tb ();
     // initial blocks
     initial begin
         reset = 1;
-        @ (posedge clk_50);
+        @ (posedge VGA_tb.DUT.CLK_40);
         reset = 0;
         
         #(sim_time);
@@ -49,8 +49,10 @@ module tb ();
 
     // One clock cycle should last for 20ns, each delay is 1 time unit. 
     initial forever begin
-        clk_50 = 1; #1;
-        clk_50 = 0; #1;
+        force VGA_tb.DUT.CLK_40 = 1; #1.25;
+        force VGA_tb.DUT.CLK_40 = 0; #1.25;
+        // clk_50 = 1; #1;
+        // clk_50 = 0; #1;
     end
 
 

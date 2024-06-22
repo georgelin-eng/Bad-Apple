@@ -1,0 +1,65 @@
+# Reading C:/intelFPGA_lite/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# do bram_run_msim_gate_systemverilog.do
+# if {[file exists gate_work]} {
+# 	vdel -lib gate_work -all
+# }
+# vlib gate_work
+# vmap work gate_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work gate_work 
+# Copying C:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+. {bram.svo}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:38:01 on Jun 22,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+." bram.svo 
+# -- Compiling module VGA_top
+# 
+# Top level modules:
+# 	VGA_top
+# End time: 10:38:01 on Jun 22,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+C:/Users/flipa/OneDrive\ -\ UBC/Projects/Bad-Apple/Quartus/../testbench {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/../testbench/VGA_tb.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 10:38:01 on Jun 22,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/../testbench" C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/../testbench/VGA_tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 10:38:02 on Jun 22,2024, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps +transport_int_delays +transport_path_delays -L altera_ver -L altera_lnsim_ver -L cyclonev_ver -L lpm_ver -L sgate_ver -L cyclonev_hssi_ver -L altera_mf_ver -L cyclonev_pcie_hip_ver -L gate_work -L work -voptargs="+acc"  VGA_tb
+# vsim -t 1ps "+transport_int_delays" "+transport_path_delays" -L altera_ver -L altera_lnsim_ver -L cyclonev_ver -L lpm_ver -L sgate_ver -L cyclonev_hssi_ver -L altera_mf_ver -L cyclonev_pcie_hip_ver -L gate_work -L work -voptargs=""+acc"" VGA_tb 
+# Start time: 10:38:02 on Jun 22,2024
+# ** Error: (vsim-3170) Could not find 'VGA_tb'.
+#         Searched libraries:
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/altera
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/altera_lnsim
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/cyclonev
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/220model
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/sgate
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/cyclonev_hssi
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/altera_mf
+#             C:/intelFPGA_lite/18.1/modelsim_ase/altera/verilog/cyclonev_pcie_hip
+#             C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/simulation/modelsim/gate_work
+#             C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/simulation/modelsim/gate_work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./bram_run_msim_gate_systemverilog.do PAUSED at line 12
+vsim VGA_tb
+# vsim VGA_tb 
+# Start time: 10:38:02 on Jun 22,2024
+# ** Error: (vsim-3170) Could not find 'VGA_tb'.
+#         Searched libraries:
+#             C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/simulation/modelsim/gate_work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./bram_run_msim_gate_systemverilog.do PAUSED at line 12
+# End time: 10:38:53 on Jun 22,2024, Elapsed time: 0:00:51
+# Errors: 2, Warnings: 0

@@ -66,10 +66,8 @@ module DATA_FSM (
 
     // State register
     always_ff @( posedge CLK_50 ) begin 
-        if (SPI_clock_enable) begin
-            if (reset) state <= IDLE;
-            else       state <= nextstate;
-        end
+        if (reset)                 state <= IDLE; 
+        else if (SPI_clock_enable) state <= nextstate;
     end
 
     // next state logic

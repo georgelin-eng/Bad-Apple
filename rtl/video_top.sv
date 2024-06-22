@@ -4,7 +4,7 @@ module video_top (
     input wire pixel_data_out;
     input wire MISO; 
     input wire video_bank_we;
-    input reg  video_bank_sel;
+    input reg  video_bank_sel; // internal
     input reg  write_enable;
     input reg  data_in;
     input wire bank1_out, bank2_out;
