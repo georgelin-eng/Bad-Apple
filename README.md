@@ -2,7 +2,9 @@
 
 ## Specifications
 
-These are the current compatiable / currently planned specs that this project will run at on the De1-Soc
+These are the current compatiable / currently planned specs that this project. It's inteded to run on the De1Soc and potentially other Cyclone-V processors.
+
+Portability to other platforms may require rewriting the clock-mux for your specific FPGA architecture and using an alternative PLL IP.  
 
 ### Video Spec
 
