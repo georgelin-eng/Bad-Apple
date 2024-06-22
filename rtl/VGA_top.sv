@@ -27,7 +27,6 @@ module VGA_top (
     parameter RESOLUTION = "640x480";    // memory will be 160 x 120 -> 288kb/s @ 15Hz
 
 
-
     // Blank porch and synch porch assignments for these resolutions at 60Hz. 
     parameter h_front_porch = (RESOLUTION == "640x480")  ? 16 : 40;
     parameter h_synch_pulse = (RESOLUTION == "640x480")  ? 96 : 128;
@@ -57,9 +56,11 @@ module VGA_top (
     assign VGA_HS = ~hsync_n;
     assign VGA_VS = ~vsync_n;
 
+    // TODO Read datasheet for what these signals are meant to look like
     assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); 
     assign VGA_SYNC_N  = VGA_HS && VGA_VS;
 
+    // Basic color generation test 
     assign VGA_R = VGA_BLANK_N ? 8'd255 : 8'd0; 
     assign VGA_G = VGA_BLANK_N ? 8'd255 : 8'd0; 
     assign VGA_B = VGA_BLANK_N ? 8'd255 : 8'd0; 
@@ -68,14 +69,13 @@ module VGA_top (
     assign LEDR = {reset, {8'b0}};
 
 
-
-
-
     // instantiating clock generation circuits
-    pixel_clk_gen PIXEL_CLK_GEN (
+    clk_en_gen CLK_EN_GEN (
         .CLK_50 (CLOCK_50),
         .reset (reset),
-        .pixel_clk(pixel_clk)
+        .pixel_clk_en(pixel_clk),
+        .SPI_clk_en(SPI_clk_en),
+        .audio_clk_en(audio_clk_en)
     );
 
     debug_clk_gen DEBUG_CLK_GEN (

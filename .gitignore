@@ -8,3 +8,7 @@ python/output_images/
 *.cdb
 *.hdb
 *.tdf
+*.mp4
+*.mp3
+*.wav
+*.pptx

@@ -5,10 +5,11 @@ module tb ();
     wire        pixel_clk, hsync_n, vsync_n;
     wire        sync, blank;
     wire  [7:0] R, G, B;
+    wire        clk_debug;
 
     // The two resolutions supported
-//  parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
-    parameter RESOLUTION = "640x480";    // memory will be 160 x 120 -> 288kb/s @ 15Hz
+    parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
+//  parameter RESOLUTION = "640x480";    // memory will be 160 x 120 -> 288kb/s @ 15Hz
 
 
     VGA_top # (
@@ -23,13 +24,14 @@ module tb ();
         .VGA_SYNC_N(sync),
         .VGA_BLANK_N(blank),
         .VGA_VS(vsync_n),
-        .VGA_HS(hsync_n)
+        .VGA_HS(hsync_n),
+        .clk_debug(clk_debug)
     );
 
     parameter line_time  =      4    * ((RESOLUTION == "640x480") ? 800 : 1056)  ;
     parameter frame_time = line_time * ((RESOLUTION == "640x480") ? 525 : 628)   ;
 
-    parameter num_frames = 3;
+    parameter num_frames = 2;
     parameter num_lines = 3;
     parameter scaling = 1.05; // used to see a little past 
 
@@ -41,7 +43,7 @@ module tb ();
         reset = 0;
         
         #(sim_time);
-
+        // TODO Implement automatic checkers that print out how long the each pulse lasts. 
         $stop;
     end
 

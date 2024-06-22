@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="12.1">
+  <preset
+     name="NewPreset 1"
+     kind="altera_up_avalon_video_pll"
+     version="All"
+     description="">
+   <parameter name="lcd_clk_en" value="false" />
+   <parameter name="gui_refclk" value="50.0" />
+   <parameter name="gui_resolution" value="SVGA 800x600" />
+   <parameter name="video_in_clk_en" value="false" />
+   <parameter name="camera" value="5MP Digital Camera (THDB_D5M)" />
+   <parameter name="lcd" value="7&quot; LCD on VEEK-MT and MTL/MTL2 Modules" />
+   <parameter name="vga_clk_en" value="true" />
+  </preset>
+ </presets>
+</ip>

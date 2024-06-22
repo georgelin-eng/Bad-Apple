@@ -1,0 +1,17 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate "C:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\Quartus\VGA_800x600.qsys" --synthesis=VERILOG --output-directory="C:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\Quartus\VGA_800x600\synthesis" --family="Cyclone V" --part=5CSEMA5F31C6
+Progress: Loading Quartus/VGA_800x600.qsys
+Progress: Reading input file
+Progress: Adding video_pll_0 [altera_up_avalon_video_pll 18.0]
+Progress: Parameterizing module video_pll_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: VGA_800x600: Generating VGA_800x600 "VGA_800x600" for QUARTUS_SYNTH
+Info: video_pll_0: "VGA_800x600" instantiated altera_up_avalon_video_pll "video_pll_0"
+Info: video_pll: "video_pll_0" instantiated altera_pll "video_pll"
+Info: reset_from_locked: "video_pll_0" instantiated altera_up_avalon_reset_from_locked_signal "reset_from_locked"
+Info: VGA_800x600: Done "VGA_800x600" with 4 modules, 5 files
+Info: qsys-generate succeeded.
+Info: Stopping: Create HDL design files for synthesis
