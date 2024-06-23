@@ -31,8 +31,8 @@ module VGA_tb ();
     parameter line_time  =      4    * ((RESOLUTION == "640x480") ? 800 : 1056)  ;
     parameter frame_time = line_time * ((RESOLUTION == "640x480") ? 525 : 628)   ;
 
-    parameter num_frames = 0;
-    parameter num_lines = 3;
+    parameter num_frames = 1;
+    parameter num_lines = 5;
     parameter scaling = 1.05; // used to see a little past 
 
     parameter sim_time = (num_frames * frame_time + num_lines * line_time) * scaling;

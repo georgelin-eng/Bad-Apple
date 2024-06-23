@@ -77,11 +77,17 @@ module video_bank # (
         .bank_read_done(bank_read_done)
     );
 
-
-
     /////////////////////////////////
     //       Memory Block          //
     /////////////////////////////////
+
+
+    // We do a linear address calculation but avoid the use of multiply
+    // address = y*WIDTH + x
+    // For 200x150, 200 can be written as (128+64+8)
+    // The new memory address becomes 
+    // (y*128) + (y*64) + (y*8) + x
+    wire [14:0] pixel_addr = ({1'b0, y_pos, 7'b0} + {1'b0, y_pos, 6'b0} + {1'b0, y_pos, 3'b0} + {1'b0, x_pos});
 
     // Instantiate 15 video buffers each with video_buffer_we
     wire [14:0] video_buff_data;                        // stores the video data from each of the video buffer units
@@ -99,10 +105,8 @@ module video_bank # (
             .clk_write(SPI_clk_en),
             .clk_read(read_pixel_clk_en),              // the << 2 on x and y already account for this
             .we(video_buffer_we[i]),   // a single buffer will have a write enable high
-            .addr_write_x(x_pos),      // will always be writing using mem addr
-            .addr_write_y(y_pos),
-            .addr_read_x(x_pos),
-            .addr_read_y(y_pos),
+            .addr_write(pixel_addr),      // will always be writing using mem addr
+            .addr_read(pixel_addr),
             .data_in(data_in),
             .data_out(video_buff_data[i]) // every buffer outputs to a register 
         );
@@ -135,10 +139,12 @@ module video_buffer #(
     output     logic               data_out       // data out (port b)
 );
 
-    // Default for 640x480 is a 160x120 block of memory
     logic [WIDTH-1:0] memory [HEIGHT];
 
-    // Reading from this buffer is continuous. Writing is not. 
+    initial
+    begin
+        $readmemb("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem.txt", memory);
+    end
 
     // Port A: Sync Write
     always_ff @(posedge system_clk) begin
@@ -150,12 +156,11 @@ module video_buffer #(
     // Port B: Sync Read
     always_ff @(posedge system_clk) begin
         if (clk_read) begin
-            data_out <= memory[addr_read_y][addr_read_x];
+            data_out <= memory[addr_read_y]['d199-addr_read_x];
         end
     end
 
 endmodule
-
 
 
 // FSM states

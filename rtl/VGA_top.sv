@@ -47,6 +47,7 @@ module VGA_top (
 
     wire hsync_n, vsync_n;
     wire h_BLANK, v_BLANK;
+    wire pixel_color;
 
     wire [X_DATA_WIDTH:0] x_pos;
     wire [Y_DATA_WIDTH:0] y_pos;
@@ -59,12 +60,10 @@ module VGA_top (
 
     assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); // Active low 
     assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
-
     // Basic color generation test 
-    assign VGA_R = VGA_BLANK_N ? 8'd255 : 8'd0; 
-    assign VGA_G = VGA_BLANK_N ? 8'd255 : 8'd0; 
-    assign VGA_B = VGA_BLANK_N ? 8'd255 : 8'd0; 
-
+    assign VGA_R = ((pixel_color) ? 8'd255 : 8'd90); 
+    assign VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; // TODO Fixing the color output
+    assign VGA_B = ((pixel_color) ? 8'd255 : 8'd90); 
 
     // Debug
     assign reset     = ~KEY[3];
@@ -75,7 +74,8 @@ module VGA_top (
     assign GPIO_0[3] = VGA_SYNC_N;
     assign GPIO_0[4] = VGA_HS;
     assign GPIO_0[5] = VGA_VS;
-    assign GPIO_0[6] = clk_debug;
+    assign GPIO_0[6] = v_BLANK;
+    assign GPIO_0[7] = clk_debug;
 
 
     screenPositionTracker  #(
@@ -133,6 +133,30 @@ module VGA_top (
         .clk_debug(clk_debug)
     );
 
+
+    wire [X_DATA_WIDTH-2:0] x;
+    wire [Y_DATA_WIDTH-1:0] y;
+
+    assign x = (x_pos >> 2) & {X_DATA_WIDTH-2{VGA_BLANK_N}};
+    assign y = (y_pos >> 2) & {Y_DATA_WIDTH-1{VGA_BLANK_N}};
+
+    // wire [14:0] pixel_addr = ({1'b0, y, 7'b0} + {1'b0, y, 6'b0} + {1'b0, y, 3'b0} + {1'b0, x}) & {15{VGA_BLANK_N}};
+
+    video_buffer #(
+        .WIDTH(200),
+        .HEIGHT(150) 
+    ) MEM_BLOCK (
+        .system_clk(CLK_40),
+        .clk_write(1'b0),
+        .clk_read(1'b1),
+        .we(1'b0),
+        .addr_write_x(x),      // will always be writing using mem addr
+        .addr_write_y(y),
+        .addr_read_x(x),
+        .addr_read_y(y),
+        .data_in(1'b0),
+        .data_out(pixel_color)
+    );
 
     // PLL
 

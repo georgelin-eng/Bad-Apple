@@ -1,15 +1,22 @@
 module video_top (
-    input wire CLK_40, reset,
-    input wire SPI_clk_en, audio_clk_en, read_pixel_clk_en;
-    input wire pixel_data_out;
-    input wire MISO; 
-    input wire video_bank_we;
-    input reg  video_bank_sel; // internal
-    input reg  write_enable;
-    input reg  data_in;
-    input wire bank1_out, bank2_out;
-    input reg  bank_read_done1, bank_read_done2;
+    input logic CLK_40, 
+    input logic reset,
+    input logic video_bank_we,
+
+    // enables
+    input logic SPI_clk_en,          // writing into video bank
+    input logic read_pixel_clk_en,   // reading data into video bank
+
+    input loigc MISO,                // incoming data
+
+    output logic  pixel_data_out,
+    input reg  write_enable,
+    input reg  data_in,
+    input reg  bank_read_done1, bank_read_done2,
 );
+
+    logic bank1_out, bank2_out,
+    logic video_bank_sel, // internal
 
 
     //////////////////////////////////

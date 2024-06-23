@@ -85,7 +85,7 @@ module hsync_gen # (
         end else begin
             if (pixel_clk) begin
                 hsync_n <= (x_pos >= h_synch_start) && (x_pos < h_synch_end-1); // Generate 96 pixel long synch pulse
-                h_BLANK <= (x_pos >= h_area)        && (x_pos < h_line_width);  // Generating blanking control signal
+                h_BLANK <= (x_pos >= h_area-1)      && (x_pos < h_line_width-1);  // Generating blanking control signal
             end
         end
     end
@@ -118,8 +118,8 @@ module vsync_gen # (
             vsync_n <= 1'b0;
         end else begin
             if (pixel_clk) begin // Can't use this as a clock enable anymore since it'll be positive for 96 clock cycles at a time
-                vsync_n <= (y_pos >= v_synch_start) && (y_pos < v_synch_end);
-                v_BLANK <= (y_pos >= v_area)        && (y_pos < v_line_width);
+                vsync_n <= (y_pos >= v_synch_start) && (y_pos <= v_synch_end-1);
+                v_BLANK <= (y_pos >= v_area)        && (y_pos <= v_line_width-1);
             end
         end
     end
