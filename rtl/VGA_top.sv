@@ -12,6 +12,9 @@
 module VGA_top (
     input                CLOCK_50,
     input  wire  [3:0]   KEY,            // push buttons on the De1Soc
+    input                MISO,
+    // input  logic         pixel_color,
+
     output wire  [7:0]   VGA_R,          // to DAC 
     output wire  [7:0]   VGA_G,          // to DAC 
     output wire  [7:0]   VGA_B,          // to DAC 
@@ -26,33 +29,31 @@ module VGA_top (
     output logic [9:0]   LEDR,         
     output logic         clk_debug     
 );
-    parameter RESOLUTION = "800x600";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
+    parameter DEBUG = "no";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
 
-    // Blank porch and synch porch assignments for these resolutions at 60Hz. 
-    parameter h_front_porch = 40;
-    parameter h_synch_pulse = 128;
-    parameter h_back_porch  = 88;
-    parameter v_front_porch = 1;
-    parameter v_synch_pulse = 4;
-    parameter v_back_porch  = 23;
-
-    parameter h_area        = 800;
-    parameter v_area        = 600;
+    parameter h_front_porch = (DEBUG == "no") ? 40  : 2 ;
+    parameter h_synch_pulse = (DEBUG == "no") ? 128 : 3 ;
+    parameter h_back_porch  = (DEBUG == "no") ? 88  : 2 ;
+    parameter v_front_porch = (DEBUG == "no") ? 1   : 1 ;
+    parameter v_synch_pulse = (DEBUG == "no") ? 4   : 2 ;
+    parameter v_back_porch  = (DEBUG == "no") ? 23  : 3 ;
+    parameter h_area        = (DEBUG == "no") ? 800 : 32;
+    parameter v_area        = (DEBUG == "no") ? 600 : 24;
 
     // This this will be used to determine default parameters for two different resolutions so that this design can be designed for both 640x480 and 800x600 resolutions. 
     parameter X_LINE_WIDTH = h_area + h_front_porch + h_synch_pulse + h_back_porch;
     parameter Y_LINE_WIDTH = v_area + v_front_porch + v_synch_pulse + v_back_porch;
-    parameter X_DATA_WIDTH = $clog2(X_LINE_WIDTH) - 1;
-    parameter Y_DATA_WIDTH = $clog2(Y_LINE_WIDTH) - 1;
+    parameter X_DATA_WIDTH = $clog2(X_LINE_WIDTH);
+    parameter Y_DATA_WIDTH = $clog2(Y_LINE_WIDTH);
 
     wire hsync_n, vsync_n;
     wire h_BLANK, v_BLANK;
-    wire pixel_color;
 
-    wire [X_DATA_WIDTH:0] x_pos;
-    wire [Y_DATA_WIDTH:0] y_pos;
+    wire [X_DATA_WIDTH-1:0] x_pos;
+    wire [Y_DATA_WIDTH-1:0] y_pos;
 
     wire CLK_40, SPI_clk, locked;
+    wire pixel_color;
     assign VGA_CLK = CLK_40;
 
     assign VGA_HS = hsync_n; // Active high
@@ -60,9 +61,10 @@ module VGA_top (
 
     assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); // Active low 
     assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
+
     // Basic color generation test 
     assign VGA_R = ((pixel_color) ? 8'd255 : 8'd90); 
-    assign VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; // TODO Fixing the color output
+    assign VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; 
     assign VGA_B = ((pixel_color) ? 8'd255 : 8'd90); 
 
     // Debug
@@ -79,8 +81,6 @@ module VGA_top (
 
 
     screenPositionTracker  #(
-        .X_DATA_WIDTH(X_DATA_WIDTH),
-        .Y_DATA_WIDTH(Y_DATA_WIDTH),
         .X_LINE_WIDTH(X_LINE_WIDTH),
         .Y_LINE_WIDTH(Y_LINE_WIDTH)
     ) SCREEN_POS (
@@ -92,7 +92,7 @@ module VGA_top (
     );
 
     hsync_gen #(
-        .X_DATA_WIDTH(X_DATA_WIDTH),
+        .X_LINE_WIDTH(X_LINE_WIDTH),
         .h_front_porch(h_front_porch),
         .h_synch_pulse(h_synch_pulse),
         .h_back_porch(h_back_porch),
@@ -109,7 +109,7 @@ module VGA_top (
     );
 
     vsync_gen #(
-        .Y_DATA_WIDTH(Y_DATA_WIDTH),
+        .Y_LINE_WIDTH(Y_LINE_WIDTH),
         .v_front_porch(v_front_porch),
         .v_synch_pulse(v_synch_pulse),
         .v_back_porch(v_back_porch),
@@ -126,40 +126,67 @@ module VGA_top (
     );
 
 
-
-    debug_clk_gen CLK_DEBUG (
-        .CLK_40(CLK_40),
-        .reset(reset),
-        .clk_debug(clk_debug)
-    );
-
-
     wire [X_DATA_WIDTH-2:0] x;
     wire [Y_DATA_WIDTH-1:0] y;
 
     assign x = (x_pos >> 2) & {X_DATA_WIDTH-2{VGA_BLANK_N}};
     assign y = (y_pos >> 2) & {Y_DATA_WIDTH-1{VGA_BLANK_N}};
 
-    // wire [14:0] pixel_addr = ({1'b0, y, 7'b0} + {1'b0, y, 6'b0} + {1'b0, y, 3'b0} + {1'b0, x}) & {15{VGA_BLANK_N}};
 
-    video_buffer #(
-        .WIDTH(200),
-        .HEIGHT(150) 
-    ) MEM_BLOCK (
-        .system_clk(CLK_40),
-        .clk_write(1'b0),
-        .clk_read(1'b1),
-        .we(1'b0),
-        .addr_write_x(x),      // will always be writing using mem addr
-        .addr_write_y(y),
-        .addr_read_x(x),
-        .addr_read_y(y),
-        .data_in(1'b0),
-        .data_out(pixel_color)
+    genvar i;
+
+    wire [100:0] test;
+
+    // generate
+    // for (i = 0; i <= 100; i=i+1) begin : video_buffers
+    //     video_buffer #(
+    //         .WIDTH(200),
+    //         .HEIGHT(150) 
+    //     ) MEM_BLOCK (
+    //         .system_clk(CLK_40),
+    //         .clk_write(1'b0),
+    //         .clk_read(1'b1),
+    //         .we(1'b0),
+    //         .addr_write_x(x),      
+    //         .addr_write_y(y),
+    //         .addr_read_x(x),
+    //         .addr_read_y(y),
+    //         .data_in(1'b0),
+    //         .data_out(test[i])
+    //     );
+    // end
+    // endgenerate
+
+
+    // wire pixel_color;
+    // video_buffer #(
+    //     .WIDTH(200),
+    //     .HEIGHT(150) 
+    // ) MEM_BLOCK (
+    //     .system_clk(CLK_40),
+    //     .clk_write(SPI_clk),
+    //     .clk_read(1'b1),
+    //     .we(1'b1),
+    //     .addr_write_x(x),      
+    //     .addr_write_y(y),
+    //     .addr_read_x(x),
+    //     .addr_read_y(y),
+    //     .data_in(SPI_clk),
+    //     .data_out(pixel_color)
+    // );
+
+    simple_dual_port_ram_dual_clock RAM (
+        .data(MISO),
+        .read_addr(x),
+        .write_addr(y),
+        .we(1),
+        .read_clock(CLK_40),
+        .write_clock(SPI_clk),
+        .q(pixel_color)
     );
 
+    
     // PLL
-
     VGA_40MHz clock_generation (
         .refclk(CLOCK_50),
         .rst(reset),
@@ -168,5 +195,11 @@ module VGA_top (
         .locked(locked)
     );
 
+
+    // debug_clk_gen CLK_DEBUG (
+    //     .CLK_40(CLK_40),
+    //     .reset(reset),
+    //     .clk_debug(clk_debug)
+    // );
 
 endmodule

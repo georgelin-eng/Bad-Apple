@@ -8,8 +8,8 @@ module screenPositionTracker #(
     input wire                        CLK_40,
     input wire                        reset,
     input wire                        clk_en,
-    output reg [X_DATA_WIDTH:0]     x_pos,
-    output reg [Y_DATA_WIDTH:0]     y_pos
+    output reg [X_DATA_WIDTH-1:0]     x_pos,
+    output reg [Y_DATA_WIDTH-1:0]     y_pos
 );
     always @(posedge CLK_40) begin 
         if (reset) begin

@@ -1,5 +1,5 @@
 Flow report for bram
-Sat Jun 22 23:35:14 2024
+Sun Jun 23 17:32:53 2024
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,24 +40,24 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sat Jun 22 23:35:14 2024       ;
+; Flow Status                     ; Successful - Sun Jun 23 17:32:53 2024       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; bram                                        ;
-; Top-level Entity Name           ; VGA_top                                     ;
+; Top-level Entity Name           ; videoRam                                    ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA5F31C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 215 / 32,070 ( < 1 % )                      ;
-; Total registers                 ; 43                                          ;
-; Total pins                      ; 65 / 457 ( 14 % )                           ;
+; Logic utilization (in ALMs)     ; 1,074 / 32,070 ( 3 % )                      ;
+; Total registers                 ; 1                                           ;
+; Total pins                      ; 247 / 457 ( 54 % )                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 0 / 4,065,280 ( 0 % )                       ;
+; Total block memory bits         ; 450,000 / 4,065,280 ( 11 % )                ;
 ; Total DSP Blocks                ; 0 / 87 ( 0 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
 ; Total HSSI TX PCSs              ; 0                                           ;
 ; Total HSSI PMA TX Serializers   ; 0                                           ;
-; Total PLLs                      ; 1 / 6 ( 17 % )                              ;
+; Total PLLs                      ; 0 / 6 ( 0 % )                               ;
 ; Total DLLs                      ; 0 / 4 ( 0 % )                               ;
 +---------------------------------+---------------------------------------------+
 
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 06/22/2024 23:32:50 ;
+; Start date & time ; 06/23/2024 17:30:50 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; bram                ;
 +-------------------+---------------------+
@@ -78,7 +78,10 @@ refer to the applicable agreement for further details.
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 104096148007027.171911356925916        ; --            ; --          ; --             ;
+; ADVANCED_PHYSICAL_OPTIMIZATION       ; Off                                    ; On            ; --          ; --             ;
+; ALLOW_REGISTER_MERGING               ; Off                                    ; On            ; --          ; --             ;
+; ALLOW_REGISTER_RETIMING              ; Off                                    ; On            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                ; 104096148007027.171917825018704        ; --            ; --          ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; VGA_tb         ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; VGA_tb                                 ; --            ; --          ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Systemverilog Hdl                      ; --            ; --          ; eda_simulation ;
@@ -94,16 +97,19 @@ refer to the applicable agreement for further details.
 ; MIN_CORE_JUNCTION_TEMP               ; 0                                      ; --            ; --          ; --             ;
 ; MISC_FILE                            ; VGA_40MHz.cmp                          ; --            ; --          ; --             ;
 ; MISC_FILE                            ; VGA_40MHz_sim/VGA_40MHz.vo             ; --            ; --          ; --             ;
-; PARTITION_COLOR                      ; -- (Not supported for targeted family) ; --            ; VGA_top     ; Top            ;
-; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family) ; --            ; VGA_top     ; Top            ;
-; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family) ; --            ; VGA_top     ; Top            ;
+; PARTITION_COLOR                      ; -- (Not supported for targeted family) ; --            ; videoRam    ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family) ; --            ; videoRam    ; Top            ;
+; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family) ; --            ; videoRam    ; Top            ;
 ; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                    ; --            ; --          ; --             ;
 ; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --             ;
 ; PROJECT_OUTPUT_DIRECTORY             ; output_files                           ; --            ; --          ; --             ;
+; REMOVE_DUPLICATE_REGISTERS           ; Off                                    ; On            ; --          ; --             ;
 ; SLD_FILE                             ; db/stp2_auto_stripped.stp              ; --            ; --          ; --             ;
 ; SPD_FILE                             ; VGA_40MHz.spd                          ; --            ; --          ; --             ;
+; SYNTHESIS_EFFORT                     ; Fast                                   ; Auto          ; --          ; --             ;
 ; SYNTHESIS_ONLY_QIP                   ; On                                     ; --            ; --          ; --             ;
-; TOP_LEVEL_ENTITY                     ; VGA_top                                ; bram          ; --          ; --             ;
+; SYNTH_MESSAGE_LEVEL                  ; High                                   ; Medium        ; --          ; --             ;
+; TOP_LEVEL_ENTITY                     ; videoRam                               ; bram          ; --          ; --             ;
 ; USE_SIGNALTAP_FILE                   ; output_files/stp2.stp                  ; --            ; --          ; --             ;
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
 
@@ -113,12 +119,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:26     ; 1.0                     ; 4919 MB             ; 00:00:15                           ;
-; Fitter               ; 00:01:33     ; 1.0                     ; 7360 MB             ; 00:02:38                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 4842 MB             ; 00:00:03                           ;
-; Timing Analyzer      ; 00:00:08     ; 1.4                     ; 5256 MB             ; 00:00:05                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 4853 MB             ; 00:00:01                           ;
-; Total                ; 00:02:17     ; --                      ; --                  ; 00:03:02                           ;
+; Analysis & Synthesis ; 00:00:18     ; 1.0                     ; 4884 MB             ; 00:00:13                           ;
+; Fitter               ; 00:01:10     ; 1.4                     ; 7044 MB             ; 00:01:12                           ;
+; Assembler            ; 00:00:10     ; 1.0                     ; 4887 MB             ; 00:00:04                           ;
+; Timing Analyzer      ; 00:00:12     ; 4.1                     ; 5300 MB             ; 00:00:29                           ;
+; EDA Netlist Writer   ; 00:00:04     ; 1.0                     ; 4816 MB             ; 00:00:01                           ;
+; Total                ; 00:01:54     ; --                      ; --                  ; 00:01:59                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

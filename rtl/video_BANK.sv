@@ -93,28 +93,96 @@ module video_bank # (
     wire [14:0] video_buff_data;                        // stores the video data from each of the video buffer units
     assign data_out = video_buff_data[bank_counter];    // chooses which correct pixel based on current buffer with a mux
 
+    // genvar i;
+    // generate
+    //     for (i=0; i<=14; i=i+1) begin : video_buffers
+    //         // video_buffer #(
+    //         //     .WIDTH(X_WIDTH),
+    //         //     .HEIGHT(Y_HEIGHT),
+    //         //     .FILE_INDEX(i)
+    //         // )VIDEO_BUFFER (
+    //         //     .system_clk(CLK_40),
+    //         //     .clk_write(SPI_clk_en),
+    //         //     .clk_read(read_pixel_clk_en),      // the << 2 on x and y already account for this
+    //         //     .we(video_buffer_we[i]),           // a single buffer will have a write enable high
+    //         //     .addr_write(pixel_addr),          
+    //         //     .addr_read (pixel_addr),          
+    //         //     // .addr_write_x(x_pos),          // will always be writing using mem addr
+    //         //     // .addr_write_y(y_pos),          // will always be writing using mem addr
+    //         //     // .addr_read_x (x_pos),
+    //         //     // .addr_read_y (y_pos),
+    //         //     .data_in(data_in),
+    //         //     .data_out(video_buff_data[i]) // every buffer outputs to a register 
+    //         // );
 
-    genvar i;
-    generate
-        for (i=0; i<=14; i=i+1) begin : video_buffers
-        video_buffer #(
+    //         simple_dual_port_ram_dual_clock # (
+    //             .DATA_WIDTH(1),
+    //             .ADDR_WIDTH($clog2(WIDTH*HEIGHT))
+    //         ) RAM (
+    //             .data(data_in),
+    //             .read_addr(pixel_addr), 
+    //             .write_addr(pixel_addr),
+    //             .we(video_buffer_we[i]),
+    //             .read_clock(CLK_40),
+    //             .write_clock(SPI_clk_en),
+    //             .q(video_buff_data[i])
+    //         );
+    // end 
+    // endgenerate
+        // simple_dual_port_ram_dual_clock # (
+        //         .DATA_WIDTH(1),
+        //         .ADDR_WIDTH($clog2(WIDTH*HEIGHT))
+        //     ) RAM (
+        //         .data(data_in),
+        //         .read_addr(pixel_addr), 
+        //         .write_addr(pixel_addr),
+        //         .we(video_buffer_we[1]),
+        //         .read_clock(CLK_40),
+        //         .write_clock(SPI_clk_en),
+        //         .q(video_buff_data[1])
+        // );
+
+    video_buffer #(
             .WIDTH(X_WIDTH),
-            .HEIGHT(Y_HEIGHT)
-        )VIDEO_BUFFER (
+            .HEIGHT(Y_HEIGHT),
+            .FILE_INDEX(1)
+        )VIDEO_BUFFER1 (
             .system_clk(CLK_40),
             .clk_write(SPI_clk_en),
-            .clk_read(read_pixel_clk_en),              // the << 2 on x and y already account for this
-            .we(video_buffer_we[i]),   // a single buffer will have a write enable high
-            .addr_write(pixel_addr),      // will always be writing using mem addr
-            .addr_read(pixel_addr),
+            .clk_read(read_pixel_clk_en),      // the << 2 on x and y already account for this
+            .we(1'b1),           // a single buffer will have a write enable high
+            // .addr_write(pixel_addr),          
+            // .addr_read (pixel_addr),          
+            .addr_write_x(x_pos),          // will always be writing using mem addr
+            .addr_write_y(y_pos),          // will always be writing using mem addr
+            .addr_read_x (x_pos),
+            .addr_read_y (y_pos),
             .data_in(data_in),
-            .data_out(video_buff_data[i]) // every buffer outputs to a register 
+            .data_out(video_buff_data[0]) // every buffer outputs to a register 
         );
-    end 
-    endgenerate
 
-
+    video_buffer #(
+            .WIDTH(X_WIDTH),
+            .HEIGHT(Y_HEIGHT),
+            .FILE_INDEX(1)
+        )VIDEO_BUFFER2 (
+            .system_clk(CLK_40),
+            .clk_write(SPI_clk_en),
+            .clk_read(read_pixel_clk_en),      // the << 2 on x and y already account for this
+            .we(1'b1),           // a single buffer will have a write enable high
+            // .addr_write(pixel_addr),          
+            // .addr_read (pixel_addr),          
+            .addr_write_x(x_pos),          // will always be writing using mem addr
+            .addr_write_y(y_pos),          // will always be writing using mem addr
+            .addr_read_x (x_pos),
+            .addr_read_y (y_pos),
+            .data_in(data_in),
+            .data_out(video_buff_data[1]) // every buffer outputs to a register 
+        );
 endmodule
+
+
+// TODO: This does not infer ram
 
 
 // Write into this video buffer on a 1Mhz clock
@@ -123,14 +191,19 @@ endmodule
 module video_buffer #(
     parameter WIDTH   =  160,          // should be 160
     parameter HEIGHT  =  120,          // should be 120
+    parameter FILE_INDEX = 2,
     parameter X_ADDRW = $clog2(WIDTH),  
-    parameter Y_ADDRW = $clog2(HEIGHT)
+    parameter Y_ADDRW = $clog2(HEIGHT),
+
+    parameter ADDRW   = $clog2(WIDTH*HEIGHT)
 )
 (
     input wire logic               system_clk,
     input wire logic               clk_write,     // write clock (port a)
     input wire logic               clk_read,      // read clock (port b)
     input wire logic               we,            // write enable (port a)
+    // input wire logic  [ADDRW-1:0] addr_write,  // write address (port a)
+    // input wire logic  [ADDRW-1:0] addr_read,  // write address (port a)
     input wire logic [X_ADDRW-1:0] addr_write_x,  // write address (port a)
     input wire logic [Y_ADDRW-1:0] addr_write_y,  // write address (port a)
     input wire logic [X_ADDRW-1:0] addr_read_x,   // read address (port b)
@@ -139,27 +212,82 @@ module video_buffer #(
     output     logic               data_out       // data out (port b)
 );
 
-    logic [WIDTH-1:0] memory [HEIGHT];
+    logic [WIDTH-1:0] memory [HEIGHT] ;
+    // logic [0:0]  memory [2**ADDRW-1:0];
+
+    // Define the file names
+    // This will allow for 1second of video to be preinitialized into memory as a playback test
+    // localparam string FILE_LIST [0:14] = {
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem1.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem2.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem3.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem4.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem5.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem6.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem7.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem8.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem9.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem10.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem11.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem12.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem13.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem14.txt",
+    //     "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem15.txt"
+    // };
+
+    // string FILE = FILE_LIST[FILE_INDEX];
 
     initial
     begin
-        $readmemb("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem.txt", memory);
+        $readmemb("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\mem1.txt", memory);
     end
 
     // Port A: Sync Write
-    always_ff @(posedge system_clk) begin
-        if (clk_write) begin
-            if (we) memory[addr_write_y][addr_write_x] <= data_in;
-        end
-    end
+    // always_ff @(posedge system_clk) begin
+    //     if (clk_write) begin
+    //         if (we) memory[addr_write_y][addr_write_x] <= data_in;
+    //         // if (we) memory[addr_write] <= data_in;
+    //     end
+    // end
 
     // Port B: Sync Read
     always_ff @(posedge system_clk) begin
         if (clk_read) begin
-            data_out <= memory[addr_read_y]['d199-addr_read_x];
+            data_out <= memory[addr_read_y][addr_write_x];
+            // data_out <= memory[addr_read];
         end
     end
 
+endmodule
+
+
+module simple_dual_port_ram_dual_clock #(
+    parameter DATA_WIDTH=8, 
+    parameter ADDR_WIDTH=6
+)
+(
+	input [(DATA_WIDTH-1):0] data,
+	input [(ADDR_WIDTH-1):0] read_addr, write_addr,
+	input we, read_clock, write_clock,
+	output reg [(DATA_WIDTH-1):0] q
+);
+
+	// Declare the RAM variable
+	reg [DATA_WIDTH-1:0] ram[2**ADDR_WIDTH-1:0];
+	
+	always @ (posedge write_clock)
+	begin
+		// Write
+		if (we)
+			ram[write_addr] <= data;
+	end
+	
+	always @ (posedge read_clock)
+	begin
+		// Read 
+		q <= ram[read_addr];
+	end
+	
 endmodule
 
 
@@ -181,41 +309,12 @@ module video_bank_FSM (
     output logic        bank_read_done
 );
 
-    ///////////////////////////////////
-    //     Memory block selection    //
-    ///////////////////////////////////
-
-    logic bank_full;
-
-    // shift the value of bank_counter to create a one hot code for write enable on each video buffer
-    // to choose between N buffers, shift by N-1
-    assign video_buffer_we = (1 << bank_counter  & {15{write_enable & ~bank_full}} ); // bitwise AND with write_enable only if the bank isn't full
-
-
-    // will increment the value of bank_counter then reset at 15
-    // once the buffer and the bank is full set a signal. This will go back to zero on the next clock cycle
-    always_ff @ (posedge CLK_40) begin : bank_counter_increment 
-        if (reset) begin 
-            bank_counter   <= 0;
-            bank_read_done <= 0;
-            bank_full      <= 0;
-        end else if (clk_enable) begin
-                bank_read_done    <= 0;
-                if (last_pixel & ~bank_full) begin // a pixel is read 4x, this is a bug right now
-                    bank_counter <= bank_counter + 1;
-                    if (bank_counter == 14) begin
-                        bank_counter   <= 0;
-                        bank_read_done <= 1 & ~write_enable;
-                    end
-                end
-        end
-    end
-
-
-
     /////////////////////////////////// 
     //        FSM Controller         //
     ///////////////////////////////////
+
+    logic           bank_full;
+    logic [1:0]     frame_counter; // The same frame should be read 4x
 
     typedef enum logic [2:0] {IDLE, WRITE, WRITE_DONE, READ, XX} statetype;
     statetype state, nextstate;
@@ -252,6 +351,40 @@ module video_bank_FSM (
                     WRITE_DONE  : bank_full <= 1;
                 endcase
             end
+        end
+    end
+
+
+    ///////////////////////////////////
+    //     Memory block selection    //
+    ///////////////////////////////////
+
+    // shift the value of bank_counter to create a one hot code for write enable on each video buffer
+    // to choose between N buffers, shift by N-1
+    assign video_buffer_we = (1 << bank_counter  & {15{write_enable & ~bank_full}} ); // bitwise AND with write_enable only if the bank isn't full
+
+
+    // will increment the value of bank_counter then reset at 15
+    // once the buffer and the bank is full set a signal. This will go back to zero on the next clock cycle
+    always_ff @ (posedge CLK_40) begin : bank_counter_increment 
+        if (reset) begin 
+            bank_counter   <= 0;
+            bank_read_done <= 0;
+            frame_counter  <= 0;             // only use frame_counter IF we're in the READ mode
+        end else if (clk_enable) begin
+                bank_read_done    <= 0;
+                if (last_pixel & ~bank_full) begin // a pixel is read 4x, this is a bug right now
+                    frame_counter <= frame_counter + 1'b1;
+
+                    if ((frame_counter == 3) || (state == WRITE)) begin
+                        frame_counter <= 0;
+                        bank_counter  <= bank_counter + 1'b1;
+                        if (bank_counter == 'd14) begin
+                            bank_counter   <= 0;
+                            bank_read_done <= 1'b1 & ~write_enable;
+                        end
+                    end
+                end
         end
     end
 endmodule

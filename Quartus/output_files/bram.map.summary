@@ -1,17 +1,17 @@
-Analysis & Synthesis Status : Successful - Sat Jun 22 23:33:15 2024
+Analysis & Synthesis Status : Successful - Sun Jun 23 17:31:09 2024
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : bram
-Top-level Entity Name : VGA_top
+Top-level Entity Name : videoRam
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 43
-Total pins : 65
+Total registers : 1
+Total pins : 247
 Total virtual pins : 0
-Total block memory bits : 0
+Total block memory bits : 450,000
 Total DSP Blocks : 0
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
 Total HSSI TX PCSs : 0
 Total HSSI PMA TX Serializers : 0
-Total PLLs : 1
+Total PLLs : 0
 Total DLLs : 0

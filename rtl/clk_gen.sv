@@ -58,7 +58,8 @@ endmodule
 // I'm thinking that in here, I should generate a signal that's for "active" maybe?
 // i.e. only read from memory if I'm in an active region
 module hsync_gen # (
-    parameter X_DATA_WIDTH  = 10,
+    parameter X_LINE_WIDTH  = 1056,
+    parameter DATA_WIDTH = $clog2(X_LINE_WIDTH),
     parameter h_front_porch = 16,
     parameter h_synch_pulse = 96, // This means that the negative portion must last for 96 units of pixel_clk
     parameter h_back_porch  = 48,
@@ -73,7 +74,7 @@ module hsync_gen # (
     input wire                             CLK_40,
     input wire                             pixel_clk,          // used as clock enable for hsynch pusle generation
     input wire                             reset,
-    input wire        [X_DATA_WIDTH:0]     x_pos,
+    input wire      [DATA_WIDTH-1:0]     x_pos,
     output reg                             hsync_n,            // used to begin a new scan line
     output reg                             h_BLANK             // control bit used to create the blanking region
 );
@@ -94,7 +95,8 @@ endmodule
 
 
 module vsync_gen # (
-    parameter Y_DATA_WIDTH = 10,
+    parameter Y_LINE_WIDTH = 10,
+    parameter DATA_WIDTH = $clog2(Y_LINE_WIDTH),
     parameter v_front_porch = 10,
     parameter v_synch_pulse = 2, // This must mean that the negative portion must last for 2 scan lines (2 iterations of hsync_clk)_enable
     parameter v_back_porch  = 33,
@@ -104,12 +106,12 @@ module vsync_gen # (
     parameter v_line_width  = v_synch_end + v_back_porch    // 525
 )
 (
-    input                              CLK_40,
-    input                              pixel_clk,
-    input                              reset,
-    input  wire  [Y_DATA_WIDTH:0]      y_pos, 
-    output reg                         vsync_n ,    // used to generate new frames
-    output reg                         v_BLANK      // used to control generation of black pixels for the blanking area
+    input                               CLK_40,
+    input                               pixel_clk,
+    input                               reset,
+    input  wire  [DATA_WIDTH-1:0]     y_pos, 
+    output reg                          vsync_n ,    // used to generate new frames
+    output reg                          v_BLANK      // used to control generation of black pixels for the blanking area
 );
 
     // Generates vsync_counth pulse

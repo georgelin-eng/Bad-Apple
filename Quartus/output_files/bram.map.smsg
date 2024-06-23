@@ -1,1 +1,1 @@
-Info (10281): Verilog HDL Declaration information at VGA_top.sv(28): object "clk_debug" differs only in case from object "CLK_DEBUG" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv Line: 28
+Info (10281): Verilog HDL Declaration information at VGA_top.sv(30): object "clk_debug" differs only in case from object "CLK_DEBUG" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv Line: 30
