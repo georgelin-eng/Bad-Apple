@@ -8,12 +8,10 @@
 module clk_en_gen(
     input      CLK_40,  // 40MHz clock from the oscilator - the system clock 
     input      reset,
-    output reg read_pixel_clk_en, // pixel clock freq / 4
     output reg SPI_clk_en,
     output reg audio_clk_en
 );
 
-    reg [1:0]  read_pixel_counter;
     reg [5:0]  SPI_clk_counter;   // divide by 50   -> 6 bit counter
     reg [12:0] audio_clk_counter; // divide by 6250 -> 13 bit counter
 
@@ -27,22 +25,15 @@ module clk_en_gen(
         if (reset) begin
             audio_clk_en      <= 1'b0;
             SPI_clk_en        <= 1'b0;
-            read_pixel_clk_en <= 1'b0;
             SPI_clk_counter   <= 1'b0;
             audio_clk_counter <= 1'b0;
-            read_pixel_counter<= 1'b0;
         end else begin
-            read_pixel_counter <= read_pixel_counter + 1;
             SPI_clk_counter    <= SPI_clk_counter   + 1;
             audio_clk_counter  <= audio_clk_counter + 1;
 
-            read_pixel_clk_en  <= (read_pixel_counter== read_pixel_divisor-1);
             SPI_clk_en         <= (SPI_clk_counter   == SPI_divisor-1);
             audio_clk_en       <= (audio_clk_counter == audio_divisor-1);
 
-            if (read_pixel_counter == SPI_divisor-1) begin
-                read_pixel_counter <= 0;
-            end
             if (SPI_clk_counter == SPI_divisor-1) begin
                 SPI_clk_counter <= 0;
             end

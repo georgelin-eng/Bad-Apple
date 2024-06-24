@@ -9,7 +9,8 @@ module startup_FSM (
 
 
 
-
+    typedef enum logic [1:0] {IDLE, INIT_DATA, PLAYING_VIDEO} statetype;
+    statetype state, nextstate;
 
 
 

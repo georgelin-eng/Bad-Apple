@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY videoRam
+set_global_assignment -name TOP_LEVEL_ENTITY badApple_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:16:42  JUNE 09, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
@@ -326,11 +326,15 @@ set_global_assignment -name ALLOW_SHIFT_REGISTER_MERGING_ACROSS_HIERARCHIES AUTO
 set_global_assignment -name SYNTHESIS_EFFORT FAST
 set_global_assignment -name SYNTH_MESSAGE_LEVEL HIGH
 set_global_assignment -name AUTO_RAM_RECOGNITION ON
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION ON
 set_global_assignment -name ADVANCED_PHYSICAL_OPTIMIZATION OFF
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_bank.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/data_FSM.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/badApple_top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/screenPositionTracker.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/clk_gen.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_mem_top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/videoRam.sv
 set_global_assignment -name SDC_FILE DE1_SoC.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/VGA_top.sv
@@ -338,5 +342,8 @@ set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name QIP_FILE VGA_40MHz.qip
 set_global_assignment -name SIP_FILE VGA_40MHz.sip
 set_global_assignment -name SOURCE_FILE db/bram.cmp.rdb
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name SLD_FILE db/stp2_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

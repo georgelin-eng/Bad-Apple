@@ -10,10 +10,10 @@
 // - VSYNC : vertical synchronization   : negative pulse for new frame
 
 module VGA_top (
-    input                CLOCK_50,
-    input  wire  [3:0]   KEY,            // push buttons on the De1Soc
+    input                CLK_40,
+    input  logic         reset,
     input                MISO,
-    // input  logic         pixel_color,
+    input  logic         pixel_color,
 
     output wire  [7:0]   VGA_R,          // to DAC 
     output wire  [7:0]   VGA_G,          // to DAC 
@@ -24,10 +24,7 @@ module VGA_top (
     output wire          VGA_VS,         // to VGA, Active high for sync
     output wire          VGA_HS,         // to VGA, Active high for sync
 
-    // Debugging
-    output logic [19:0]  GPIO_0,         
-    output logic [9:0]   LEDR,         
-    output logic         clk_debug     
+    output logic         ACTIVE          // to video bank
 );
     parameter DEBUG = "no";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
 
@@ -52,13 +49,12 @@ module VGA_top (
     wire [X_DATA_WIDTH-1:0] x_pos;
     wire [Y_DATA_WIDTH-1:0] y_pos;
 
-    wire CLK_40, SPI_clk, locked;
-    wire pixel_color;
     assign VGA_CLK = CLK_40;
 
     assign VGA_HS = hsync_n; // Active high
     assign VGA_VS = vsync_n; // Active high
 
+    assign ACTIVE      = v_BLANK || h_BLANK;
     assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); // Active low 
     assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
 
@@ -67,18 +63,14 @@ module VGA_top (
     assign VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; 
     assign VGA_B = ((pixel_color) ? 8'd255 : 8'd90); 
 
-    // Debug
-    assign reset     = ~KEY[3];
-    assign LEDR      = {reset, {8'b0}};
-    assign GPIO_0[0] = VGA_CLK;
-    assign GPIO_0[1] = SPI_clk;
-    assign GPIO_0[2] = VGA_BLANK_N;
-    assign GPIO_0[3] = VGA_SYNC_N;
-    assign GPIO_0[4] = VGA_HS;
-    assign GPIO_0[5] = VGA_VS;
-    assign GPIO_0[6] = v_BLANK;
-    assign GPIO_0[7] = clk_debug;
-
+    // // Debug
+    // assign LEDR      = {reset, {8'b0}};
+    // assign GPIO_0[0] = VGA_CLK;
+    // assign GPIO_0[2] = VGA_BLANK_N;
+    // assign GPIO_0[3] = VGA_SYNC_N;
+    // assign GPIO_0[4] = VGA_HS;
+    // assign GPIO_0[5] = VGA_VS;
+    // assign GPIO_0[6] = v_BLANK;
 
     screenPositionTracker  #(
         .X_LINE_WIDTH(X_LINE_WIDTH),
@@ -124,82 +116,4 @@ module VGA_top (
         .vsync_n(vsync_n),
         .v_BLANK(v_BLANK)
     );
-
-
-    wire [X_DATA_WIDTH-2:0] x;
-    wire [Y_DATA_WIDTH-1:0] y;
-
-    assign x = (x_pos >> 2) & {X_DATA_WIDTH-2{VGA_BLANK_N}};
-    assign y = (y_pos >> 2) & {Y_DATA_WIDTH-1{VGA_BLANK_N}};
-
-
-    genvar i;
-
-    wire [100:0] test;
-
-    // generate
-    // for (i = 0; i <= 100; i=i+1) begin : video_buffers
-    //     video_buffer #(
-    //         .WIDTH(200),
-    //         .HEIGHT(150) 
-    //     ) MEM_BLOCK (
-    //         .system_clk(CLK_40),
-    //         .clk_write(1'b0),
-    //         .clk_read(1'b1),
-    //         .we(1'b0),
-    //         .addr_write_x(x),      
-    //         .addr_write_y(y),
-    //         .addr_read_x(x),
-    //         .addr_read_y(y),
-    //         .data_in(1'b0),
-    //         .data_out(test[i])
-    //     );
-    // end
-    // endgenerate
-
-
-    // wire pixel_color;
-    // video_buffer #(
-    //     .WIDTH(200),
-    //     .HEIGHT(150) 
-    // ) MEM_BLOCK (
-    //     .system_clk(CLK_40),
-    //     .clk_write(SPI_clk),
-    //     .clk_read(1'b1),
-    //     .we(1'b1),
-    //     .addr_write_x(x),      
-    //     .addr_write_y(y),
-    //     .addr_read_x(x),
-    //     .addr_read_y(y),
-    //     .data_in(SPI_clk),
-    //     .data_out(pixel_color)
-    // );
-
-    simple_dual_port_ram_dual_clock RAM (
-        .data(MISO),
-        .read_addr(x),
-        .write_addr(y),
-        .we(1),
-        .read_clock(CLK_40),
-        .write_clock(SPI_clk),
-        .q(pixel_color)
-    );
-
-    
-    // PLL
-    VGA_40MHz clock_generation (
-        .refclk(CLOCK_50),
-        .rst(reset),
-        .outclk_0(CLK_40),
-        .outclk_1(SPI_clk),
-        .locked(locked)
-    );
-
-
-    // debug_clk_gen CLK_DEBUG (
-    //     .CLK_40(CLK_40),
-    //     .reset(reset),
-    //     .clk_debug(clk_debug)
-    // );
-
-endmodule
+  endmodule

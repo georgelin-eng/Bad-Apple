@@ -1,6 +1,6 @@
 `timescale 10ns/100ps
 
-module video_tb ();
+module video_bank_tb ();
 // Testing the operation of the data bank
 
     reg CLK_40;

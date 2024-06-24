@@ -15,22 +15,22 @@
 `define VIDEO_CMD 8'hFA
 
 module DATA_FSM (
-    input  wire     CLK_50,
-    input  wire     SPI_clock_enable,
+    input  wire     CLK_40,
+    input  wire     SPI_clk_en, // FSM operations are controlled on the SPI clock
     input  wire     reset,
 
     // video data control signals
-    input  wire     start,           // initiated by a button press
-    input  wire     frame_done,      // signal that will come from the memory bank being read
-    input  wire     video_bank_full, // signal that will come from the memory bank being written
+    input  wire     start,            // initiated by a button press
+    input  wire     frame_done,       // signal that will come from the memory bank being read
+    input  wire     video_bank_full,  // signal that will come from the memory bank being written
     output reg      write_video,
-    output reg      video_bank_sel,
+    // output reg      video_bank_sel,
 
     // SPI signals
-    input  wire     MISO,        // MISO
-    output wire     SPI_clock,   // SPI clock
-    output wire     MOSI,        // MOSI
-    output wire     chip_select, // SS
+    input  wire     MISO,             // MISO
+    output wire     SPI_clock,        // SPI clock
+    output wire     MOSI,             // MOSI
+    output wire     chip_select,      // SS
 
 
     // Audio data control signals
@@ -48,14 +48,14 @@ module DATA_FSM (
     wire [7:0] MISO_BUFF;           // buffer to store the MISO data when in receive modes. Implementing this so it's easier to construct audio data.
 
     // this will set the chip select?
-    SPI_master SPI_CONTROL (
-        .SPI_clock_enable(SPI_clock_enable),
-        .CMD_to_send(CMD),
-        .MISO(MISO),
-        .MOSI(MOSI),
-        .SS  (chip_select),
-        .SCLK(SPI_clock)
-    );
+    // SPI_master SPI_CONTROL (
+    //     .SPI_clk_enable(SPI_clk_enable),
+    //     .CMD_to_send(CMD),
+    //     .MISO(MISO),
+    //     .MOSI(MOSI),
+    //     .SS  (chip_select),
+    //     .SCLK(SPI_clock)
+    // );
 
     // State output logic
     //      CMD               - data request to be sent        -> SPI master
@@ -65,9 +65,9 @@ module DATA_FSM (
     logic request_sent_done, parse_done;
 
     // State register
-    always_ff @( posedge CLK_50 ) begin 
-        if (reset)                 state <= IDLE; 
-        else if (SPI_clock_enable) state <= nextstate;
+    always_ff @( posedge CLK_40 ) begin 
+        if (reset)             state <= IDLE; 
+        else if (SPI_clk_en) state <= nextstate;
     end
 
     // next state logic
@@ -92,37 +92,23 @@ module DATA_FSM (
     end
 
     // registered output logic
-    always_ff @ (posedge CLK_50) begin
-        if (SPI_clock_enable) begin
-            if (reset) begin
-                write_video    <= 1'b0;
-                write_audio    <= 1'b0;
-                CMD            <= 8'b0;
-            end else begin
-                write_video    <= 1'b0;  // defaults. Set only the signals that change and they are registered. 
-                write_audio    <= 1'b0;
-                CMD            <= 8'b0;
-                case(nextstate)
-                    REQ_V      : CMD <= `VIDEO_CMD;
-                    RECEIVE_V  : write_video <= 1'b1;
-                    REQ_A      : CMD <= `AUDIO_CMD;
-                    RECEIVE_A  : write_audio <= 1'b1;
-                endcase
-            end
-        end
-    end
-
-    // Assign the value of video_bank_sel based ON TRANSITION only
-    // registered output logic
-    always_ff @ (posedge CLK_50) begin
-        if (reset) 
-            video_bank_sel <= 1'b0;
-        else begin
-            if (SPI_clock_enable) begin
-                    if ((state == RECEIVE_V && nextstate == REQ_A)) begin
-                            video_bank_sel <= ~video_bank_sel;
-                    end
-            end
+    always_ff @ (posedge CLK_40) begin
+        if (reset) begin
+            write_video    <= 1'b0;
+            write_audio    <= 1'b0;
+            CMD            <= 8'b0;
+        end 
+        else if (SPI_clk_en) 
+        begin
+            write_video    <= 1'b0;  // defaults. Set only the signals that change and they are registered. 
+            write_audio    <= 1'b0;
+            CMD            <= 8'b0;
+            case(nextstate)
+                REQ_V      : CMD <= `VIDEO_CMD;
+                RECEIVE_V  : write_video <= 1'b1;
+                REQ_A      : CMD <= `AUDIO_CMD;
+                RECEIVE_A  : write_audio <= 1'b1;
+            endcase
         end
     end
 
