@@ -100,7 +100,7 @@ module vsync_gen # (
     input                               CLK_40,
     input                               pixel_clk,
     input                               reset,
-    input  wire  [DATA_WIDTH-1:0]     y_pos, 
+    input  wire  [DATA_WIDTH-1:0]       y_pos, 
     output reg                          vsync_n ,    // used to generate new frames
     output reg                          v_BLANK      // used to control generation of black pixels for the blanking area
 );

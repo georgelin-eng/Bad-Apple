@@ -12,7 +12,6 @@
 module VGA_top (
     input                CLK_40,
     input  logic         reset,
-    input                MISO,
     input  logic         pixel_color,
 
     output wire  [7:0]   VGA_R,          // to DAC 
@@ -26,12 +25,12 @@ module VGA_top (
 
     output logic         ACTIVE          // to video bank
 );
-    parameter DEBUG = "no";    // memory will be 200 x 150 -> 450kb/s @ 15Hz
+    parameter DEBUG = "yes";    // memory will be 201 x 150 -> 450kb/s @ 15Hz
 
     parameter h_front_porch = (DEBUG == "no") ? 40  : 2 ;
     parameter h_synch_pulse = (DEBUG == "no") ? 128 : 3 ;
-    parameter h_back_porch  = (DEBUG == "no") ? 88  : 2 ;
-    parameter v_front_porch = (DEBUG == "no") ? 1   : 1 ;
+    parameter h_back_porch  = (DEBUG == "no") ? 88  : 3 ;
+    parameter v_front_porch = (DEBUG == "no") ? 1   : 3 ;
     parameter v_synch_pulse = (DEBUG == "no") ? 4   : 2 ;
     parameter v_back_porch  = (DEBUG == "no") ? 23  : 3 ;
     parameter h_area        = (DEBUG == "no") ? 800 : 32;
@@ -54,7 +53,7 @@ module VGA_top (
     assign VGA_HS = hsync_n; // Active high
     assign VGA_VS = vsync_n; // Active high
 
-    assign ACTIVE      = v_BLANK || h_BLANK;
+    assign ACTIVE      = VGA_BLANK_N;           // Idea is to AND it (so positive is active)
     assign VGA_BLANK_N = ~(v_BLANK || h_BLANK); // Active low 
     assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
 
@@ -79,6 +78,7 @@ module VGA_top (
         .CLK_40 (CLK_40),
         .reset(reset),
         .clk_en(1'b1), // CLK_40 is the pixel clock. Leave as 1
+        .count_en(1'b1),
         .x_pos(x_pos),
         .y_pos(y_pos)
     );

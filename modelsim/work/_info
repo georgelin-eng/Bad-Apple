@@ -10,382 +10,407 @@ cModel Technology
 dC:/Users/flipa/OneDrive - UBC/Projects/Parallel-FIR-filter-verilog/modelsim
 vbadApple_top
 Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-!s110 1719189445
+Z1 !s110 1719271660
 !i10b 1
 !s100 4@U35L```cWeWdm=31;k30
 IER@Wdc95@ja[BAAY72AJ?3
-Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
 !s105 badApple_top_sv_unit
 S1
-Z2 dC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/modelsim
-w1719189435
+Z3 dC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/modelsim
+w1719199983
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv
 L0 1
-Z3 OV;L;10.5b;63
+Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-!s108 1719189445.000000
+Z5 !s108 1719271660.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv|
 !i113 1
-Z4 o-work work -sv
-Z5 tCvgOpt 0
+Z6 o-work work -sv
+Z7 tCvgOpt 0
 nbad@apple_top
 vbram
 R0
-Z6 !s110 1718550764
+Z8 !s110 1718550764
 !i10b 1
 !s100 :8Ih@U9M^_Bag<kmZXkiE3
 ISJkOc<ZjWO3J<]4@LXH300
-R1
+R2
 !s105 bram_sv_unit
 S1
-R2
+R3
 w1717971546
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
-Z7 !s108 1718550764.000000
+Z9 !s108 1718550764.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/bram.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vbresenham_circle_calc
 R0
-R6
+R8
 !i10b 1
 !s100 1>_Ca7J4h>g1^jc@g_8;]3
 IDSCES=AXzDMCi6=LN1S_G2
-R1
-Z8 !s105 VGA_FSM_sv_unit
-S1
 R2
-Z9 w1717954440
-Z10 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv
-Z11 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv
-L0 79
+Z10 !s105 VGA_FSM_sv_unit
+S1
 R3
+Z11 w1717954440
+Z12 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv
+Z13 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv
+L0 79
+R4
 r1
 !s85 0
 31
-R7
-Z12 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv|
-Z13 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv|
+R9
+Z14 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv|
+Z15 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_FSM.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vclk_en_gen
 R0
-Z14 !s110 1719188043
+Z16 !s110 1719271661
 !i10b 1
 !s100 WjVDcLl^PhQ?6kf<Z8U9[3
 Im=mL4OPEzQLm7a<PnLM@;1
-R1
-Z15 !s105 clk_gen_sv_unit
-S1
 R2
-Z16 w1719183926
-Z17 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv
-Z18 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv
-L0 8
+Z17 !s105 clk_gen_sv_unit
+S1
 R3
+Z18 w1719204947
+Z19 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv
+Z20 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv
+L0 8
+R4
 r1
 !s85 0
 31
-Z19 !s108 1719188043.000000
-Z20 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv|
-Z21 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv|
-!i113 1
-R4
 R5
+Z21 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv|
+Z22 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv|
+!i113 1
+R6
+R7
 vclock_mux
 R0
-R14
+R16
 !i10b 1
 !s100 dKz5a2?POCcI:8IA8@T0T1
 I_JBc=P20T=o_MBe_mM94K2
-R1
-R15
-S1
 R2
-R16
 R17
-R18
-L0 145
+S1
 R3
+R18
+R19
+R20
+L0 145
+R4
 r1
 !s85 0
 31
-R19
-R20
-R21
-!i113 1
-R4
 R5
+R21
+R22
+!i113 1
+R6
+R7
 vDATA_FSM
 R0
-!s110 1719189518
+!s110 1719520687
 !i10b 1
-!s100 S]@JgY][eQcDnlN_bzBI43
-IFmmHk<P0C2fekY<3n]hEj3
-R1
+!s100 zdHMoAC050_5VWd^;3HNB2
+IXUHzVQbo@mmnO@J?:AT7g2
+R2
 !s105 data_FSM_sv_unit
 S1
-R2
-w1719189515
+R3
+w1719520325
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv
 L0 17
-R3
+R4
 r1
 !s85 0
 31
-!s108 1719189518.000000
+!s108 1719520687.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv|
 !i113 1
-R4
-R5
+R6
+R7
 n@d@a@t@a_@f@s@m
 vdebug_clk_gen
 R0
-R14
+R16
 !i10b 1
 !s100 ^QP^`]AKY4g[IJfaCgIfd0
 IHmQdDEa;b9P@=MY^;0D4]1
-R1
-R15
-S1
 R2
-R16
 R17
-R18
-L0 122
+S1
 R3
+R18
+R19
+R20
+L0 122
+R4
 r1
 !s85 0
 31
-R19
-R20
-R21
-!i113 1
-R4
 R5
+R21
+R22
+!i113 1
+R6
+R7
 vframe_buffer_gen
 R0
-R6
+R8
 !i10b 1
 !s100 LN@Fz@nUnbO1DZI:Sd:m81
 IQ;X^VnYiodJCzWLIUnU5E3
-R1
-R8
-S1
 R2
-R9
 R10
-R11
-L0 62
+S1
 R3
+R11
+R12
+R13
+L0 62
+R4
 r1
 !s85 0
 31
-R7
-R12
-R13
+R9
+R14
+R15
 !i113 1
+R6
+R7
+vFSM_tb
+R0
+!s110 1719521227
+!i10b 1
+!s100 P:Fa=eYb9BbhX<HaNQN0H0
+IUQMQ6N1g@Fj8mfFCG_FCc3
+R2
+!s105 FSM_tb_sv_unit
+S1
+R3
+w1719521225
+8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv
+FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv
+L0 3
 R4
-R5
+r1
+!s85 0
+31
+!s108 1719521227.000000
+!s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv|
+!i113 1
+R6
+R7
+n@f@s@m_tb
 vhsyn_clk_enable_gen
-Z22 !s110 1718552049
+Z23 !s110 1718552049
 !i10b 1
 !s100 EdFdzUB6D[Zh6:nz^@YW21
 I<mRA:k_n?jVYicUGJ4Zim3
-R1
 R2
-Z23 w1718552020
-Z24 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v
-Z25 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v
-L0 63
 R3
+Z24 w1718552020
+Z25 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v
+Z26 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v
+L0 63
+R4
 r1
 !s85 0
 31
-Z26 !s108 1718552049.000000
-Z27 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v|
-Z28 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v|
+Z27 !s108 1718552049.000000
+Z28 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v|
+Z29 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.v|
 !i113 1
-Z29 o-work work
-R5
+Z30 o-work work
+R7
 vhsyn_clk_gen
-Z30 !s110 1717880305
+Z31 !s110 1717880305
 !i10b 1
 !s100 g@LBE8Y[nbFJnN5F7mOEd3
 IX6?Mo0Z3KhEjF;9WnV8M_3
-R1
 R2
-Z31 w1717880303
-R24
-R25
-L0 26
 R3
+Z32 w1717880303
+R25
+R26
+L0 26
+R4
 r1
 !s85 0
 31
-Z32 !s108 1717880305.000000
-R27
+Z33 !s108 1717880305.000000
 R28
-!i113 1
 R29
-R5
+!i113 1
+R30
+R7
 vhsync_gen
 R0
-R14
+R16
 !i10b 1
 !s100 m1=Cd_UIS?_PNFP;WVM_?0
 IP<CEB7VLFDl1Xl?=CF6^T3
-R1
-R15
-S1
 R2
-R16
 R17
-R18
-L0 51
+S1
 R3
+R18
+R19
+R20
+L0 51
+R4
 r1
 !s85 0
 31
-R19
-R20
-R21
-!i113 1
-R4
 R5
+R21
+R22
+!i113 1
+R6
+R7
 vpixel_clk_gen
 !s110 1718555340
 !i10b 1
 !s100 P[IgL[:n8L?b[2mAbPN2I3
 IBL<LaS2in:E3<DXkMSi301
-R1
 R2
-w1718555336
-R24
-R25
-L0 39
 R3
+w1718555336
+R25
+R26
+L0 39
+R4
 r1
 !s85 0
 31
 !s108 1718555340.000000
-R27
 R28
-!i113 1
 R29
-R5
+!i113 1
+R30
+R7
 vscreenPositionTracker
 R0
-Z33 !s110 1719180244
+Z34 !s110 1719521966
 !i10b 1
-!s100 ezmiH`FD^z]W:AgdDWFBb1
-IT?A>YYjkJBigFJ@LFC<B92
-R1
+!s100 dmC:LPnC8gj6dZXQA=g@F3
+Ic00ToCVZN@JAkX5a_zkjH1
+R2
 !s105 screenPositionTracker_sv_unit
 S1
-R2
-w1719144399
+R3
+w1719521290
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
-Z34 !s108 1719180244.000000
+Z35 !s108 1719521966.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv|
 !i113 1
-R4
-R5
+R6
+R7
 nscreen@position@tracker
 vsimple_dual_port_ram_dual_clock
 R0
-Z35 !s110 1719180243
+Z36 !s110 1719180243
 !i10b 1
 !s100 N_PNhQFbh<bzM8mND1o<U3
 I<n>e^>k8CDg6ohadlJIf:3
-R1
-Z36 !s105 video_BANK_sv_unit
-S1
 R2
-Z37 w1719162846
-Z38 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv
-Z39 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv
-L0 264
+Z37 !s105 video_BANK_sv_unit
+S1
 R3
+Z38 w1719162846
+Z39 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv
+Z40 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv
+L0 264
+R4
 r1
 !s85 0
 31
-Z40 !s108 1719180243.000000
-Z41 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv|
-Z42 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv|
+Z41 !s108 1719180243.000000
+Z42 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv|
+Z43 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vsingle_clk_ram
 R0
-Z43 !s110 1719188044
+Z44 !s110 1719520688
 !i10b 1
-!s100 amfaQ]?]0c2hzGZB>KjI:1
-I9Vg7g^a3jUJAGnS6kOgjR0
-R1
-Z44 !s105 videoRam_sv_unit
-S1
+!s100 <JEfh;XGLPaQ1m?6OLhXE2
+I0>7iW<fH@56EG:i^l`1Ub0
 R2
-Z45 w1719183610
-Z46 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv
-Z47 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv
-L0 193
+Z45 !s105 videoRam_sv_unit
+S1
 R3
+Z46 w1719519414
+Z47 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv
+Z48 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv
+L0 198
+R4
 r1
 !s85 0
 31
-Z48 !s108 1719188044.000000
-Z49 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv|
-Z50 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv|
+Z49 !s108 1719520688.000000
+Z50 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv|
+Z51 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vSPI_master
 R0
-R35
+R1
 !i10b 1
 !s100 VmejkWAoC]BV;XNj5B7CC2
 I=QU4EK4_:RI`6J_AHNL@f2
-R1
+R2
 !s105 SPI_master_sv_unit
 S1
-R2
+R3
 w1718667008
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv
-Z51 L0 12
-R3
+Z52 L0 12
+R4
 r1
 !s85 0
 31
-R40
+R5
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv|
 !i113 1
-R4
-R5
+R6
+R7
 n@s@p@i_master
 vtb
 R0
@@ -393,402 +418,402 @@ R0
 !i10b 1
 !s100 O`BTO`E9iJ1fFL0oYVbXK2
 IlZLTWUEa^O<e7k@ETRFbW1
-R1
-Z52 !s105 VGA_tb_sv_unit
-S1
 R2
-w1718557092
-Z53 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv
-Z54 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv
-L0 2
+Z53 !s105 VGA_tb_sv_unit
+S1
 R3
+w1718557092
+Z54 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv
+Z55 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv
+L0 2
+R4
 r1
 !s85 0
 31
 !s108 1718679484.000000
-Z55 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv|
-Z56 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv|
+Z56 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv|
+Z57 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vVGA_40MHz
-R33
+R16
 !i10b 1
 !s100 EY=ajh_IL:SOA3_K[Jad[1
 I57kmImD>5EXe5PS?1bPNj3
-R1
 R2
+R3
 w1719065586
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v
 L0 8
-R3
+R4
 r1
 !s85 0
 31
-R34
+Z58 !s108 1719271661.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v|
 !i113 1
-R29
-R5
+R30
+R7
 n@v@g@a_40@m@hz
 vVGA_controller
 R0
-R6
+R8
 !i10b 1
 !s100 ]T=E^zmJCm?@L0^2TKi@73
 InLZ@BU]P1[@NOfdOfTOlf2
-R1
-R8
-S1
 R2
-R9
 R10
-R11
-L0 6
+S1
 R3
+R11
+R12
+R13
+L0 6
+R4
 r1
 !s85 0
 31
-R7
-R12
-R13
+R9
+R14
+R15
 !i113 1
-R4
-R5
+R6
+R7
 n@v@g@a_controller
 vVGA_tb
 R0
-R33
+R16
 !i10b 1
 !s100 Y`0NS4l9IPoDemi?Zoc7R2
 In71Ob7nfL_ASNM?0[?o:Z2
-R1
-R52
-S1
 R2
-w1719095508
 R53
-R54
-L0 2
+S1
 R3
+w1719095508
+R54
+R55
+L0 2
+R4
 r1
 !s85 0
 31
-R34
-R55
+R58
 R56
+R57
 !i113 1
-R4
-R5
+R6
+R7
 n@v@g@a_tb
 vVGA_top
 R0
-R14
+!s110 1719520874
 !i10b 1
-!s100 =MF7VP=aV1g_G`ej]=IP82
-IjFN^d;=OaR[>55:PB;H7M2
-R1
+!s100 Q32E]Rg`fKV^;gifTbjHg2
+IVm6^n^nLEfP5A3I?hD_S;0
+R2
 !s105 VGA_top_sv_unit
 S1
-R2
-w1719187603
+R3
+w1719520872
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv
-R51
-R3
+R52
+R4
 r1
 !s85 0
 31
-R19
+!s108 1719520874.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv|
 !i113 1
-R4
-R5
+R6
+R7
 n@v@g@a_top
 vvideo_bank
 R0
-Z57 !s110 1719189276
+Z59 !s110 1719598832
 !i10b 1
-!s100 DOe@UbmFASA52=>o:@HP83
-IoGd?C@NEh8?fFcSZ[RJ0@3
-R1
-R36
-S1
+!s100 KcOEIg0nW33^TX3oTEcF71
+IdR3_4VGH@8K5h1daPYA>o1
 R2
-Z58 w1719189264
-Z59 8C:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\rtl\video_BANK.sv
-Z60 FC:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\rtl\video_BANK.sv
-L0 7
+Z60 !s105 video_bank_sv_unit
+S1
 R3
+Z61 w1719598831
+Z62 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv
+Z63 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv
+L0 7
+R4
 r1
 !s85 0
 31
-Z61 !s108 1719189276.000000
-Z62 !s107 C:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\rtl\video_BANK.sv|
-Z63 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:\Users\flipa\OneDrive - UBC\Projects\Bad-Apple\rtl\video_BANK.sv|
+Z64 !s108 1719598832.000000
+Z65 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv|
+Z66 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vvideo_bank_FSM
 R0
-R57
-!i10b 1
-!s100 ]?Tz0zA2@Vb_53H46WhWH1
-I9YjcV^4jcBH2cOF7DTY8L2
-R1
-R36
-S1
-R2
-R58
 R59
+!i10b 1
+!s100 EzE2OcI`bTHHkIYXU;XLC2
+IYT<P^Z4o[VI:RN]7VJ[4^0
+R2
 R60
-L0 114
+S1
 R3
-r1
-!s85 0
-31
 R61
 R62
 R63
-!i113 1
+L0 128
 R4
-R5
+r1
+!s85 0
+31
+R64
+R65
+R66
+!i113 1
+R6
+R7
 nvideo_bank_@f@s@m
 vvideo_bank_tb
 R0
-!s110 1718683276
-!i10b 1
-!s100 4WjHS:7me]R;l?MO;0QTe1
-I=YjLadgcR9m71QGI5mlh_2
 R1
-Z64 !s105 video_bank_tb_sv_unit
-S1
+!i10b 1
+!s100 25KIm>BRNhmNEfUO<fb9j0
+I=Vh<_Sm0Y1_bn?efnOMX=2
 R2
-w1718683274
-Z65 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv
-Z66 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv
-L0 3
+!s105 video_bank_tb_sv_unit
+S1
 R3
+w1719200410
+8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv
+FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv
+L0 3
+R4
 r1
 !s85 0
 31
-!s108 1718683276.000000
-Z67 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv|
-Z68 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv|
-!i113 1
-R4
 R5
+!s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv|
+!i113 1
+R6
+R7
 vvideo_buffer
 R0
-R35
+R36
 !i10b 1
 !s100 Y9a5G>]R61g<GbWlYUljd3
 IWCm7O8ZY;@S]dn:GFnP5D3
-R1
-R36
-S1
 R2
 R37
+S1
+R3
 R38
 R39
+R40
 L0 191
-R3
+R4
 r1
 !s85 0
 31
-R40
 R41
 R42
+R43
 !i113 1
-R4
-R5
+R6
+R7
 vvideo_mem_top
 R0
-!s110 1719181084
+R34
 !i10b 1
-!s100 Lc;0^WFiQ7UKaGN`^^Q:f1
-I[Ie3Q:]3>@g<zbZMML?n12
-R1
+!s100 3hh<8W[Ul2JJ^[?zSbcK41
+I^W]G99z>dOXiGHA::Y7iI0
+R2
 !s105 video_mem_top_sv_unit
 S1
-R2
-w1719180864
+R3
+w1719521794
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv
 L0 2
-R3
+R4
 r1
 !s85 0
 31
-!s108 1719181083.000000
+R35
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vvideo_ram_wrapper
 R0
 !s110 1719180441
 !i10b 1
 !s100 Sgj1<mf:d1JLlL=ZFaF>_1
 I;ZZH9HEUKWia=lK42RG860
-R1
-R44
-S1
 R2
-w1719180438
-R46
-R47
-L0 4
+R45
+S1
 R3
+w1719180438
+R47
+R48
+L0 4
+R4
 r1
 !s85 0
 31
 !s108 1719180441.000000
-R49
 R50
+R51
 !i113 1
-R4
-R5
+R6
+R7
 vvideo_tb
 R0
-R35
+!s110 1719273915
 !i10b 1
-!s100 lPln8P>;UKCbOK]=aHz8e3
-I>VDo;ZVoaB]XJeULKM5BV0
-R1
-R64
-S1
+!s100 ?4z_f@0416z_I5eWIFadj2
+IB3=SmQ1k=1YU^GTdFLm5j3
 R2
-w1719148141
-R65
-R66
-L0 3
+!s105 video_tb_sv_unit
+S1
 R3
+w1719273682
+8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv
+FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv
+L0 3
+R4
 r1
 !s85 0
 31
-R40
-R67
-R68
+!s108 1719273915.000000
+!s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vvideo_top
 R0
-!s110 1719188761
+!s110 1719522557
 !i10b 1
-!s100 ?k:cW[6lgT_ZADM58j7>e3
-IZdAT1@fP;n>3R_?HJ`@^23
-R1
+!s100 ^J4c5Qk8Xd226]F3IGk:70
+Id_Hb436foNg=Ed?`C@P5X3
+R2
 !s105 video_top_sv_unit
 S1
-R2
-w1719188760
+R3
+w1719522161
 8C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv
 FC:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv
-L0 1
-R3
+L0 9
+R4
 r1
 !s85 0
 31
-!s108 1719188761.000000
+!s108 1719522557.000000
 !s107 C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv|
 !i113 1
-R4
-R5
+R6
+R7
 vvideoRam
 R0
-R43
-!i10b 1
-!s100 8D_[U5U>H6DXTz1UlLVN?3
-Iz]fX>AbObT=4f]HObJO@e3
-R1
 R44
-S1
+!i10b 1
+!s100 LHnBn`WcE:7[0DFMJ<H0B3
+I<3H8bjiaIlOhhJcWjHe`T1
 R2
 R45
+S1
+R3
 R46
 R47
+R48
 L0 4
-R3
+R4
 r1
 !s85 0
 31
-R48
 R49
 R50
+R51
 !i113 1
-R4
-R5
+R6
+R7
 nvideo@ram
 vvsync_clk_enable_gen
-R22
+R23
 !i10b 1
 !s100 D7WGg^<zzde5V=kf<Nk>i0
 ICA?4eFK7R=;mAe14YTc9m1
-R1
 R2
-R23
+R3
 R24
 R25
+R26
 L0 111
-R3
+R4
 r1
 !s85 0
 31
-R26
 R27
 R28
-!i113 1
 R29
-R5
-vvsync_clk_gen
+!i113 1
 R30
+R7
+vvsync_clk_gen
+R31
 !i10b 1
 !s100 i7cHG^c;m:<aS]3AFn?:S1
 IHaJ;3OQ4jMC;Wkn2<S:eY0
-R1
 R2
-R31
-R24
-R25
-L0 58
 R3
+R32
+R25
+R26
+L0 58
+R4
 r1
 !s85 0
 31
-R32
-R27
+R33
 R28
-!i113 1
 R29
-R5
+!i113 1
+R30
+R7
 vvsync_gen
 R0
-R14
+R16
 !i10b 1
 !s100 1W[na<AZWB@k8Z?b>SFg_1
 I0ZHTdjSZV7d852@`cTIN]1
-R1
-R15
-S1
 R2
-R16
 R17
-R18
-L0 88
+S1
 R3
+R18
+R19
+R20
+L0 88
+R4
 r1
 !s85 0
 31
-R19
-R20
-R21
-!i113 1
-R4
 R5
+R21
+R22
+!i113 1
+R6
+R7

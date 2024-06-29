@@ -5,12 +5,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	VGA_top
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module badApple_top
+-- Compiling module FSM_tb
 
 Top level modules:
-	badApple_top
+	FSM_tb
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -27,12 +27,19 @@ Top level modules:
 	debug_clk_gen
 	clock_mux
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module DATA_FSM
+-- Compiling module badApple_top
 
 Top level modules:
-	DATA_FSM
+	badApple_top
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module video_bank_tb
+
+Top level modules:
+	video_bank_tb
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -40,6 +47,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	video_mem_top
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_FSM.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module DATA_FSM
+
+Top level modules:
+	DATA_FSM
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -55,6 +69,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	VGA_40MHz
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module screenPositionTracker
+
+Top level modules:
+	screenPositionTracker
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module VGA_tb
@@ -62,12 +83,20 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	VGA_tb
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/screenPositionTracker.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module screenPositionTracker
+-- Compiling module video_bank
+-- Compiling module video_bank_FSM
 
 Top level modules:
-	screenPositionTracker
+	video_bank
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module video_tb
+
+Top level modules:
+	video_tb
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016

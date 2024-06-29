@@ -1,14 +1,19 @@
 // Currently a very manual implementation of ram block installation that forces Quartus to compile
 // the design using multiple ram blocks. This is to store multiple frames. 
 
-module videoRam (
-    input logic          clk,
-    input logic [3:0]    mem_block_sel, // Selection signal for memory block
-    input logic [0:0]    data_in,       // Input data
-    input logic [32:0]   x, y,          // Write and read addresses
-    input we,                           // Write enable
+module videoRam #(
+    parameter WIDTH  = 10, 
+    parameter HEIGHT = 10,
 
-    output logic         data_out_after_sel      // Output data after selection
+    ADDRW = $clog2(WIDTH*HEIGHT) 
+)(
+    input logic               clk,
+    input logic [3:0]         mem_block_sel,         // Selection signal for memory block
+    input logic [0:0]         data_in,               // Input data
+    input logic [ADDRW-1:0]   x, y,                  // Write and read addresses
+    input logic               we,                    // Write enable
+
+    output logic              data_out_after_sel     // Output data after selection
 );
 
     reg [0:0] data_out1;
@@ -28,7 +33,7 @@ module videoRam (
     reg [0:0] data_out15;
 
     logic [14:0] we_sel;
-    assign we_sel = 1'b1 << mem_block_sel;
+    assign we_sel = (1'b1 << mem_block_sel) & {15{we}};
 
     always_ff @ (posedge clk) begin
         case (mem_block_sel)
@@ -52,8 +57,8 @@ module videoRam (
         endcase
     end
 
-    // Instantiate 15 single_clk_ram instances with one-hot write enable
-    single_clk_ram MEM1 (
+    // Instantiate 15 single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(1)) instances with one-hot write enable
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(1)) MEM1 (
         .q(data_out1),
         .d(data_in),
         .write_address(x),
@@ -62,7 +67,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM2 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(2)) MEM2 (
         .q(data_out2),
         .d(data_in),
         .write_address(x),
@@ -71,7 +76,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM3 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(3)) MEM3 (
         .q(data_out3),
         .d(data_in),
         .write_address(x),
@@ -80,7 +85,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM4 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4)) MEM4 (
         .q(data_out4),
         .d(data_in),
         .write_address(x),
@@ -89,7 +94,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM5 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(5)) MEM5 (
         .q(data_out5),
         .d(data_in),
         .write_address(x),
@@ -98,7 +103,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM6 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(6)) MEM6 (
         .q(data_out6),
         .d(data_in),
         .write_address(x),
@@ -107,7 +112,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM7 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(7)) MEM7 (
         .q(data_out7),
         .d(data_in),
         .write_address(x),
@@ -116,7 +121,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM8 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(8)) MEM8 (
         .q(data_out8),
         .d(data_in),
         .write_address(x),
@@ -125,7 +130,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM9 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(9)) MEM9 (
         .q(data_out9),
         .d(data_in),
         .write_address(x),
@@ -134,7 +139,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM10 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(10)) MEM10 (
         .q(data_out10),
         .d(data_in),
         .write_address(x),
@@ -143,7 +148,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM11 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(11)) MEM11 (
         .q(data_out11),
         .d(data_in),
         .write_address(x),
@@ -152,7 +157,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM12 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(12)) MEM12 (
         .q(data_out12),
         .d(data_in),
         .write_address(x),
@@ -161,7 +166,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM13 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(13)) MEM13 (
         .q(data_out13),
         .d(data_in),
         .write_address(x),
@@ -170,7 +175,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM14 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(14)) MEM14 (
         .q(data_out14),
         .d(data_in),
         .write_address(x),
@@ -179,7 +184,7 @@ module videoRam (
         .clk(clk)
     );
 
-    single_clk_ram MEM15 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(15)) MEM15 (
         .q(data_out15),
         .d(data_in),
         .write_address(x),
@@ -190,18 +195,44 @@ module videoRam (
 
 endmodule
 
-module single_clk_ram( 
-    output reg              q,
-    input                   d,
-    input      [32:0]       write_address, read_address, // should be clog2 (150) - 1
-    input                   we, clk
+module single_clk_ram # (
+    parameter NUM_ADDR = 30000,
+    parameter ADDRW = $clog2(NUM_ADDR),
+    parameter frame = 1               
+) ( 
+    output reg                 q,
+    input                      d,
+    input      [ADDRW-1:0]     write_address, read_address, // should be clog2 (150) - 1
+    input                      we, clk
 );                            // data     // 30,000 addresses for 200x150
-    (* ramstyle = "M10K" *) reg [0:0] mem [29999:0];
+    (* ramstyle = "M10K" *) reg [0:0] mem [NUM_ADDR-1:0];
+
+    reg [256*15:0] file_paths [1:15];
+    initial begin
+        // file_paths[1] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_1.mem";
+        // file_paths[2] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_2.mem";
+        // file_paths[3] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_3.mem";
+        // file_paths[4] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_4.mem";
+        // file_paths[5] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_5.mem";
+        // file_paths[6] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_6.mem";
+        // file_paths[7] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_7.mem";
+        // file_paths[8] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_8.mem";
+        // file_paths[9] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_9.mem";
+        // file_paths[10] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_10.mem";
+        // file_paths[11] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_11.mem";
+        // file_paths[12] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_12.mem";
+        // file_paths[13] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_13.mem";
+        // file_paths[14] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_14.mem";
+        // file_paths[15] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_15.mem";
+
+        // $readmemb("frame_1.mem", mem);
+        // $readmemb(file_paths[frame], mem);
+    end
 
     always @ (posedge clk) begin
         if (we)
-            mem[write_address] <= d;
-        q <= mem[read_address]; // q doesn't get d in this clock cycle
+            mem[write_address] <= d; // write operation
+        q <= mem[read_address];      // read operation
     end
 
 endmodule

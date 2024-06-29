@@ -1,0 +1,18 @@
+import random
+
+# File name for the generated file
+file_name = "mem_initialization.mem"
+
+# Number of elements in the memory array
+num_elements = 30000
+
+# Open the file in write mode
+with open(file_name, 'w') as file:
+    for i in range(num_elements):
+        # Generate a random value (0 or 1) for the current memory element
+        value = random.randint(0, 1)
+        
+        # Write the value to the file
+        file.write(f"{value}\n")
+
+print(f"File '{file_name}' generated successfully with {num_elements} elements.")
