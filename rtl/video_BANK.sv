@@ -64,7 +64,6 @@ module video_bank # (
     // 0 -> CLK_40     
     // 1 -> SPI_clk_en 
     // selecting between clocks needs to be done with a dedicated clock mux and not regular combinational logic 
-    // clock_mux #(.num_clocks(2)) CLOCK_EN_MUX ({SPI_clk_en, CLK_40}, {2'b1 << (~chip_select & ~read_enable)}, clk_enable);
     clock_mux #(.num_clocks(2)) CLOCK_MUX    ({SPI_clk,    CLK_40}, {2'b1 << (~chip_select & ~read_enable)}, mem_clk);
 
     // The last_pixel logic depends on whether the video block is in read or write mode
@@ -87,7 +86,7 @@ module video_bank # (
     // reg [14:0] video_buffer_we;
     logic video_buffer_we;
     video_bank_FSM FSM (
-        .CLK_40(CLK_40),
+        .clk(mem_clk), // maybe try this to see if it works?
         .reset(reset),
         .clk_enable(clk_enable),
         .video_data_ready(video_data_ready),
@@ -132,7 +131,7 @@ endmodule
 // READ       -> WRITE      : Transition once you've reached the last pixel of the last mem block
 
 module video_bank_FSM (
-    input wire    CLK_40,
+    input wire    clk,
     input wire    reset,
     input wire    clk_enable,
     input wire    video_data_ready,
@@ -154,10 +153,9 @@ module video_bank_FSM (
     statetype state, nextstate;
 
     // State register
-    always_ff @( posedge CLK_40 ) begin 
-        if (reset)           state <= IDLE;
-        // else if (clk_enable) state <= nextstate;
-        else state <= nextstate;
+    always_ff @( posedge clk ) begin 
+        if (reset)    state <= IDLE;
+        else          state <= nextstate;
     end
 
     // // next state logic
@@ -196,23 +194,23 @@ module video_bank_FSM (
     // assign video_buffer_we = (1 << bank_counter  & {15{write_enable & ~bank_full}} ); // bitwise AND with write_enable only if the bank isn't full
     // will increment the value of bank_counter then reset at 15
     // once the buffer and the bank is full set a signal. This will go back to zero on the next clock cycle
-    always_ff @ (posedge CLK_40) begin : bank_counter_increment 
+    always_ff @ (posedge clk) begin : bank_counter_increment 
         if (reset) begin 
             bank_counter   <= 0;
             frame_counter  <= 0;             // only use frame_counter IF we're in the READ mode
-        // end else if (clk_enable) begin
-        end else begin
-                if (last_pixel) begin  // removed ~ bank_full which I think was intented to keep bank counter from
-                    frame_counter <= frame_counter + 1'b1;
+        end 
+        else begin
+            if (last_pixel) begin  // removed ~ bank_full which I think was intented to keep bank counter from
+                frame_counter <= frame_counter + 1'b1;
 
-                    if ((frame_counter == 3) || (state == WRITE)) begin // if in WRITE mode, ignore frame counter. 
-                        frame_counter <= 0;
-                        bank_counter  <= bank_counter + 1'b1;
-                        if (bank_counter == 'd14) begin
-                            bank_counter   <= 0;
-                        end
+                if ((frame_counter == 3) || (state == WRITE)) begin // if in WRITE mode, ignore frame counter. 
+                    frame_counter <= 0;
+                    bank_counter  <= bank_counter + 1'b1;
+                    if (bank_counter == 'd14) begin
+                        bank_counter   <= 0;
                     end
                 end
+            end
         end
     end
 

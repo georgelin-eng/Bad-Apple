@@ -50,13 +50,13 @@ module badApple_top (
 	 // Debug
 	 assign GPIO_1[4] = VGA_VS;
 	 assign GPIO_1[5] = VGA_HS;
-	 assign GPIO_1[6] = VGA_CLK;
+	//  assign GPIO_1[6] = VGA_CLK;
 	 assign GPIO_1[7] = VGA_SYNC_N;
 	 assign GPIO_1[8] = VGA_BLANK_N;
 	 assign GPIO_1[9] = VGA_R;
 	 assign GPIO_1[10] = VGA_G;
 	 assign GPIO_1[11] = VGA_B;
-     assign GPIO_1[12] = mem_clk; // in theory should always look like VGA_CLK
+     assign GPIO_1[6] = mem_clk; // in theory should always look like VGA_CLK
 	 logic clk_debug;
      logic [3:0] bank_counter;
      assign LEDR [7:4] = bank_counter;

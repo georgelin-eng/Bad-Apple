@@ -1,5 +1,5 @@
 Analysis & Synthesis report for bram
-Sun Jun 30 12:07:27 2024
+Sun Jun 30 12:16:46 2024
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -175,7 +175,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Jun 30 12:07:27 2024       ;
+; Analysis & Synthesis Status     ; Successful - Sun Jun 30 12:16:46 2024       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; bram                                        ;
 ; Top-level Entity Name           ; badApple_top                                ;
@@ -395,8 +395,8 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 2                                                                                               ;
 ;                                             ;                                                                                                 ;
 ; Maximum fan-out node                        ; VGA_40MHz:clock_generation|VGA_40MHz_0002:vga_40mhz_inst|altera_pll:altera_pll_i|outclk_wire[0] ;
-; Maximum fan-out                             ; 239                                                                                             ;
-; Total fan-out                               ; 4441                                                                                            ;
+; Maximum fan-out                             ; 220                                                                                             ;
+; Total fan-out                               ; 4440                                                                                            ;
 ; Average fan-out                             ; 4.00                                                                                            ;
 +---------------------------------------------+-------------------------------------------------------------------------------------------------+
 
@@ -4246,7 +4246,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:07     ;
+; Top            ; 00:00:04     ;
 +----------------+--------------+
 
 
@@ -4256,7 +4256,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Jun 30 12:06:57 2024
+    Info: Processing started: Sun Jun 30 12:16:15 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off bad_apple -c bram
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
@@ -4326,7 +4326,7 @@ Info (12127): Elaborating entity "badApple_top" for the top level hierarchy
 Warning (10230): Verilog HDL assignment warning at badApple_top.sv(56): truncated value with size 8 to match size of target (1) File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 56
 Warning (10230): Verilog HDL assignment warning at badApple_top.sv(57): truncated value with size 8 to match size of target (1) File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 57
 Warning (10230): Verilog HDL assignment warning at badApple_top.sv(58): truncated value with size 8 to match size of target (1) File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 58
-Warning (10034): Output port "GPIO_1[39..13]" at badApple_top.sv(8) has no driver File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
+Warning (10034): Output port "GPIO_1[39..12]" at badApple_top.sv(8) has no driver File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
 Warning (10034): Output port "GPIO_1[0]" at badApple_top.sv(8) has no driver File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
 Warning (10034): Output port "LEDR[9..8]" at badApple_top.sv(27) has no driver File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 27
 Warning (10034): Output port "LEDR[3]" at badApple_top.sv(27) has no driver File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 27
@@ -5091,6 +5091,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "GPIO_1[0]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
     Warning (13410): Pin "GPIO_1[10]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
+    Warning (13410): Pin "GPIO_1[12]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
     Warning (13410): Pin "GPIO_1[13]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
     Warning (13410): Pin "GPIO_1[14]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
     Warning (13410): Pin "GPIO_1[15]" is stuck at GND File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 8
@@ -5129,7 +5130,7 @@ Info (286030): Timing-Driven Synthesis is running
 Info (17049): 10 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/output_files/bram.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
-    Info (16011): Adding 12 node(s), including 0 DDIO, 2 PLL, 0 transceiver and 0 LCELL
+    Info (16011): Adding 10 node(s), including 0 DDIO, 2 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 42 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 4
     Warning (15610): No output dependent on input pin "KEY[3]" File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv Line: 4
@@ -5179,11 +5180,11 @@ Info (21057): Implemented 770 device resources after synthesis - the final resou
     Info (21061): Implemented 524 logic cells
     Info (21064): Implemented 120 RAM segments
     Info (21065): Implemented 2 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 186 warnings
-    Info: Peak virtual memory: 5037 megabytes
-    Info: Processing ended: Sun Jun 30 12:07:28 2024
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 187 warnings
+    Info: Peak virtual memory: 4914 megabytes
+    Info: Processing ended: Sun Jun 30 12:16:46 2024
     Info: Elapsed time: 00:00:31
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Total CPU time (on all processors): 00:00:17
 
 
 +------------------------------------------+
