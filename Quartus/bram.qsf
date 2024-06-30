@@ -323,14 +323,30 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ../testbench/VGA_tb.sv -section_
 set_global_assignment -name EDA_RUN_TOOL_AUTOMATICALLY OFF -section_id eda_simulation
 set_global_assignment -name ALLOW_REGISTER_MERGING OFF
 set_global_assignment -name ALLOW_SHIFT_REGISTER_MERGING_ACROSS_HIERARCHIES AUTO
-set_global_assignment -name SYNTHESIS_EFFORT FAST
+set_global_assignment -name SYNTHESIS_EFFORT AUTO
 set_global_assignment -name SYNTH_MESSAGE_LEVEL HIGH
 set_global_assignment -name AUTO_RAM_RECOGNITION ON
 set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION ON
-set_global_assignment -name ADVANCED_PHYSICAL_OPTIMIZATION OFF
+set_global_assignment -name ADVANCED_PHYSICAL_OPTIMIZATION ON
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SOURCE_FILE ../rtl/frame_15.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_14.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_13.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_12.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_11.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_10.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_9.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_8.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_7.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_6.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_5.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_4.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_3.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_2.mem
+set_global_assignment -name SOURCE_FILE ../rtl/frame_1.mem
+set_global_assignment -name TEXT_FILE ../rtl/mem.txt
 set_global_assignment -name TEXT_FILE ../rtl/frame_1.txt
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/params.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/MODE_FSM.sv

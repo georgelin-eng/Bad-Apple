@@ -29,14 +29,14 @@ module VGA_top (
     output logic         ACTIVE          // to video bank
 );
 
-    parameter h_front_porch = (`MODE == "NORMAL") ? 40  : 2 ;
-    parameter h_synch_pulse = (`MODE == "NORMAL") ? 128 : 3 ;
-    parameter h_back_porch  = (`MODE == "NORMAL") ? 88  : 3 ;
-    parameter v_front_porch = (`MODE == "NORMAL") ? 1   : 3 ;
-    parameter v_synch_pulse = (`MODE == "NORMAL") ? 4   : 2 ;
-    parameter v_back_porch  = (`MODE == "NORMAL") ? 23  : 3 ;
-    parameter h_area        = (`MODE == "NORMAL") ? 800 : 32;
-    parameter v_area        = (`MODE == "NORMAL") ? 600 : 24;
+    parameter h_front_porch = (`MODE == "NORMAL") ? 40  : 4 ;
+    parameter h_synch_pulse = (`MODE == "NORMAL") ? 128 : 8 ;
+    parameter h_back_porch  = (`MODE == "NORMAL") ? 88  : 12 ;
+    parameter v_front_porch = (`MODE == "NORMAL") ? 1   : 1 ;
+    parameter v_synch_pulse = (`MODE == "NORMAL") ? 4   : 1 ;
+    parameter v_back_porch  = (`MODE == "NORMAL") ? 23  : 2 ;
+    parameter h_area        = (`MODE == "NORMAL") ? 800 : 80;
+    parameter v_area        = (`MODE == "NORMAL") ? 600 : 60;
 
     // This this will be used to determine default parameters for two different resolutions so that this design can be designed for both 640x480 and 800x600 resolutions. 
     parameter X_LINE_WIDTH = h_area + h_front_porch + h_synch_pulse + h_back_porch;

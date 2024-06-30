@@ -31,6 +31,8 @@ module badApple_top (
 
     logic reset, INIATE, MOSI, MISO, chip_select;
     logic CLK_40, SPI_clk, locked;
+    logic read_bank1, read_bank2;
+    logic mem_clk;
 
     assign reset     = ~KEY[0];       // input
     assign init      = ~KEY[1];       // input
@@ -42,6 +44,8 @@ module badApple_top (
 
 	 assign LEDR[0] = reset;
 	 assign LEDR[1] = init;
+     assign LEDR[2] = read_bank1 | read_bank2;
+    //  assign LEDR[3] = read_bank2;
 	 
 	 // Debug
 	 assign GPIO_1[4] = VGA_VS;
@@ -52,6 +56,10 @@ module badApple_top (
 	 assign GPIO_1[9] = VGA_R;
 	 assign GPIO_1[10] = VGA_G;
 	 assign GPIO_1[11] = VGA_B;
+     assign GPIO_1[12] = mem_clk; // in theory should always look like VGA_CLK
+	 logic clk_debug;
+     logic [3:0] bank_counter;
+     assign LEDR [7:4] = bank_counter;
 
     /////////////////////////////////
     //          Parameters         //
@@ -77,6 +85,13 @@ module badApple_top (
         .reset(reset),
         .SPI_clk_en(SPI_clk_en),
         .audio_clk_en(audio_clk_en)
+    );
+
+
+    debug_clk_gen DEBUG_CLK (
+        .CLK_40(CLK_40),
+        .reset(reset),
+        .clk_debug(clk_debug)
     );
 
     VGA_40MHz clock_generation (
@@ -146,7 +161,9 @@ module badApple_top (
         .VGA_SYNC_N(VGA_SYNC_N),
         .VGA_BLANK_N(VGA_BLANK_N),
         .VGA_VS(VGA_VS),
-        .VGA_HS(VGA_HS)
+        .VGA_HS(VGA_HS),
+        .bank_counter(bank_counter),
+        .mem_clk(mem_clk)
     );
 
 

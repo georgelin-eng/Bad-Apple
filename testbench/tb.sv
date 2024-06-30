@@ -13,7 +13,7 @@ module FSM_tb ();
 
     badApple_top DUT (
 
-    )
+    );
 
 
     task automatic wait_us(input integer x);

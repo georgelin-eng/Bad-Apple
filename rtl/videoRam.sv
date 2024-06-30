@@ -37,28 +37,28 @@ module videoRam #(
 
     always_ff @ (negedge clk) begin
         case (mem_block_sel)
-            11'b00000: data_out_after_sel <= data_out1 ;
-            11'b00001: data_out_after_sel <= data_out2 ;
-            11'b00010: data_out_after_sel <= data_out3 ;
-            11'b00011: data_out_after_sel <= data_out4 ;
-            11'b00100: data_out_after_sel <= data_out5 ;
-            11'b00101: data_out_after_sel <= data_out6 ;
-            11'b00110: data_out_after_sel <= data_out7 ;
-            11'b00111: data_out_after_sel <= data_out8 ;
-            11'b01000: data_out_after_sel <= data_out9 ;
-            11'b01001: data_out_after_sel <= data_out10;
-            11'b01010: data_out_after_sel <= data_out11;
-            11'b01011: data_out_after_sel <= data_out12;
-            11'b01100: data_out_after_sel <= data_out13;
-            11'b01101: data_out_after_sel <= data_out14;
-            11'b01110: data_out_after_sel <= data_out15;
+            4'b0000: data_out_after_sel <= data_out1 [0];
+            4'b0001: data_out_after_sel <= data_out2 [0];
+            4'b0010: data_out_after_sel <= data_out3 [0];
+            4'b0011: data_out_after_sel <= data_out4 [0];
+            4'b0100: data_out_after_sel <= data_out5 [0];
+            4'b0101: data_out_after_sel <= data_out6 [0];
+            4'b0110: data_out_after_sel <= data_out7 [0];
+            4'b0111: data_out_after_sel <= data_out8 [0];
+            4'b1000: data_out_after_sel <= data_out9 [0];
+            4'b1001: data_out_after_sel <= data_out10[0];
+            4'b1010: data_out_after_sel <= data_out11[0];
+            4'b1011: data_out_after_sel <= data_out12[0];
+            4'b1100: data_out_after_sel <= data_out13[0];
+            4'b1101: data_out_after_sel <= data_out14[0];
+            4'b1110: data_out_after_sel <= data_out15[0];
 
             default: data_out_after_sel   <= 1'bx; // Default case
         endcase
     end
 
-    // Instantiate 15 single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(1)) instances with one-hot write enable
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(1)) MEM1 (
+    // Instantiate 15 single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd1)) instances with one-hot write enable
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd1)) MEM1 (
         .q(data_out1),
         .d(data_in),
         .write_address(pixel_addr),
@@ -67,7 +67,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(2)) MEM2 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd2)) MEM2 (
         .q(data_out2),
         .d(data_in),
         .write_address(pixel_addr),
@@ -76,7 +76,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(3)) MEM3 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd3)) MEM3 (
         .q(data_out3),
         .d(data_in),
         .write_address(pixel_addr),
@@ -85,7 +85,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4)) MEM4 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd4)) MEM4 (
         .q(data_out4),
         .d(data_in),
         .write_address(pixel_addr),
@@ -94,7 +94,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(5)) MEM5 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd5)) MEM5 (
         .q(data_out5),
         .d(data_in),
         .write_address(pixel_addr),
@@ -103,7 +103,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(6)) MEM6 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd6)) MEM6 (
         .q(data_out6),
         .d(data_in),
         .write_address(pixel_addr),
@@ -112,7 +112,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(7)) MEM7 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd7)) MEM7 (
         .q(data_out7),
         .d(data_in),
         .write_address(pixel_addr),
@@ -121,7 +121,8 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(8)) MEM8 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd8)) MEM8 (
+
         .q(data_out8),
         .d(data_in),
         .write_address(pixel_addr),
@@ -130,7 +131,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(9)) MEM9 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd9)) MEM9 (
         .q(data_out9),
         .d(data_in),
         .write_address(pixel_addr),
@@ -139,7 +140,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(10)) MEM10 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd10)) MEM10 (
         .q(data_out10),
         .d(data_in),
         .write_address(pixel_addr),
@@ -148,7 +149,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(11)) MEM11 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd11)) MEM11 (
         .q(data_out11),
         .d(data_in),
         .write_address(pixel_addr),
@@ -157,7 +158,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(12)) MEM12 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd12)) MEM12 (
         .q(data_out12),
         .d(data_in),
         .write_address(pixel_addr),
@@ -166,7 +167,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(13)) MEM13 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd13)) MEM13 (
         .q(data_out13),
         .d(data_in),
         .write_address(pixel_addr),
@@ -175,7 +176,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(14)) MEM14 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd14)) MEM14 (
         .q(data_out14),
         .d(data_in),
         .write_address(pixel_addr),
@@ -184,7 +185,7 @@ module videoRam #(
         .clk(clk)
     );
 
-    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(15)) MEM15 (
+    single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4'd15)) MEM15 (
         .q(data_out15),
         .d(data_in),
         .write_address(pixel_addr),
@@ -224,29 +225,29 @@ module single_clk_ram # (
 
     initial begin
         case(frame)
-            1 : $readmemb(path1, mem);
-            2 : $readmemb(path2, mem);
-            3 : $readmemb(path3, mem);
-            4 : $readmemb(path4, mem);
-            5 : $readmemb(path5, mem);
-            6 : $readmemb(path6, mem);
-            7 : $readmemb(path7, mem);
-            8 : $readmemb(path8, mem);
-            9 : $readmemb(path9, mem);
-            10 : $readmemb(path10, mem);
-            11 : $readmemb(path11, mem);
-            12 : $readmemb(path12, mem);
-            13 : $readmemb(path13, mem);
-            14 : $readmemb(path14, mem);
-            15 : $readmemb(path15, mem);
+            4'd1 : $readmemb(path1, mem);
+            4'd2 : $readmemb(path2, mem);
+            4'd3 : $readmemb(path3, mem);
+            4'd4 : $readmemb(path4, mem);
+            4'd5 : $readmemb(path5, mem);
+            4'd6 : $readmemb(path6, mem);
+            4'd7 : $readmemb(path7, mem);
+            4'd8 : $readmemb(path8, mem);
+            4'd9 : $readmemb(path9, mem);
+            4'd10 : $readmemb(path10, mem);
+            4'd11 : $readmemb(path11, mem);
+            4'd12 : $readmemb(path12, mem);
+            4'd13 : $readmemb(path13, mem);
+            4'd14 : $readmemb(path14, mem);
+            4'd15 : $readmemb(path15, mem);
 
-            default: $readmemb(path1, mem);
+            default: $readmemb(path5, mem);
         endcase
     end
 
     always @ (negedge clk) begin
-        if (we)
-            mem[write_address] <= d; // write operation
+        // if (we)
+        //     mem[write_address] <= d; // write operation
         q <= mem[read_address];      // read operation
     end
 

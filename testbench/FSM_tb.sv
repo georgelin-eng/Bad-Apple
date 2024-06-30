@@ -110,10 +110,10 @@ module FSM_tb ();
         wait_us(100); // random value that's slightly large
 
         // send_data_header ();
-        wait_us(2000);
+        wait_us(20000);
 
         // send_data_header();       
-        wait_us(2000);
+        // wait_us(2000);
 
         $stop;
     end

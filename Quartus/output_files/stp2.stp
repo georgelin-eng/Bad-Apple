@@ -1,7 +1,7 @@
 <session jtag_chain="DE-SoC [USB-1]" jtag_device="@2: 5CSE(BA5|MA5)/5CSTFD5D5/.. (0x02D120DD)" sof_file="bram.sof">
   <display_tree gui_logging_enabled="0">
   </display_tree>
-  <instance enabled="true" entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+  <instance enabled="false" entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
     <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
     <position_info>
       <single attribute="active tab" value="1"/>
@@ -9,13 +9,40 @@
       <single attribute="data vertical scroll position" value="0"/>
       <single attribute="setup horizontal scroll position" value="0"/>
       <single attribute="setup vertical scroll position" value="0"/>
-      <single attribute="zoom level denominator" value="1"/>
-      <single attribute="zoom level numerator" value="256"/>
+      <single attribute="zoom level denominator" value="128"/>
+      <single attribute="zoom level numerator" value="1"/>
       <single attribute="zoom offset denominator" value="1"/>
-      <single attribute="zoom offset numerator" value="0"/>
+      <single attribute="zoom offset numerator" value="16744448"/>
     </position_info>
   </instance>
-  <mnemonics/>
+  <mnemonics>
+    <table name="state_table" width="6">
+      <symbol name="IDLE" value="000001"/>
+      <symbol name="PARSE" value="000010"/>
+      <symbol name="RECEIVE_A" value="000100"/>
+      <symbol name="RECEIVE_V" value="001000"/>
+      <symbol name="REQ" value="010000"/>
+      <symbol name="XX" value="100000"/>
+    </table>
+    <table name="state_table (1)" width="4">
+      <symbol name="IDLE" value="0001"/>
+      <symbol name="READ_B1_WRITE_B2" value="0010"/>
+      <symbol name="READ_B2_WRITE_B1" value="0100"/>
+      <symbol name="XX" value="1000"/>
+    </table>
+    <table name="state_table (2)" width="4">
+      <symbol name="IDLE" value="0001"/>
+      <symbol name="READ" value="0010"/>
+      <symbol name="WRITE" value="0100"/>
+      <symbol name="XX" value="1000"/>
+    </table>
+    <table name="state_table (3)" width="4">
+      <symbol name="IDLE" value="0001"/>
+      <symbol name="READ" value="0010"/>
+      <symbol name="WRITE" value="0100"/>
+      <symbol name="XX" value="1000"/>
+    </table>
+  </mnemonics>
   <static_plugin_mnemonics/>
   <global_info>
     <single attribute="active instance" value="0"/>
@@ -26,8 +53,8 @@
     <single attribute="jtag widget visible" value="1"/>
     <single attribute="lock mode" value="0"/>
     <single attribute="sof manager visible" value="1"/>
-    <multi attribute="column width" size="23" value="34,34,220,74,68,78,95,96,98,98,88,88,110,101,101,101,101,101,101,101,101,107,10"/>
-    <multi attribute="frame size" size="2" value="1695,1056"/>
+    <multi attribute="column width" size="23" value="34,34,568,74,68,78,95,96,98,98,88,88,110,101,101,101,101,101,101,101,101,107,10"/>
+    <multi attribute="frame size" size="2" value="2768,994"/>
     <multi attribute="jtag widget size" size="2" value="348,204"/>
   </global_info>
 </session>

@@ -35,7 +35,11 @@ module video_bank # (
     input wire                          data_in,
     input logic                         active,            // to ensure that we don't read from a inaccessible memory location
 
-    output wire                         data_out
+    output wire                         data_out,
+
+
+    output reg [3:0]                    bank_counter,
+    output logic                        mem_clk
 );
 
     // We never write and read to a bank at the same time so we choose which current x and y value to use
@@ -45,7 +49,7 @@ module video_bank # (
     wire [X_ADDRW_SCALED-1:0] VGA_x_pos_scaled;
     wire [Y_ADDRW_SCALED-1:0] VGA_y_pos_scaled;
 	 
-	logic clk_enable, mem_clk;
+	logic clk_enable;
 
     assign VGA_x_pos_scaled = VGA_x_pos >> 2; // this calculation is used to create the x4 scaling factor
     assign VGA_y_pos_scaled = VGA_y_pos >> 2;
@@ -57,11 +61,10 @@ module video_bank # (
     assign x_pos      = read_enable ? VGA_x_pos_scaled : mem_x_pos; 
     assign y_pos      = read_enable ? VGA_y_pos_scaled : mem_y_pos; 
 
-    // ~chip_select -> high when writing, AND with ~read_enable
-    // 0 -> CLK_40     (default)
-    // 1 -> SPI_clk_en (~chip_select) 
+    // 0 -> CLK_40     
+    // 1 -> SPI_clk_en 
     // selecting between clocks needs to be done with a dedicated clock mux and not regular combinational logic 
-    clock_mux #(.num_clocks(2)) CLOCK_EN_MUX ({SPI_clk_en, CLK_40}, {2'b1 << (~chip_select & ~read_enable)}, clk_enable);
+    // clock_mux #(.num_clocks(2)) CLOCK_EN_MUX ({SPI_clk_en, CLK_40}, {2'b1 << (~chip_select & ~read_enable)}, clk_enable);
     clock_mux #(.num_clocks(2)) CLOCK_MUX    ({SPI_clk,    CLK_40}, {2'b1 << (~chip_select & ~read_enable)}, mem_clk);
 
     // The last_pixel logic depends on whether the video block is in read or write mode
@@ -80,7 +83,7 @@ module video_bank # (
     /////////////////////////////////
     //        FSM Controller       //
     /////////////////////////////////
-    reg [3:0] bank_counter;
+    // (* syn_preserve = 1 *) reg [3:0] bank_counter;
     // reg [14:0] video_buffer_we;
     logic video_buffer_we;
     video_bank_FSM FSM (
@@ -153,10 +156,11 @@ module video_bank_FSM (
     // State register
     always_ff @( posedge CLK_40 ) begin 
         if (reset)           state <= IDLE;
-        else if (clk_enable) state <= nextstate;
+        // else if (clk_enable) state <= nextstate;
+        else state <= nextstate;
     end
 
-    // next state logic
+    // // next state logic
     always_comb begin
         nextstate = XX; 
         case (state)
@@ -170,18 +174,18 @@ module video_bank_FSM (
         endcase
     end
 
-    // registered output logic
-    always_ff @ (posedge CLK_40) begin
-        if (reset) begin
-            write_en <= 0;
-        end 
-        else if (clk_enable) begin
-            write_en <= 0;
-            case(nextstate)
-                WRITE  : write_en <= 1;
-            endcase
-        end
-    end
+    // // registered output logic
+    // always_ff @ (posedge CLK_40) begin
+    //     if (reset) begin
+    //         write_en <= 0;
+    //     end 
+    //     else if (clk_enable) begin
+    //         write_en <= 0;
+    //         case(nextstate)
+    //             WRITE  : write_en <= 1;
+    //         endcase
+    //     end
+    // end
 
     ///////////////////////////////////
     //     Memory block selection    //
@@ -196,7 +200,8 @@ module video_bank_FSM (
         if (reset) begin 
             bank_counter   <= 0;
             frame_counter  <= 0;             // only use frame_counter IF we're in the READ mode
-        end else if (clk_enable) begin
+        // end else if (clk_enable) begin
+        end else begin
                 if (last_pixel) begin  // removed ~ bank_full which I think was intented to keep bank counter from
                     frame_counter <= frame_counter + 1'b1;
 

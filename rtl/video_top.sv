@@ -20,10 +20,10 @@ module video_top (
     output wire          VGA_SYNC_N,     // to DAC, Active low for sync
     output wire          VGA_BLANK_N,    // to DAC, Active low for blanking
     output wire          VGA_VS,         // to VGA, Active high for sync
-    output wire          VGA_HS          // to VGA, Active high for sync
+    output wire          VGA_HS,         // to VGA, Active high for sync
 
-
-    // // Debugging
+    output  wire [3:0]    bank_counter,
+    output  wire          mem_clk
     // output logic [19:0]  GPIO_0,         
     // output logic [9:0]   LEDR,         
     // output logic         clk_debug   
@@ -37,10 +37,10 @@ module video_top (
     parameter mode       = `MODE;
     parameter RESOLUTION = "800x600";
 
-    parameter WHOLE_LINE            = (mode == "NORMAL") ? 1056 : 40 ;
-    parameter WHOLE_FRAME           = (mode == "NORMAL") ? 628  : 32 ;
-    parameter ACTIVE_SCREEN_WIDTH   = (mode == "NORMAL") ? 800  : 32 ;
-    parameter ACTIVE_SCREEN_HEIGHT  = (mode == "NORMAL") ? 600  : 24 ;
+    parameter WHOLE_LINE            = (mode == "NORMAL") ? 1056 : 104 ;
+    parameter WHOLE_FRAME           = (mode == "NORMAL") ? 628  : 64 ;
+    parameter ACTIVE_SCREEN_WIDTH   = (mode == "NORMAL") ? 800  : 80 ;
+    parameter ACTIVE_SCREEN_HEIGHT  = (mode == "NORMAL") ? 600  : 60 ;
 
     parameter X_WIDTH  = ACTIVE_SCREEN_WIDTH / 4;    // for memory bank
     parameter Y_HEIGHT = ACTIVE_SCREEN_HEIGHT / 4;  // for memory bank
@@ -68,9 +68,13 @@ module video_top (
 	logic data_in;
     logic video_bank_sel;
     logic bank1_out, bank2_out;
+    logic bank1_mem_clk, bank2_mem_clk;
+    logic [3:0] bank_counter1, bank_counter2;
     logic ACTIVE;
 
     assign pixel_data_out = read_bank1 ? bank1_out : bank2_out; // Pixel color read from memory
+    assign bank_counter = read_bank1 ? bank_counter1 : bank_counter2; // Pixel color read from memory
+    assign mem_clk     = read_bank1 ? bank1_mem_clk : bank2_mem_clk;
     assign data_in = MISO;
 
     ///////////////////////////////////
@@ -99,7 +103,9 @@ module video_top (
         .mem_y_pos(mem_y_pos),
         .data_in(data_in),
         .active(ACTIVE),
-        .data_out(bank1_out)
+        .data_out(bank1_out),
+        .bank_counter(bank_counter1),
+        .mem_clk(bank1_mem_clk)
     );
 
     // Instantiate the video_bank module. It should have a size of 200x150 as well
@@ -124,7 +130,9 @@ module video_top (
         .mem_y_pos(mem_y_pos),
         .data_in(data_in),
         .active(ACTIVE),
-        .data_out(bank2_out)
+        .data_out(bank2_out),
+        .bank_counter(bank_counter2),
+        .mem_clk(bank2_mem_clk)
     );
 
 
@@ -142,7 +150,7 @@ module video_top (
         .CLK_40(CLK_40),
         .reset(reset),
         .clk_en(1'b1),  
-        .count_en(read_bank1 || read_bank2),  
+        .count_en(read_bank1 | read_bank2),  // this is so that the screen isn't read while in MODE_FSM : IDLE 
         .x_pos(VGA_x_pos),
         .y_pos(VGA_y_pos)
     );
