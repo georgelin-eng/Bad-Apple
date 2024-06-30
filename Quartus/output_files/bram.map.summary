@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Mon Jun 24 19:59:53 2024
+Analysis & Synthesis Status : Successful - Sun Jun 30 08:45:55 2024
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : bram
 Top-level Entity Name : badApple_top
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 135
+Total registers : 313
 Total pins : 124
 Total virtual pins : 0
 Total block memory bits : 900,000

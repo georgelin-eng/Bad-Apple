@@ -1,1 +1,1 @@
-Info (10281): Verilog HDL Declaration information at VGA_top.sv(30): object "clk_debug" differs only in case from object "CLK_DEBUG" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/VGA_top.sv Line: 30
+Warning (10268): Verilog HDL information at DATA_FSM.sv(105): always construct contains both blocking and non-blocking assignments File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv Line: 105

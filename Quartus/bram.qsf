@@ -331,17 +331,19 @@ set_global_assignment -name ADVANCED_PHYSICAL_OPTIMIZATION OFF
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name SOURCE_FILE frame_1.mem
+set_global_assignment -name TEXT_FILE ../rtl/frame_1.txt
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/params.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/MODE_FSM.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/DATA_FSM.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_bank.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/data_FSM.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/badApple_top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/screenPositionTracker.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/clk_gen.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/video_mem_top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/videoRam.sv
-set_global_assignment -name SDC_FILE DE1_SoC.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/VGA_top.sv
+set_global_assignment -name SDC_FILE DE1_SoC.sdc
 set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name QIP_FILE VGA_40MHz.qip
 set_global_assignment -name SIP_FILE VGA_40MHz.sip

@@ -206,26 +206,42 @@ module single_clk_ram # (
     input                      we, clk
 );                            // data     // 30,000 addresses for 200x150
     (* ramstyle = "M10K" *) reg [0:0] mem [NUM_ADDR-1:0];
+	parameter path1 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_1.mem";
+    parameter path2 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_2.mem";
+    parameter path3 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_3.mem";
+    parameter path4 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_4.mem";
+    parameter path5 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_5.mem";
+    parameter path6 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_6.mem";
+    parameter path7 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_7.mem";
+    parameter path8 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_8.mem";
+    parameter path9 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_9.mem";
+    parameter path10 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_10.mem";
+    parameter path11 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_11.mem";
+    parameter path12 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_12.mem";
+    parameter path13 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_13.mem";
+    parameter path14 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_14.mem";
+    parameter path15 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_15.mem";
 
-    reg [256*15:0] file_paths [1:15];
     initial begin
-        file_paths[1] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_1.mem";
-        file_paths[2] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_2.mem";
-        file_paths[3] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_3.mem";
-        file_paths[4] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_4.mem";
-        file_paths[5] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_5.mem";
-        file_paths[6] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_6.mem";
-        file_paths[7] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_7.mem";
-        file_paths[8] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_8.mem";
-        file_paths[9] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_9.mem";
-        file_paths[10] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_10.mem";
-        file_paths[11] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_11.mem";
-        file_paths[12] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_12.mem";
-        file_paths[13] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_13.mem";
-        file_paths[14] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_14.mem";
-        file_paths[15] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_15.mem";
+        case(frame)
+            1 : $readmemb(path1, mem);
+            2 : $readmemb(path2, mem);
+            3 : $readmemb(path3, mem);
+            4 : $readmemb(path4, mem);
+            5 : $readmemb(path5, mem);
+            6 : $readmemb(path6, mem);
+            7 : $readmemb(path7, mem);
+            8 : $readmemb(path8, mem);
+            9 : $readmemb(path9, mem);
+            10 : $readmemb(path10, mem);
+            11 : $readmemb(path11, mem);
+            12 : $readmemb(path12, mem);
+            13 : $readmemb(path13, mem);
+            14 : $readmemb(path14, mem);
+            15 : $readmemb(path15, mem);
 
-        $readmemb(file_paths[frame], mem);
+            default: $readmemb(path1, mem);
+        endcase
     end
 
     always @ (negedge clk) begin

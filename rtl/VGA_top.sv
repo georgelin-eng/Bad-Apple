@@ -1,3 +1,4 @@
+`include "params.sv"
 // VGA module
 
 // Specs
@@ -27,16 +28,15 @@ module VGA_top (
 
     output logic         ACTIVE          // to video bank
 );
-    parameter DEBUG = "yes";    // memory will be 201 x 150 -> 450kb/s @ 15Hz
 
-    parameter h_front_porch = (DEBUG == "no") ? 40  : 2 ;
-    parameter h_synch_pulse = (DEBUG == "no") ? 128 : 3 ;
-    parameter h_back_porch  = (DEBUG == "no") ? 88  : 3 ;
-    parameter v_front_porch = (DEBUG == "no") ? 1   : 3 ;
-    parameter v_synch_pulse = (DEBUG == "no") ? 4   : 2 ;
-    parameter v_back_porch  = (DEBUG == "no") ? 23  : 3 ;
-    parameter h_area        = (DEBUG == "no") ? 800 : 32;
-    parameter v_area        = (DEBUG == "no") ? 600 : 24;
+    parameter h_front_porch = (`MODE == "NORMAL") ? 40  : 2 ;
+    parameter h_synch_pulse = (`MODE == "NORMAL") ? 128 : 3 ;
+    parameter h_back_porch  = (`MODE == "NORMAL") ? 88  : 3 ;
+    parameter v_front_porch = (`MODE == "NORMAL") ? 1   : 3 ;
+    parameter v_synch_pulse = (`MODE == "NORMAL") ? 4   : 2 ;
+    parameter v_back_porch  = (`MODE == "NORMAL") ? 23  : 3 ;
+    parameter h_area        = (`MODE == "NORMAL") ? 800 : 32;
+    parameter v_area        = (`MODE == "NORMAL") ? 600 : 24;
 
     // This this will be used to determine default parameters for two different resolutions so that this design can be designed for both 640x480 and 800x600 resolutions. 
     parameter X_LINE_WIDTH = h_area + h_front_porch + h_synch_pulse + h_back_porch;

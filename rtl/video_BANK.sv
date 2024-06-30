@@ -54,8 +54,8 @@ module video_bank # (
     // Address selected based on whether we're reading or writing from memory
     // Additionally, we check if the signal is active so that VGA x and y will be within bounds for the memory read
     // If in blanking region, they will read from (0,0) which prevents illegal memory reads
-    assign x_pos      = read_enable ? VGA_x_pos_scaled & {(X_ADDRW_SCALED){active}} : mem_x_pos; 
-    assign y_pos      = read_enable ? VGA_y_pos_scaled & {(Y_ADDRW_SCALED){active}} : mem_y_pos; 
+    assign x_pos      = read_enable ? VGA_x_pos_scaled : mem_x_pos; 
+    assign y_pos      = read_enable ? VGA_y_pos_scaled : mem_y_pos; 
 
     // ~chip_select -> high when writing, AND with ~read_enable
     // 0 -> CLK_40     (default)

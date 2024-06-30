@@ -29,23 +29,33 @@ module badApple_top (
 
     // Signal aliases
 
-    logic reset, INIATE, MOSI, chip_select;
+    logic reset, INIATE, MOSI, MISO, chip_select;
     logic CLK_40, SPI_clk, locked;
 
     assign reset     = ~KEY[0];       // input
-    assign INITATE   = ~KEY[1];       // input
-    assign MISO      = GPIO_0[0];     // input
+    assign init      = ~KEY[1];       // input
+    // assign MISO      = GPIO_0[0];     // input
+    assign MISO      = 1'b1;          // get out of write state just for video playback testing
     assign GPIO_1[1] = MOSI;          // output
     assign GPIO_1[2] = chip_select;   // output
     assign GPIO_1[3] = SPI_clk;       // output
 
-
+	 assign LEDR[0] = reset;
+	 assign LEDR[1] = init;
+	 
+	 // Debug
+	 assign GPIO_1[4] = VGA_VS;
+	 assign GPIO_1[5] = VGA_HS;
+	 assign GPIO_1[6] = VGA_CLK;
+	 assign GPIO_1[7] = VGA_SYNC_N;
+	 assign GPIO_1[8] = VGA_BLANK_N;
+	 assign GPIO_1[9] = VGA_R;
+	 assign GPIO_1[10] = VGA_G;
+	 assign GPIO_1[11] = VGA_B;
 
     /////////////////////////////////
     //          Parameters         //
     /////////////////////////////////
-
-
 
 
 

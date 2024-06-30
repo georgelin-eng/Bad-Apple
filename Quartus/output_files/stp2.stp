@@ -27,7 +27,7 @@
     <single attribute="lock mode" value="0"/>
     <single attribute="sof manager visible" value="1"/>
     <multi attribute="column width" size="23" value="34,34,220,74,68,78,95,96,98,98,88,88,110,101,101,101,101,101,101,101,101,107,10"/>
-    <multi attribute="frame size" size="2" value="1536,841"/>
+    <multi attribute="frame size" size="2" value="1695,1056"/>
     <multi attribute="jtag widget size" size="2" value="348,204"/>
   </global_info>
 </session>

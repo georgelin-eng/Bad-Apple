@@ -5,12 +5,26 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	VGA_top
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module FSM_tb
+
+Top level modules:
+	FSM_tb
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/MODE_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/MODE_FSM.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module MODE_FSM
 
 Top level modules:
 	MODE_FSM
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/badApple_top.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module badApple_top
+
+Top level modules:
+	badApple_top
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/clk_gen.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -47,13 +61,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	DATA_FSM
-
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/SPI_master.sv}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module SPI_master
-
-Top level modules:
-	SPI_master
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/FSM_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/FSM_top.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -105,9 +112,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	video_tb
-
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/params.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/params.sv}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016

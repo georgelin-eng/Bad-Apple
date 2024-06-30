@@ -1,4 +1,4 @@
-
+`include "params.sv"
 module video_mem_top #(
     parameter WIDTH = 10,
     parameter HEIGHT = 20,
@@ -24,9 +24,12 @@ module video_mem_top #(
     // The new memory address becomes 
     // (y*128) + (y*64) + (y*8) + x
 
-    // wire [ADDRW-1:0] pixel_addr = y_pos*WIDTH + x_pos; // simulation only so I keep this fast
-    wire [14:0] pixel_addr = ({1'b0, y_pos, 7'b0} + {1'b0, y_pos, 6'b0} + {1'b0, y_pos, 3'b0} + {1'b0, x_pos});
-
+    `ifdef DEBUG_ON    
+        wire [ADDRW-1:0] pixel_addr = y_pos*WIDTH + x_pos; // simulation only so I keep this fast
+    `else
+        wire [14:0] pixel_addr = ({1'b0, y_pos, 7'b0} + {1'b0, y_pos, 6'b0} + {1'b0, y_pos, 3'b0} + {1'b0, x_pos});
+        // wire [ADDRW-1:0] pixel_addr = y_pos*WIDTH + x_pos;
+    `endif
     // wire [14:0] pixel_addr = y_pos*'d200 + x_pos;
 
     videoRam #(

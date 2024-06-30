@@ -105,13 +105,14 @@ module FSM_tb ();
         init = 1; 
         wait_us(2);
         init = 0;
+        MISO = 1'b1;
 
         wait_us(100); // random value that's slightly large
 
-        send_data_header ();
+        // send_data_header ();
         wait_us(2000);
 
-        send_data_header();       
+        // send_data_header();       
         wait_us(2000);
 
         $stop;
