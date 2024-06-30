@@ -13,10 +13,12 @@ module VGA_top (
     input                CLK_40,
     input  logic         reset,
     input  logic         pixel_color,
+    input  logic         read_bank1,
+    input  logic         read_bank2,
 
-    output wire  [7:0]   VGA_R,          // to DAC 
-    output wire  [7:0]   VGA_G,          // to DAC 
-    output wire  [7:0]   VGA_B,          // to DAC 
+    output logic  [7:0]  VGA_R,          // to DAC 
+    output logic  [7:0]  VGA_G,          // to DAC 
+    output logic  [7:0]  VGA_B,          // to DAC 
     output wire          VGA_CLK,        // to DAC, clock signal
     output wire          VGA_SYNC_N,     // to DAC, Active low for sync
     output wire          VGA_BLANK_N,    // to DAC, Active low for blanking
@@ -58,9 +60,18 @@ module VGA_top (
     assign VGA_SYNC_N  = ~(VGA_HS || VGA_VS);   // Active low
 
     // Basic color generation test 
-    assign VGA_R = ((pixel_color) ? 8'd255 : 8'd90); 
-    assign VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; 
-    assign VGA_B = ((pixel_color) ? 8'd255 : 8'd90); 
+    always_comb begin
+        if (VGA_BLANK_N) begin
+            VGA_R = ((pixel_color) ? 8'd255 : 8'd90); 
+            VGA_G = ((pixel_color) ? 8'd180 : 8'd0) ; 
+            VGA_B = ((pixel_color) ? 8'd255 : 8'd90); 
+        end
+        else begin
+            VGA_R = 8'd0;
+            VGA_G = 8'd0;
+            VGA_B = 8'd0;
+        end
+    end
 
     // // Debug
     // assign LEDR      = {reset, {8'b0}};
@@ -78,7 +89,7 @@ module VGA_top (
         .CLK_40 (CLK_40),
         .reset(reset),
         .clk_en(1'b1), // CLK_40 is the pixel clock. Leave as 1
-        .count_en(1'b1),
+        .count_en(read_bank1 || read_bank2),
         .x_pos(x_pos),
         .y_pos(y_pos)
     );
@@ -101,6 +112,7 @@ module VGA_top (
     );
 
     vsync_gen #(
+        .X_LINE_WIDTH(X_LINE_WIDTH),
         .Y_LINE_WIDTH(Y_LINE_WIDTH),
         .v_front_porch(v_front_porch),
         .v_synch_pulse(v_synch_pulse),
@@ -110,6 +122,7 @@ module VGA_top (
         .CLK_40 (CLK_40),
         .pixel_clk(1'b1),
         .reset (reset),
+        .x_pos(x_pos),
         .y_pos(y_pos),
 
         // outputs

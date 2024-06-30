@@ -1,3 +1,4 @@
+`include "params.sv"
 
 // FSM states
 // IDLE      -> REQ_V       : default state. Transition if with init. button is pressed or current video frame has finished displaying
@@ -11,20 +12,16 @@
 // Control registers don't need to be set. We instead configure the verilog to act in a certain mode. Change software side to fit this.
 // Note: Correct timing on the frame_done signal will ensure that neither video or audio buffer overflows
 
-`define DATA_CMD 8'hAA
-`define DATA_HEADER 8'b11111111
-
 module DATA_FSM (
     input  wire     CLK_40,
     input  wire     SPI_clk_en, // FSM operations are controlled on the SPI clock
     input  wire     reset,
 
-
     // video data control signals
-    input  wire     start,            // initiated by a button press
-    input  wire     frame_done,       // signal that will come from the memory bank being read
-    input  wire     video_bank_full,  // signal that will come from the memory bank being written
-    output reg      write_video,
+    input  logic     init,       // initial kickoff controlled from push button
+    input  logic     start_req,  // set ~1s in mode_FSM
+    output logic     video_data_ready,
+    output logic     audio_data_ready,
 
 
     // SPI signals
@@ -33,7 +30,6 @@ module DATA_FSM (
     output logic    chip_select,      // SS
 
     // Audio data control signals
-    input  wire     audio_bank_full,
     output reg      write_audio
 );
     typedef enum logic [2:0] {IDLE, REQ, PARSE, RECEIVE_V, RECEIVE_A, XX} statetype;
@@ -71,11 +67,13 @@ module DATA_FSM (
             end
         end
     end
-
+    
     logic       request_sent_done, parse_done;
     logic [7:0] DATA_HEADER_XNOR_BUFF;
     logic [3:0] num_match;
     logic [3:0] cmd_bit_count;
+    logic       video_bank_full;
+    logic       audio_bank_full;
 
 
     // State register
@@ -89,7 +87,7 @@ module DATA_FSM (
     always_comb begin
         nextstate = XX; 
         case (state)
-            IDLE      : if (start | frame_done)  nextstate = REQ;
+            IDLE      : if (init| start_req)     nextstate = REQ;
                         else                     nextstate = IDLE;     // idle basically means just display video without sending requests / doing writing
             REQ       : if (request_sent_done)   nextstate = PARSE;
                         else                     nextstate = REQ;
@@ -103,26 +101,27 @@ module DATA_FSM (
     end
 
 
-
     // registered output logic
     always_ff @ (posedge CLK_40) begin
         if (reset) begin
-            write_video    <= 1'b0;
             write_audio    <= 1'b0;
             CMD            <= 8'b0;
+            MOSI           <= 1'b1;
             cmd_bit_count  <=  'b0;
             chip_select    <= 1'b1; // chip_select is high as default and active low for communications
             DATA_HEADER_XNOR_BUFF <= 8'b0;
         end 
         else if (SPI_clk_en) 
         begin
-            write_video       <= 1'b0;  // defaults. Set only the signals that change and they are registered. 
-            write_audio       <= 1'b0;
+            video_data_ready  <= 1'b0;  // defaults. Set only the signals that change and they are registered. 
+            audio_data_ready  <= 1'b0;
             CMD               <= 8'b0;
             MOSI              <= 1'b0;
             chip_select       <= 1'b1;
             parse_done        <= 1'b0;
             request_sent_done <= 1'b0;
+            write_audio       <= 1'b0;
+
             DATA_HEADER_XNOR_BUFF <= 8'b0;
 
             case(nextstate)
@@ -159,16 +158,50 @@ module DATA_FSM (
 
                 RECEIVE_V  : begin 
                                 chip_select <= 1'b0;
-                                write_video <= 1'b1;
+                                video_data_ready <= 1'b1;
                             end
 
                 RECEIVE_A  : 
                             begin
                                 chip_select <= 1'b0;
                                 write_audio <= 1'b1;
+                                audio_data_ready <= 1'b1;
                             end
             endcase
         end
     end
 
+
+    logic [31:0] video_mem_count;
+    logic [31:0] audio_mem_count;
+
+    // counter for writing video
+    always_ff @ (posedge CLK_40) begin
+        if (reset) begin
+            video_mem_count <= 0;
+        end else if (SPI_clk_en & video_data_ready) begin
+            video_mem_count <= video_mem_count + 1;
+
+            video_bank_full <= (video_mem_count == `VIDEO_MEM_CELL_COUNT -1);
+            
+            if (video_mem_count == `VIDEO_MEM_CELL_COUNT -1 ) begin
+               video_mem_count <= 0;
+            end
+        end
+    end
+
+    // counter for writing audio
+    always_ff @ (posedge CLK_40) begin
+        if (reset) begin
+            audio_mem_count <= 0;
+        end else if (SPI_clk_en & audio_data_ready) begin
+            audio_mem_count <= audio_mem_count + 1;
+
+            audio_bank_full <= (audio_mem_count == `AUDIO_MEM_CELL_COUNT -1);
+            
+            if (audio_mem_count == `AUDIO_MEM_CELL_COUNT -1 ) begin
+               audio_mem_count <= 0;
+            end
+        end
+    end
 endmodule

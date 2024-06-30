@@ -10,7 +10,7 @@ module videoRam #(
     input logic               clk,
     input logic [3:0]         mem_block_sel,         // Selection signal for memory block
     input logic [0:0]         data_in,               // Input data
-    input logic [ADDRW-1:0]   x, y,                  // Write and read addresses
+    input logic [ADDRW-1:0]   pixel_addr,            // Write and read addresses
     input logic               we,                    // Write enable
 
     output logic              data_out_after_sel     // Output data after selection
@@ -35,7 +35,7 @@ module videoRam #(
     logic [14:0] we_sel;
     assign we_sel = (1'b1 << mem_block_sel) & {15{we}};
 
-    always_ff @ (posedge clk) begin
+    always_ff @ (negedge clk) begin
         case (mem_block_sel)
             11'b00000: data_out_after_sel <= data_out1 ;
             11'b00001: data_out_after_sel <= data_out2 ;
@@ -61,8 +61,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(1)) MEM1 (
         .q(data_out1),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[0]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -70,8 +70,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(2)) MEM2 (
         .q(data_out2),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[1]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -79,8 +79,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(3)) MEM3 (
         .q(data_out3),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[2]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -88,8 +88,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(4)) MEM4 (
         .q(data_out4),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[3]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -97,8 +97,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(5)) MEM5 (
         .q(data_out5),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[4]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -106,8 +106,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(6)) MEM6 (
         .q(data_out6),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[5]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -115,8 +115,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(7)) MEM7 (
         .q(data_out7),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[6]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -124,8 +124,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(8)) MEM8 (
         .q(data_out8),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[7]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -133,8 +133,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(9)) MEM9 (
         .q(data_out9),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[8]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -142,8 +142,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(10)) MEM10 (
         .q(data_out10),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[9]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -151,8 +151,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(11)) MEM11 (
         .q(data_out11),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[10]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -160,8 +160,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(12)) MEM12 (
         .q(data_out12),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[11]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -169,8 +169,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(13)) MEM13 (
         .q(data_out13),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[12]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -178,8 +178,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(14)) MEM14 (
         .q(data_out14),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[13]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -187,8 +187,8 @@ module videoRam #(
     single_clk_ram #(.NUM_ADDR(WIDTH*HEIGHT), .frame(15)) MEM15 (
         .q(data_out15),
         .d(data_in),
-        .write_address(x),
-        .read_address(y),
+        .write_address(pixel_addr),
+        .read_address(pixel_addr),
         .we(we_sel[14]), // Selecting we signal based on bank_counter
         .clk(clk)
     );
@@ -209,27 +209,26 @@ module single_clk_ram # (
 
     reg [256*15:0] file_paths [1:15];
     initial begin
-        // file_paths[1] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_1.mem";
-        // file_paths[2] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_2.mem";
-        // file_paths[3] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_3.mem";
-        // file_paths[4] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_4.mem";
-        // file_paths[5] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_5.mem";
-        // file_paths[6] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_6.mem";
-        // file_paths[7] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_7.mem";
-        // file_paths[8] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_8.mem";
-        // file_paths[9] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_9.mem";
-        // file_paths[10] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_10.mem";
-        // file_paths[11] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_11.mem";
-        // file_paths[12] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_12.mem";
-        // file_paths[13] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_13.mem";
-        // file_paths[14] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_14.mem";
-        // file_paths[15] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_15.mem";
+        file_paths[1] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_1.mem";
+        file_paths[2] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_2.mem";
+        file_paths[3] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_3.mem";
+        file_paths[4] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_4.mem";
+        file_paths[5] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_5.mem";
+        file_paths[6] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_6.mem";
+        file_paths[7] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_7.mem";
+        file_paths[8] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_8.mem";
+        file_paths[9] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_9.mem";
+        file_paths[10] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_10.mem";
+        file_paths[11] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_11.mem";
+        file_paths[12] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_12.mem";
+        file_paths[13] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_13.mem";
+        file_paths[14] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_14.mem";
+        file_paths[15] = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frames\\frame_15.mem";
 
-        // $readmemb("frame_1.mem", mem);
-        // $readmemb(file_paths[frame], mem);
+        $readmemb(file_paths[frame], mem);
     end
 
-    always @ (posedge clk) begin
+    always @ (negedge clk) begin
         if (we)
             mem[write_address] <= d; // write operation
         q <= mem[read_address];      // read operation

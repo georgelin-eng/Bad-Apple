@@ -1,23 +1,16 @@
-`define DEBUG_ON  // comment this line out in order to run a short simulation on video
-
-`ifdef DEBUG_ON
-    `define MODE "DEBUG"
-`else
-    `define MODE "NORMAL"
-`endif 
-
+`include "params.sv"
 module video_top (
     input logic          CLK_40, 
     input logic          SPI_clk,
     input logic          reset,
-    input logic          video_bank_we,
+    input logic          read_bank1,
+    input logic          read_bank2,
+    input logic          chip_select,         // used to pre-empitvely switch to SPI clock on the expectation of incoming data
+    input logic          video_data_ready,
 
     input logic          SPI_clk_en,          // writing into video bank
 
     input logic          MISO,                // incoming data
-
-    output logic         bank_full,           // lets the data FSM transition states
-    output logic         frame_done,          // lets the data FSM transition states
 
     // VGA
     output wire  [7:0]   VGA_R,          // to DAC 
@@ -74,29 +67,11 @@ module video_top (
     //////////////////////////////
 	logic data_in;
     logic video_bank_sel;
-    logic bank_read_done1, bank_read_done2;
-	logic video_bank1_we, video_bank2_we;
     logic bank1_out, bank2_out;
-    logic bank1_full, bank2_full;
     logic ACTIVE;
 
-    assign video_bank1_we = video_bank_we && ~video_bank_sel;
-    assign video_bank2_we = video_bank_we &&  video_bank_sel;       // select logic is based on which is being 
-    assign video_bank1_re = video_bank_sel;
-    assign video_bank2_re = ~video_bank_sel; 
-    assign pixel_data_out = video_bank_sel ? bank1_out : bank2_out; // Pixel color read from memory
-    assign bank_full      = bank1_full || bank2_full;
-    assign frame_done     = bank_read_done1 || bank_read_done2;
+    assign pixel_data_out = read_bank1 ? bank1_out : bank2_out; // Pixel color read from memory
     assign data_in = MISO;
-
-    // Transition to a new video bank when we've finished reading from the current selection
-    always_ff @ (posedge CLK_40) begin
-        if (reset) begin
-            video_bank_sel <= 1'b0;
-        end else begin
-            if (video_bank_sel ? bank_read_done1 : bank_read_done2) video_bank_sel <= ~video_bank_sel;
-        end
-    end
 
     ///////////////////////////////////
     //         Video Memory          //
@@ -115,17 +90,16 @@ module video_top (
         .read_pixel_clk_en(CLK_40),
         .SPI_clk_en(SPI_clk_en),
         .SPI_clk(SPI_clk),
-        .read_enable(video_bank1_re),
-        .write_enable(video_bank1_we),
+        .read_enable(read_bank1),
+        .chip_select(chip_select),
+        .video_data_ready(video_data_ready),
         .VGA_x_pos(VGA_x_pos),
         .VGA_y_pos(VGA_y_pos),
         .mem_x_pos(mem_x_pos),
         .mem_y_pos(mem_y_pos),
         .data_in(data_in),
         .active(ACTIVE),
-        .data_out(bank1_out),
-        .bank_read_done(bank_read_done1),
-        .bank_full(bank1_full)
+        .data_out(bank1_out)
     );
 
     // Instantiate the video_bank module. It should have a size of 200x150 as well
@@ -141,17 +115,16 @@ module video_top (
         .read_pixel_clk_en(CLK_40), // not set to logic 1 due the way the clock mux works
         .SPI_clk_en(SPI_clk_en),
         .SPI_clk(SPI_clk),
-        .read_enable(video_bank2_re),
-        .write_enable(video_bank2_we),
+        .read_enable(read_bank2),
+        .chip_select(chip_select),
+        .video_data_ready(video_data_ready),
         .VGA_x_pos(VGA_x_pos),
         .VGA_y_pos(VGA_y_pos),
         .mem_x_pos(mem_x_pos),
         .mem_y_pos(mem_y_pos),
         .data_in(data_in),
         .active(ACTIVE),
-        .data_out(bank2_out),
-        .bank_read_done(bank_read_done2),
-        .bank_full(bank2_full)
+        .data_out(bank2_out)
     );
 
 
@@ -169,7 +142,7 @@ module video_top (
         .CLK_40(CLK_40),
         .reset(reset),
         .clk_en(1'b1),  
-        .count_en(1'b1),  // screen is constantly being read here
+        .count_en(read_bank1 || read_bank2),  
         .x_pos(VGA_x_pos),
         .y_pos(VGA_y_pos)
     );
@@ -183,7 +156,7 @@ module video_top (
         // Connect module ports
         .CLK_40(CLK_40),
         .clk_en(SPI_clk_en),
-        .count_en(video_bank_we), // only start the count once writing starts
+        .count_en(video_data_ready), // only start the count once writing starts
         .reset(reset),
         .x_pos(mem_x_pos),
         .y_pos(mem_y_pos)
@@ -197,6 +170,8 @@ module video_top (
             .CLK_40(CLK_40),
             .reset(reset),
             .pixel_color(pixel_data_out), // input to VGA controller to display
+            .read_bank1(read_bank1),
+            .read_bank2(read_bank2),
             .VGA_R(VGA_R),
             .VGA_G(VGA_G),
             .VGA_B(VGA_B),

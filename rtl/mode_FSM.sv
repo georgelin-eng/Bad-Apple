@@ -1,6 +1,6 @@
-`define MODE_SWITCH_THRESHOLD 40*32*60
+`include "params.sv"
 
-module mode_FSM(
+module MODE_FSM(
     input CLK_40,
     input reset,
     input init, 
@@ -9,7 +9,8 @@ module mode_FSM(
     output logic read_bank1,
     output logic read_bank2,
     output logic write_bank1,
-    output logic write_bank2
+    output logic write_bank2,
+    output logic switch_mode
 );
 
     typedef enum logic [2:0] {IDLE, READ_B1_WRITE_B2, READ_B2_WRITE_B1, XX} statetype;
@@ -17,7 +18,6 @@ module mode_FSM(
 
     // Internal control signal
     logic        count_en;
-    logic        switch_mode;
     logic [31:0] pixel_count;
 
     // State register
@@ -30,7 +30,7 @@ module mode_FSM(
     always_comb begin
         nextstate = XX; 
         case (state)
-            IDLE             : if (init)             nextstate =READ_B1_WRITE_B2;
+            IDLE             : if (init)             nextstate = READ_B1_WRITE_B2;
                                else                  nextstate = IDLE;
             READ_B1_WRITE_B2 : if (switch_mode)      nextstate = READ_B2_WRITE_B1;
                                else                  nextstate = READ_B1_WRITE_B2;
@@ -41,29 +41,45 @@ module mode_FSM(
 
     // registered output logic
     always_ff @ (posedge CLK_40) begin
-        if (reset) 
-            bank_full <= 0;
+        if (reset) begin
+            read_bank1 <= 0;
+            read_bank2 <= 0;
+            write_bank1 <= 0;
+            write_bank2 <= 0;
+            count_en    <= 0;
+        end 
         else begin
-            if (clk_enable) begin
-                bank_full <= 0;
-                case(nextstate)
-                    WRITE_DONE  : bank_full <= 1;
-                endcase
-            end
+            read_bank1 <= 0;
+            read_bank2 <= 0;
+            write_bank1 <= 0;
+            write_bank2 <= 0;
+            count_en    <= 0;
+            case(nextstate)
+                READ_B1_WRITE_B2  : begin 
+                                        read_bank1  <= 1; 
+                                        // write_bank2 <= 1;
+                                        count_en    <= 1;
+                                    end
+                READ_B2_WRITE_B1  : begin
+                                        read_bank2  <= 1; 
+                                        // write_bank1 <= 1;
+                                        count_en    <= 1;
+                                    end
+            endcase
         end
     end
 
 
     // Counter
     always_ff @ (posedge CLK_40) begin
-        if (reset) begin
+        if (reset) 
             pixel_count <= 0;
-        end else if (count_en) begin
+        else if (count_en) begin
             pixel_count <= pixel_count + 1;
 
-            switch_mode <= (pixel_count == MODE_SWITCH_THRESHOLD -1);
+            switch_mode <= (pixel_count == `MODE_SWITCH_THRESHOLD -1);
             
-            if (pixel_count == MODE_SWITCH_THRESHOLD -1 ) begin
+            if (pixel_count == `MODE_SWITCH_THRESHOLD -1 ) begin
                pixel_count <= 0;
             end
         end

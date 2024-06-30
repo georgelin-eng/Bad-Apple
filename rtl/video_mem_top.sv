@@ -5,7 +5,8 @@ module video_mem_top #(
     parameter WHOLE_LINE  = 1056,
     parameter WHOLE_FRAME = 628,
     parameter X_ADDRW = $clog2(WIDTH),
-    parameter Y_ADDRW = $clog2(HEIGHT)
+    parameter Y_ADDRW = $clog2(HEIGHT),
+    parameter ADDRW   = $clog2(WIDTH*HEIGHT)
 )(
     input logic               clk,
     input logic [3:0]         bank_counter,
@@ -23,8 +24,8 @@ module video_mem_top #(
     // The new memory address becomes 
     // (y*128) + (y*64) + (y*8) + x
 
-    wire [5:0] pixel_addr = y_pos*WIDTH + x_pos; // simulation only so I keep this fast
-    // wire [14:0] pixel_addr = ({1'b0, y_pos, 7'b0} + {1'b0, y_pos, 6'b0} + {1'b0, y_pos, 3'b0} + {1'b0, x_pos});
+    // wire [ADDRW-1:0] pixel_addr = y_pos*WIDTH + x_pos; // simulation only so I keep this fast
+    wire [14:0] pixel_addr = ({1'b0, y_pos, 7'b0} + {1'b0, y_pos, 6'b0} + {1'b0, y_pos, 3'b0} + {1'b0, x_pos});
 
     // wire [14:0] pixel_addr = y_pos*'d200 + x_pos;
 
@@ -35,8 +36,7 @@ module video_mem_top #(
         .clk(clk),
         .mem_block_sel(bank_counter),
         .data_in(data_in),
-        .x(pixel_addr),
-        .y(pixel_addr),
+        .pixel_addr(pixel_addr),
         .we(we),
         .data_out_after_sel(pixel_color)  // output 
     );

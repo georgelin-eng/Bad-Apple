@@ -65,7 +65,7 @@ module hsync_gen # (
     input wire                             CLK_40,
     input wire                             pixel_clk,          // used as clock enable for hsynch pusle generation
     input wire                             reset,
-    input wire      [DATA_WIDTH-1:0]     x_pos,
+    input wire      [DATA_WIDTH-1:0]       x_pos,
     output reg                             hsync_n,            // used to begin a new scan line
     output reg                             h_BLANK             // control bit used to create the blanking region
 );
@@ -87,7 +87,10 @@ endmodule
 
 module vsync_gen # (
     parameter Y_LINE_WIDTH = 10,
-    parameter DATA_WIDTH = $clog2(Y_LINE_WIDTH),
+    parameter X_LINE_WIDTH = 10,
+    parameter X_DATA_WIDTH = $clog2(X_LINE_WIDTH),
+    parameter Y_DATA_WIDTH = $clog2(Y_LINE_WIDTH),
+    parameter h_line_width  = X_LINE_WIDTH,
     parameter v_front_porch = 10,
     parameter v_synch_pulse = 2, // This must mean that the negative portion must last for 2 scan lines (2 iterations of hsync_clk)_enable
     parameter v_back_porch  = 33,
@@ -100,7 +103,8 @@ module vsync_gen # (
     input                               CLK_40,
     input                               pixel_clk,
     input                               reset,
-    input  wire  [DATA_WIDTH-1:0]       y_pos, 
+    input  wire  [X_DATA_WIDTH-1:0]     x_pos,
+    input  wire  [Y_DATA_WIDTH-1:0]     y_pos, 
     output reg                          vsync_n ,    // used to generate new frames
     output reg                          v_BLANK      // used to control generation of black pixels for the blanking area
 );
@@ -112,7 +116,13 @@ module vsync_gen # (
         end else begin
             if (pixel_clk) begin // Can't use this as a clock enable anymore since it'll be positive for 96 clock cycles at a time
                 vsync_n <= (y_pos >= v_synch_start) && (y_pos <= v_synch_end-1);
-                v_BLANK <= (y_pos >= v_area)        && (y_pos <= v_line_width-1);
+
+                if (y_pos == v_area - 1 && x_pos == h_line_width - 1) begin
+                    v_BLANK <= 1;
+                end 
+                else begin
+                    v_BLANK <= (y_pos >= v_area)     && (y_pos <= v_line_width-1);
+                end
             end
         end
     end

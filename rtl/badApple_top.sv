@@ -82,20 +82,36 @@ module badApple_top (
     //       Data Acquisition      //
     /////////////////////////////////
 
-
+    MODE_FSM MODE_FSM (
+        .CLK_40(CLK_40),
+        .reset (reset),
+        .init(init),
+        
+        .switch_mode(start_req),
+        .read_bank1 (read_bank1),
+        .read_bank2 (read_bank2),
+        .write_bank1 (write_bank1),
+        .write_bank2 (write_bank2)
+    );
+    
 
     // Instantiate data aquisition FSM
-    DATA_FSM DATA_FSM (
+   DATA_FSM DATA_FSM (
         .CLK_40 (CLK_40),
         .SPI_clk_en(SPI_clk_en),
         .reset (reset),
+        .init(init),
 
-        .start(start),
-        .frame_done(frame_done),
-        .video_bank_full(bank_full),
-        .write_video(write_video)
+        .start_req(start_req),
+        .video_data_ready(video_data_ready),
+        .audio_data_ready(audio_data_ready),
+
+        .MISO(MISO),
+        .MOSI(MOSI),
+        .chip_select(chip_select),
+
+        .write_audio ()
     );
-
 
     /////////////////////////////////
     //        Video Modules        //
@@ -105,19 +121,23 @@ module badApple_top (
         .CLK_40(CLK_40),
         .SPI_clk(SPI_clk),
         .reset(reset),
-        .video_bank_we(write_video),
+        .read_bank1 (read_bank1),
+        .read_bank2 (read_bank2),
+        .chip_select(chip_select),
+        .video_data_ready(video_data_ready),
+
         .SPI_clk_en(SPI_clk_en),
-        .bank_full(bank_full),
         .MISO(MISO),
+
         .VGA_R(VGA_R),
         .VGA_G(VGA_G),
         .VGA_B(VGA_B),
         .VGA_CLK(VGA_CLK),
+        .VGA_SYNC_N(VGA_SYNC_N),
         .VGA_BLANK_N(VGA_BLANK_N),
         .VGA_VS(VGA_VS),
         .VGA_HS(VGA_HS)
     );
-
 
 
     /////////////////////////////////

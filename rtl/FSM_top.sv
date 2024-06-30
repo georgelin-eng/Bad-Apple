@@ -1,15 +1,9 @@
-`timescale 1ns/100ps
-`include "../rtl/params.sv"
-module FSM_tb ();
-
-    logic CLK_40, SPI_clk, reset, init;
-
-    logic MISO, MOSI, chip_select;
-    logic write_video, write_audio;
-
-    logic [7:0] VGA_R, VGA_B, VGA_G;
-
-    logic sending_data;
+module FSM_top(
+    input CLK_40,
+    input reset,
+    input init,
+    input MISO
+);
 
     // Instantiate data aquisition FSM
     DATA_FSM DATA_FSM (
@@ -29,7 +23,7 @@ module FSM_tb ();
         .write_audio ()
     );
 
-     MODE_FSM MODE_FSM (
+    MODE_FSM MODE_FSM (
         .CLK_40(CLK_40),
         .reset (reset),
         .init(init),
@@ -40,7 +34,36 @@ module FSM_tb ();
         .write_bank1 (write_bank1),
         .write_bank2 (write_bank2)
     );
-    
+
+    clock_mux #(.num_clocks(2)) CLOCK_EN_MUX1 ({SPI_clk_en, CLK_40}, {2'b1 << write_bank1}, clk_enable1);
+    clock_mux #(.num_clocks(2)) CLOCK_EN_MUX2 ({SPI_clk_en, CLK_40}, {2'b1 << write_bank2}, clk_enable2);
+
+    video_bank_FSM BANK1 (
+        .CLK_40(CLK_40),
+        .reset (reset),
+        .clk_enable(clk_enable1),
+        .video_data_ready(video_data_ready),
+        .write_enable(write_bank1),
+        .read_enable(read_bank1),
+
+        .video_buffer_we(),
+        .bank_counter(),
+        .bank_read_done()
+    );
+
+    video_bank_FSM BANK2 (
+        .CLK_40(CLK_40),
+        .reset (reset),
+        .clk_enable(clk_enable2),
+        .video_data_ready(video_data_ready),
+        .write_enable(write_bank2),
+        .read_enable(read_bank2),
+
+        .video_buffer_we(),
+        .bank_counter(),
+        .bank_read_done()
+    );
+        
 
     clk_en_gen CLK_EN_GEN (
         .CLK_40(CLK_40),
@@ -48,35 +71,28 @@ module FSM_tb ();
         .SPI_clk_en(SPI_clk_en),
         .audio_clk_en(audio_clk_en)
     );
-    
-    video_top VIDEO_CONTROLLER (
+
+
+endmodule
+
+`timescale 10ns/100ps
+module top_FSM_tb();
+
+    logic CLK_40, SPI_clk, init, reset;
+    logic MISO, sending_data;
+
+
+    FSM_top DUT (
         .CLK_40(CLK_40),
-        .SPI_clk(SPI_clk),
         .reset(reset),
-        .read_bank1 (read_bank1),
-        .read_bank2 (read_bank2),
-        .chip_select(chip_select),
-        .video_data_ready(video_data_ready),
-
-        .SPI_clk_en(SPI_clk_en),
-        .MISO(MISO),
-
-        .VGA_R(VGA_R),
-        .VGA_G(VGA_G),
-        .VGA_B(VGA_B),
-        .VGA_CLK(VGA_CLK),
-        .VGA_SYNC_N(VGA_SYNC_N),
-        .VGA_BLANK_N(VGA_BLANK_N),
-        .VGA_VS(VGA_VS),
-        .VGA_HS(VGA_HS)
+        .init(init),
+        .MISO(MISO)
     );
 
-
     task automatic wait_us(input integer x);
-        #(1000*x);
+        #(100*x);
         $display("waited %d us", x);
     endtask //automatic
-
 
     reg[7:0] data_header = 8'b11111111;
     task static send_data_header();
@@ -88,10 +104,11 @@ module FSM_tb ();
         end   
 
 
-        #1000;
+        #100;
         MISO = 1'b0; // set MISO line back to zero
         sending_data = 1;
     endtask
+
 
     initial begin
         sending_data = 0;
@@ -99,42 +116,34 @@ module FSM_tb ();
         MISO = 0;
         reset = 1;
         @ (posedge CLK_40);
-        reset = 0; # 50; 
-        $display(`MODE_SWITCH_THRESHOLD);
-        wait_us(20);
+        reset = 0; # 5; 
+        
+        wait_us(250);
         init = 1; 
         wait_us(2);
         init = 0;
 
-        wait_us(100); // random value that's slightly large
+        wait_us(20); // random value that's slightly large
 
         send_data_header ();
         wait_us(2000);
-
-        send_data_header();       
+        send_data_header ();
         wait_us(2000);
-
+        send_data_header ();  
+        wait_us(2000);
+       
         $stop;
     end
 
 
     initial forever begin
-        CLK_40 = 0; #12.5;
-        CLK_40 = 1; #12.5;
-    end
-
-
-    initial forever begin
-        SPI_clk = 1; #500;
-        SPI_clk = 0; #500;
+        CLK_40 = 0; #1.25;
+        CLK_40 = 1; #1.25;
     end
 
     initial forever begin
-        # 1000;
-
-        if (sending_data) begin
-            MISO = $random %2; 
-        end
+        SPI_clk = 1; #50;
+        SPI_clk = 0; #50;
     end
 
 endmodule
