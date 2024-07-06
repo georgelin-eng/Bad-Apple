@@ -5,6 +5,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	VGA_top
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/top_FSM_startup.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/top_FSM_startup.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module FSM_top
+
+Top level modules:
+	FSM_top
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/FSM_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module FSM_tb
@@ -41,6 +48,17 @@ Top level modules:
 	debug_clk_gen
 	clock_mux
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/CALIBRATION_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/CALIBRATION_FSM.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module CALIBRATION_FSM
+-- Compiling module data_select
+-- Compiling module sync_FIFO
+
+Top level modules:
+	CALIBRATION_FSM
+	data_select
+	sync_FIFO
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_bank_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module video_bank_tb
@@ -48,12 +66,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	video_bank_tb
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/edgeDetect.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/edgeDetect.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module video_mem_top
+-- Compiling module edge_detect
 
 Top level modules:
-	video_mem_top
+	edge_detect
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -62,13 +80,19 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	DATA_FSM
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/FSM_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/FSM_top.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_mem_top.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module FSM_top
--- Compiling module top_FSM_tb
+-- Compiling module video_mem_top
 
 Top level modules:
-	top_FSM_tb
+	video_mem_top
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/counter.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/counter.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module counter
+
+Top level modules:
+	counter
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v} {1 {vlog -work work -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/VGA_40MHz.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -76,13 +100,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	VGA_40MHz
-
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module video_top
-
-Top level modules:
-	video_top
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/VGA_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -98,6 +115,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	screenPositionTracker
 
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_top.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module video_top
+
+Top level modules:
+	video_top
+
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/testbench/video_tb.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module video_tb
@@ -105,8 +129,20 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	video_tb
 
-} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/params.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/params.sv}
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_BANK.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/video_bank.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module video_bank
+-- Compiling module video_bank_FSM
+
+Top level modules:
+	video_bank
+
+} {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/dff_sync2.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/dff_sync2.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module dff_sync2
+
+Top level modules:
+	dff_sync2
 
 } {} {}} {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv} {1 {vlog -work work -sv -stats=none {C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/videoRam.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016

@@ -10,3 +10,8 @@ create_clock -period 20 [get_ports CLOCK_50]
 # create_clock -period 25 [get_ports CLK_40]
 derive_pll_clocks
 
+
+#**************************************************************
+# Hold Time Constraints
+#**************************************************************
+

@@ -14,8 +14,7 @@ module VGA_top (
     input                CLK_40,
     input  logic         reset,
     input  logic         pixel_color,
-    input  logic         read_bank1,
-    input  logic         read_bank2,
+    input  logic         count_en,
 
     output logic  [7:0]  VGA_R,          // to DAC 
     output logic  [7:0]  VGA_G,          // to DAC 
@@ -29,14 +28,14 @@ module VGA_top (
     output logic         ACTIVE          // to video bank
 );
 
-    parameter h_front_porch = (`MODE == "NORMAL") ? 40  : 4 ;
-    parameter h_synch_pulse = (`MODE == "NORMAL") ? 128 : 8 ;
-    parameter h_back_porch  = (`MODE == "NORMAL") ? 88  : 12 ;
-    parameter v_front_porch = (`MODE == "NORMAL") ? 1   : 1 ;
-    parameter v_synch_pulse = (`MODE == "NORMAL") ? 4   : 1 ;
+    parameter h_front_porch = (`MODE == "NORMAL") ? 40  : 2 ;
+    parameter h_synch_pulse = (`MODE == "NORMAL") ? 128 : 3 ;
+    parameter h_back_porch  = (`MODE == "NORMAL") ? 88  : 3 ;
+    parameter v_front_porch = (`MODE == "NORMAL") ? 1   : 2 ;
+    parameter v_synch_pulse = (`MODE == "NORMAL") ? 4   : 4 ;
     parameter v_back_porch  = (`MODE == "NORMAL") ? 23  : 2 ;
-    parameter h_area        = (`MODE == "NORMAL") ? 800 : 80;
-    parameter v_area        = (`MODE == "NORMAL") ? 600 : 60;
+    parameter h_area        = (`MODE == "NORMAL") ? 800 : 32;
+    parameter v_area        = (`MODE == "NORMAL") ? 600 : 24;
 
     // This this will be used to determine default parameters for two different resolutions so that this design can be designed for both 640x480 and 800x600 resolutions. 
     parameter X_LINE_WIDTH = h_area + h_front_porch + h_synch_pulse + h_back_porch;
@@ -73,15 +72,6 @@ module VGA_top (
         end
     end
 
-    // // Debug
-    // assign LEDR      = {reset, {8'b0}};
-    // assign GPIO_0[0] = VGA_CLK;
-    // assign GPIO_0[2] = VGA_BLANK_N;
-    // assign GPIO_0[3] = VGA_SYNC_N;
-    // assign GPIO_0[4] = VGA_HS;
-    // assign GPIO_0[5] = VGA_VS;
-    // assign GPIO_0[6] = v_BLANK;
-
     screenPositionTracker  #(
         .X_LINE_WIDTH(X_LINE_WIDTH),
         .Y_LINE_WIDTH(Y_LINE_WIDTH)
@@ -89,7 +79,7 @@ module VGA_top (
         .CLK_40 (CLK_40),
         .reset(reset),
         .clk_en(1'b1), // CLK_40 is the pixel clock. Leave as 1
-        .count_en(read_bank1 || read_bank2),
+        .count_en(count_en),
         .x_pos(x_pos),
         .y_pos(y_pos)
     );

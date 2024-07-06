@@ -2,6 +2,8 @@ quartus/db/
 quartus/incremental_db/compiled_partitions/
 python/output_bitmaps/
 python/output_images/
+Bad-Apple
+Lib/site-packages
 *.png
 *.jpg
 *.txt

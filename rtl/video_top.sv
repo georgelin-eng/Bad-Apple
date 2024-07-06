@@ -7,7 +7,7 @@ module video_top (
     input logic          read_bank2,
     input logic          chip_select,         // used to pre-empitvely switch to SPI clock on the expectation of incoming data
     input logic          video_data_ready,
-
+    input logic          VGA_sync_en, 
     input logic          SPI_clk_en,          // writing into video bank
 
     input logic          MISO,                // incoming data
@@ -173,13 +173,17 @@ module video_top (
     //////////////////////////////
     //       VGA Controller     //
     //////////////////////////////;
+    reg VGA_en;
+
+    always_ff @( CLK_40 ) begin 
+        VGA_en <= VGA_sync_en || (read_bank1 || read_bank2); 
+    end
 
     VGA_top VGA_controller (
             .CLK_40(CLK_40),
             .reset(reset),
             .pixel_color(pixel_data_out), // input to VGA controller to display
-            .read_bank1(read_bank1),
-            .read_bank2(read_bank2),
+            .count_en(VGA_en),
             .VGA_R(VGA_R),
             .VGA_G(VGA_G),
             .VGA_B(VGA_B),

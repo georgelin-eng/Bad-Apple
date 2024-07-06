@@ -1,0 +1,124 @@
+`include "params.sv"
+// This module requires that CDC on data_write_clk and SPI_clk has been dealt with
+
+module CALIBRATION_FSM(
+    input        CLK_40,
+    input        data_write_clk,      // internal
+    input        SPI_clk,             // external 
+    input        reset,
+
+    input        phase_cal_start,
+    output logic phase_adjust
+);
+
+    logic [1:0] SPI_clk_buff, data_write_clk_buff;
+    logic SPI_falling_edge;
+    logic data_clk_rising_edge;
+    logic special_edge_event;
+
+    assign special_edge_event = SPI_falling_edge & data_clk_rising_edge;
+
+    typedef enum logic [2:0] {IDLE, EDGE_DETECT, SPI_EARLY, DATA_CLK_EARLY, PHASE_CALC, PHASE_ADJUST, XX};
+    statetype state, nextstate;
+
+    // State register
+    always_ff @( posedge CLK_40 ) begin 
+        if (reset) state <= IDLE;
+        else       state <= nextstate;
+    end
+
+    // next state logic
+    always_comb begin
+        nextstate = XX; 
+        case (state)
+            IDLE             : if (phase_cal_start)           nextstate = EDGE_DETECT;
+                               else                           nextstate = IDLE;
+            EDGE_DETECT      : if (special_edge_event)        nextstate = PHASE_ADJUST;
+                               else if (SPI_falling_edge)     nextstate = SPI_EARLY;
+                               else if (data_clk_rising_edge) nextstate = DATA_CLK_EARLY;
+                               else                           nextstate = EDGE_DETECT;
+            SPI_EARLY        : if (data_clk_rising_edge)      nextstate = PHASE_CALC;
+                               else                           nextstate = SPI_EARLY;
+            DATA_CLK_EARLY   : if (SPI_falling_edge)          nextstate = PHASE_CALC;
+                               else                           nextstate = DATA_CLK_EARLY;
+            PHASE_CAL        : if (counter <= 7)              nextstate = PHASE_ADJUST; // Threshold for what's considered close to 180
+                               else                           nextstate = IDLE;
+            PHASE_ADJUST     :                                nextstate = PHASE_ADJUST; //Stay in this phase
+        endcase
+    end
+
+    ////////////////////////////////
+    //   Edge Event Detection     //
+    ////////////////////////////////
+
+    always_ff @ (posedge CLK_40) begin
+        if (phase_cal_en) begin
+            // shift registers
+            SPI_clk_buff        <= {SPI_clk_buff [0], SPI_clk}; 
+            data_write_clk_buff <= {data_write_clk_buff [0], data_write_clk}; 
+
+            // detect rising and falling edge events for each one
+            SPI_falling_edge      <= (SPI_clk_buff == 2'b10);
+            data_clk_rising_edge  <= (data_write_clk_buff == 2'b01);
+        end
+    end
+
+    ////////////////////////////////
+    //      Phase Calculation     // 
+    ////////////////////////////////
+
+    // If the Falling edge and rising edge are sufficiently close
+    // There is a risk of metastability when sampling due to jitter
+    // At 180 degree phase diff, it is as though data is shifted 
+    // on falling edge of SPI_clk and then sampled on the falling edge as well
+
+    // There will be a register that stores the incoming data
+    // Normally, store just on falling edge events. 
+    // If 180 degrees, store on rising edge instead
+
+    reg [4:0] counter; // 180 degree -> up to 20 clock cycles
+
+    always_ff @ (posedge CLK_40) begin
+        if (reset) begin
+            counter <= 'b0;
+        end
+        else begin
+            counter <= 'b0;
+            phase_adjust <= 1'b0;
+            // The smaller the counter, the phase is closer to 180
+            case(nextstate)
+                SPI_EARLY      : counter  <= counter + 1; 
+                DATA_CLK_EARLY : counter  <= counter + 1; 
+                PHASE_ADJUST   : phase_adjust <= 1'b1;
+            endcase
+        end
+    end 
+
+endmodule
+
+
+// Logic prototype for 
+
+module data_select (
+    input CLK_40,
+    input phase_adjust,
+    input SPI_falling_edge,
+    input SPI_rising_edge,
+    output reg data_in_buff
+);
+
+    // if phase calibration == 0
+
+    
+    always_ff @ (posedge CLK_40) begin
+        if (phase_adjust == 1'b1)
+            if (SPI_falling_edge) begin
+                data_in_buff <= data_in;
+            end
+        else if (phase_adjust == 1'b0) 
+            if (SPI_rising_edge) begin
+                data_in_buff <= data_in;
+            end
+    end 
+
+endmodule

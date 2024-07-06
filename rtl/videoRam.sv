@@ -246,8 +246,8 @@ module single_clk_ram # (
     end
 
     always @ (negedge clk) begin
-        // if (we)
-        //     mem[write_address] <= d; // write operation
+        if (we)
+            mem[write_address] <= d; // write operation
         q <= mem[read_address];      // read operation
     end
 

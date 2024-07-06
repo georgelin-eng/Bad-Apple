@@ -115,8 +115,9 @@ module badApple_top (
         .switch_mode(start_req),
         .read_bank1 (read_bank1),
         .read_bank2 (read_bank2),
-        .write_bank1 (write_bank1),
-        .write_bank2 (write_bank2)
+        .phase_cal_en (phase_cal_en),
+        .VGA_en (VGA_sync_en),
+        .pause_en(pause_en)
     );
     
 
@@ -141,6 +142,8 @@ module badApple_top (
     /////////////////////////////////
     //        Video Modules        //
     /////////////////////////////////
+; 
+ 
 
     video_top VIDEO_CONTROLLER (
         .CLK_40(CLK_40),
@@ -150,6 +153,7 @@ module badApple_top (
         .read_bank2 (read_bank2),
         .chip_select(chip_select),
         .video_data_ready(video_data_ready),
+        .VGA_sync_en(VGA_sync_en), 
 
         .SPI_clk_en(SPI_clk_en),
         .MISO(MISO),

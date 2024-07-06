@@ -14,49 +14,46 @@
 
 module DATA_FSM (
     input  wire     CLK_40,
-    input  wire     SPI_clk_en, // FSM operations are controlled on the SPI clock
+    input  wire     SPI_clk,
+    input  wire     data_write_clk,
+    input  wire     SPI_clk_rising_edge, 
+    input  wire     data_clk_rising_edge,
     input  wire     reset,
 
     // video data control signals
-    input  logic     init,       // initial kickoff controlled from push button
-    input  logic     start_req,  // set ~1s in mode_FSM
+    input  logic     start_req,  // set every ~1s in MODE_FSM as switch_mode
     output logic     video_data_ready,
     output logic     audio_data_ready,
 
 
     // SPI signals
     input  wire     MISO,             // MISO
-    output logic    MOSI,             // MOSI
     output logic    chip_select,      // SS
 
     // Audio data control signals
-    output reg      write_audio
+    output logic    received_bit      // received data that is to be used by video
 );
-    typedef enum logic [2:0] {IDLE, REQ, PARSE, RECEIVE_V, RECEIVE_A, XX} statetype;
-    statetype state, nextstate;
-
-
     // Internal signals for managing SPI communications
-    // Configuring SPI to use 8 bit words
-    reg [7:0]  CMD = `DATA_CMD;
-    reg [7:0]  CMD_BUFF;             // Output - This will be set to either video or audio command in the FSM 
-    reg [7:0]  DATA_HEADER_BUFF;     // Input - buffer to store the MISO data when in parse modes
-    reg [15:0] AUDIO_BUFF;          // Input - buffer to store the MISO data for audio. If might be a diff. size than the data header
+    // An incoming bit is buffered into a FIFO then read out on the positive edge of the data_write_clk
+    // Received bits are fed into a packet header buffer to process an incoming data packet 
+    // which will contain the video and audio data
+    // This is necessary since the way to communicate from the PC that data is ready will have inconsistent timing
+    // due to software limitations. Instead data is preceded by xFF which will be parsed
+    reg       [7:0]       DATA_HEADER_BUFF;     // Input - buffer to store the MISO data when in parse modes
+    reg       [15:0]      AUDIO_BUFF;          // Input - buffer to store the MISO data for audio. If might be a diff. size than the data header
 
-
-
-    integer i, j, k;
     /////////////////////////////
     //      Shift Register     //
     /////////////////////////////
 
+    integer i, j, k;
     always_ff @ (posedge CLK_40) begin
         if (reset) begin
             DATA_HEADER_BUFF <= 'b0;
             AUDIO_BUFF        <= 'b0;   
-        end else if (SPI_clk_en) begin
-            AUDIO_BUFF[0]        <= MISO;
-            DATA_HEADER_BUFF[0]  <= MISO;
+        end else if (data_clk_rising_edge) begin
+            AUDIO_BUFF[0]        <= received_bit;
+            DATA_HEADER_BUFF[0]  <= received_bit;
 
             for (i = 1; i <= 7; i = i+1) begin
                 DATA_HEADER_BUFF[i] <= DATA_HEADER_BUFF[i-1];
@@ -67,8 +64,20 @@ module DATA_FSM (
             end
         end
     end
+
+
+    /////////////////////////////
+    //           FSM           //
+    /////////////////////////////
+
+
+    typedef enum logic [2:0] {IDLE, FILL_FIFO, PARSE, RECEIVE_V, RECEIVE_A, EMPTY_FIFO, XX} statetype;
+    statetype state, nextstate;
     
-    logic       request_sent_done, parse_done;
+    logic       fill_FIFO;
+    logic       sync_FIFO_done, parse_done;
+    logic       FIFO_empty, FIFO_full;
+    logic       FIFO_read_en, FIFO_write_en;
     logic [7:0] DATA_HEADER_XNOR_BUFF;
     logic [3:0] num_match;
     logic [3:0] cmd_bit_count;
@@ -87,16 +96,18 @@ module DATA_FSM (
     always_comb begin
         nextstate = XX; 
         case (state)
-            IDLE      : if (init| start_req)     nextstate = REQ;
+            IDLE      : if (start_req)           nextstate = FILL_FIFO;
                         else                     nextstate = IDLE;     // idle basically means just display video without sending requests / doing writing
-            REQ       : if (request_sent_done)   nextstate = PARSE;
-                        else                     nextstate = REQ;
+            FILL_FIFO : if (sync_FIFO_done)      nextstate = PARSE;
+                        else                     nextstate = FILL_FIFO;
             PARSE     : if (parse_done)          nextstate = RECEIVE_V;
                         else                     nextstate = PARSE;             
             RECEIVE_V : if (video_bank_full)     nextstate = RECEIVE_A;
                         else                     nextstate = RECEIVE_V;
-            RECEIVE_A : if (audio_bank_full)     nextstate = IDLE;
+            RECEIVE_A : if (audio_bank_full)     nextstate = EMPTY_FIFO;
                         else                     nextstate = RECEIVE_A;
+            EMPTY_FIFO: if (FIFO_empty)          nextstate = IDLE;
+                        else                     nextstate = EMPTY_FIFO;
         endcase
     end
 
@@ -104,44 +115,32 @@ module DATA_FSM (
     // registered output logic
     always_ff @ (posedge CLK_40) begin
         if (reset) begin
-            write_audio    <= 1'b0;
-            CMD            <= 8'b0;
-            MOSI           <= 1'b1;
             cmd_bit_count  <=  'b0;
             chip_select    <= 1'b1; // chip_select is high as default and active low for communications
             DATA_HEADER_XNOR_BUFF <= 8'b0;
         end 
-        else if (SPI_clk_en) 
+        else if (data_clk_rising_edge) // should happen aligned with the data_write_clk
         begin
             video_data_ready  <= 1'b0;  // defaults. Set only the signals that change and they are registered. 
             audio_data_ready  <= 1'b0;
-            CMD               <= 8'b0;
-            MOSI              <= 1'b0;
-            chip_select       <= 1'b1;
+            chip_select       <= 1'b1; // active high
             parse_done        <= 1'b0;
-            request_sent_done <= 1'b0;
-            write_audio       <= 1'b0;
+            FIFO_write_en     <= 1'b0;
+            FIFO_read_en      <= 1'b0;
+            fill_FIFO         <= 1'b0;
 
             DATA_HEADER_XNOR_BUFF <= 8'b0;
 
             case(nextstate)
-                REQ      : begin 
-                                CMD         <= `DATA_CMD;
+                FILL_FIFO: begin 
+                                FIFO_write_en <= 1'b1;  // write but don't read
+                                fill_FIFO    <= 1'b1;
+                           end 
+                PARSE    : begin
+                                FIFO_write_en <= 1'b1;  // write but don't read
+                                FIFO_read_en <= 1'b1;
                                 chip_select <= 1'b0;
 
-                                cmd_bit_count <= cmd_bit_count + 1; // increment in sync with SPI clock
-                                if (cmd_bit_count < 8) begin
-                                    MOSI <= CMD[cmd_bit_count];
-                                end
-
-                                if (cmd_bit_count == 8) begin
-                                    cmd_bit_count <= 'b0;
-                                    request_sent_done <= 1'b1;
-                                end
-                             end
-
-                PARSE    : begin 
-                                chip_select <= 1'b0;
                                 DATA_HEADER_XNOR_BUFF <= ~(DATA_HEADER_BUFF ^ `DATA_HEADER);
 
                                 num_match = DATA_HEADER_XNOR_BUFF[0] + 
@@ -153,55 +152,69 @@ module DATA_FSM (
                                             DATA_HEADER_XNOR_BUFF[6] +
                                             DATA_HEADER_XNOR_BUFF[7];
 
-                                parse_done <=(num_match >= 7);  // allows one single bit to be wrong
+                                parse_done <=(num_match >= 7); // adjust this amount so that the state transition has correct timing
                              end
 
                 RECEIVE_V  : begin 
                                 chip_select <= 1'b0;
                                 video_data_ready <= 1'b1;
+                                FIFO_write_en <= 1'b1;
+                                FIFO_read_en <= 1'b1;
                             end
 
                 RECEIVE_A  : 
                             begin
                                 chip_select <= 1'b0;
-                                write_audio <= 1'b1;
                                 audio_data_ready <= 1'b1;
+                                FIFO_write_en <= 1'b1;
+                                FIFO_read_en <= 1'b1;
                             end
+
+                EMPTY_FIFO: FIFO_read_en <= 1'b1; // read until empty
             endcase
         end
     end
 
+    sync_FIFO SYNC_FIFO (
+        .CLK_40(CLK_40),
+        .reset(reset),
+        .write_clk(SPI_clk),
+        .write_en(FIFO_write_en),
+        .read_clk(data_write_clk),
+        .read_en(FIFO_read_en),
+        .din(MISO),
+        .dout(received_bit),
+        .empty(FIFO_empty),
+        .full(FIFO_full)
+    );
 
-    logic [31:0] video_mem_count;
-    logic [31:0] audio_mem_count;
+    counter  #( .THRESHOLD(`VIDEO_MEM_CELL_COUNT))
+    VIDEO_WRITE_MODE_SYNC (
+        .clk(CLK_40),
+        .reset(reset),
+        .count_en(video_data_ready),
+        .clk_en(data_clk_rising_edge),
+        .enable_signal(video_bank_full)
+    );
 
-    // counter for writing video
-    always_ff @ (posedge CLK_40) begin
-        if (reset) begin
-            video_mem_count <= 0;
-        end else if (SPI_clk_en & video_data_ready) begin
-            video_mem_count <= video_mem_count + 1;
+    counter  #( .THRESHOLD(`AUDIO_MEM_CELL_COUNT)) 
+    AUDIO_WRITE_MODE_SYNC  (
+        .clk(CLK_40),
+        .reset(reset),
+        .count_en(audio_data_ready),
+        .clk_en(data_clk_rising_edge),
+        .enable_signal(audio_bank_full)
+    );
 
-            video_bank_full <= (video_mem_count == `VIDEO_MEM_CELL_COUNT -1);
-            
-            if (video_mem_count == `VIDEO_MEM_CELL_COUNT -1 ) begin
-               video_mem_count <= 0;
-            end
-        end
-    end
+    // FIFO delay amount 
+    counter  #( .THRESHOLD(`FIFO_BUFF_AMOUNT * 40))  
+    FIFO_FILL_COUNTER (
+        .clk(CLK_40),
+        .reset(reset),
+        .count_en(fill_FIFO),
+        .clk_en(1'b1),
+        .enable_signal(sync_FIFO_done)
+    );
 
-    // counter for writing audio
-    always_ff @ (posedge CLK_40) begin
-        if (reset) begin
-            audio_mem_count <= 0;
-        end else if (SPI_clk_en & audio_data_ready) begin
-            audio_mem_count <= audio_mem_count + 1;
 
-            audio_bank_full <= (audio_mem_count == `AUDIO_MEM_CELL_COUNT -1);
-            
-            if (audio_mem_count == `AUDIO_MEM_CELL_COUNT -1 ) begin
-               audio_mem_count <= 0;
-            end
-        end
-    end
 endmodule
