@@ -1,36 +1,81 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import time
+import os
+from pyftdi.spi import SpiController
 
-# Define parameters
-frequency = 1e6  # 1 MHz clock
-period = 1 / frequency  # period of the clock
-t = np.linspace(0, 5 * period, 1000)  # time vector for 5 periods
+spi = SpiController()
+spi.configure('ftdi://ftdi:232h/1')
+slave = spi.get_port(cs=0, freq=1E6, mode = 0)
 
-# Generate clock signals with phase shifts (square waves)
-phases = np.arange(-180, 181, 45)
-clocks = {phase: 0.5 * (1 + np.sign(np.sin(2 * np.pi * frequency * t + np.deg2rad(phase)))) for phase in phases}
+def read_bits_from_file(file_path):
+    with open(file_path, 'r') as file:
+        bits_string = file.read().strip()  # Read all bits and remove any surrounding whitespace
+        bits_list = [int(bit) for bit in bits_string if bit.strip() in ('0', '1')]  # Convert each character to an integer (0 or 1)
+    return bits_list
 
-# Generate data output signal with double the frequency, aligned to the falling edge of the 0-degree clock
-dataout_frequency = 0.5 * frequency  # 2 MHz dataout
-dataout = 0.5 * (1 + np.sign(np.sin(2 * np.pi * dataout_frequency * t)))
+def bits_to_bytes(bits):
+    # Ensure the length of bits is a multiple of 8 (assuming complete bytes)
+    if len(bits) % 8 != 0:
+        raise ValueError("Length of bits must be a multiple of 8 for byte conversion")
 
-# Plotting
-fig, axes = plt.subplots(3, 4, figsize=(15, 10), sharex=True, sharey=True)
+    bytes_list = []
+    for i in range(0, len(bits), 8):
+        byte = 0
+        for j in range(8):
+            byte = (byte << 1) | bits[i + j]
+        bytes_list.append(byte)
+    
+    return bytes_list
 
-# Plot each clock signal in a subplot
-for ax, (phase, clock) in zip(axes.flatten(), clocks.items()):
-    ax.plot(t, clock, label=f'{phase}°')
-    ax.plot(t, dataout - 2, label='Dataout (2 MHz)', color='black', linewidth=2)
-    ax.set_title(f'Phase: {phase}°')
-    ax.grid(True)
-    ax.set_ylim(-3, 3)
-    ax.legend()
+directory_path = os.getcwd()
+directory_path = os.path.join(directory_path, 'rtl\\frames')
+file_path = os.path.join(directory_path, "frame_1.mem")
+prefix = 'frame'
+start_frame = 1
+end_frame = 1
 
-# Configure global plot settings
-fig.suptitle('50% Duty Cycle Square Clock Signals with Various Phase Shifts', fontsize=16)
-fig.text(0.5, 0.04, 'Time (s)', ha='center', fontsize=14)
-fig.text(0.04, 0.5, 'Amplitude', va='center', rotation='vertical', fontsize=14)
-plt.tight_layout(rect=[0.03, 0.03, 1, 0.95])
+# Simulating the cs_pin.value check
+class Pin:
+    def __init__(self, initial_state=True):
+        self.value = initial_state
 
-# Show plot
-plt.show()
+# Create a simulated pin
+cs_pin = Pin(initial_state=True)
+
+# Measure the time for a large number of iterations
+iterations = 15 * 10
+iteration_times = []
+
+video_bytes = 56250 + 1 + 250
+audio_bytes = 32000 + 1 + 250
+num_bytes = video_bytes + audio_bytes
+
+#################################################
+
+bit_stream = read_bits_from_file(file_path)
+bytes_list = bits_to_bytes(bit_stream) 
+
+for _ in range(iterations):
+    iteration_start_time = time.time()  # Start time for this iteration
+
+    while cs_pin.value:
+        break  # Immediately break to measure loop overhead
+    slave.write(bytes_list)
+
+    iteration_end_time = time.time()  # Start time for this iteration
+    
+    iteration_time = iteration_end_time - iteration_start_time
+    iteration_times.append(iteration_time)
+    print(f"Done loop : iteration time = {iteration_time}")
+
+bytes_list = len(bit_stream) * iterations
+
+# print (bit_stream)
+
+# Calculate the total time, average time, and maximum time per iteration
+total_time = sum(iteration_times)
+time_per_iteration = (total_time / iterations) 
+max_time_per_iteration = max(iteration_times) 
+
+print(f"Total time for {iterations} iterations: {total_time:.6f} seconds")
+print(f"Average time per iteration: {time_per_iteration:.6f} seconds")
+print(f"Maximum time for a single iteration: {max_time_per_iteration:.6f} seconds")

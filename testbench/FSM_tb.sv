@@ -13,7 +13,7 @@ module FSM_tb ();
 
     logic [7:0] VGA_R, VGA_B, VGA_G;
 
-    logic sending_header;
+    logic sending_data;
     logic send_video_data;
     logic data;
     integer file1, file2;
@@ -27,9 +27,25 @@ module FSM_tb ();
         .MISO_CDC(MISO_CDC),
         .SPI_clk_CDC(SPI_clk_CDC),
         .data_write_clk_CDC(data_write_clk_CDC),
-        .data(data)
+        .received_bit(received_bit),
+        .video_data_ready(video_data_ready),
+        .SPI_clk_rising_edge(SPI_clk_rising_edge),
+        .data_clk_rising_edge(data_clk_rising_edge),
+        .chip_select(chip_select)
     );
 
+    reg [23:0] DATA_BUFF;
+    logic get_data_en;
+
+    always_ff @ (posedge CLK_40) begin
+        get_data_en <= video_data_ready & data_clk_rising_edge;
+    end
+    
+    always_ff @ (posedge CLK_40) begin
+        if (get_data_en) begin
+            DATA_BUFF <= {DATA_BUFF[22:0], received_bit};
+        end
+    end
 
     // Instantiate data aquisition FSM
     // DATA_FSM DATA_FSM (
@@ -106,26 +122,32 @@ module FSM_tb ();
         $display("waited %d us", x);
     endtask //automatic
 
-    reg[7:0] data_header = 8'b11111111;
-    task static send_data_header();
-        sending_header = 1;
-        for (int i = 7; i >= 0; i=i-1) begin
-            @(negedge SPI_clk_CDC) begin
-                MISO_CDC = data_header[i];
-            end
-        end   
+    task automatic send_data(input logic [7:0] data);
+        sending_data = 1;  // Assuming sending_data is a signal or variable defined elsewhere
+        for (int i = 7; i >= 0; i = i - 1) begin
+            @(negedge SPI_clk_CDC);
+            MISO_CDC <= data[i];  // Use non-blocking assignment for MISO_CDC
+        end
+        sending_data = 0;  // Assuming you're clearing sending_data after sending data
+    endtask
 
-        sending_header = 0;
-    endtask // static
 
     initial begin
-        sending_header = 0;
-        
+        sending_data = 0;
+        reset = 0;
+        wait_us(10);
         // reset sequence
         reset = 1;
-        @ (posedge CLK_40);
         wait_us(1);
         reset = 0; # 50; 
+        wait_us(1);
+        reset = 1;
+        wait_us(2);
+        reset =0;
+        wait_us(3);
+        reset = 1;
+        wait_us(50);
+        reset = 0;
         $display(`MODE_SWITCH_THRESHOLD);
 
         wait_us(2);
@@ -136,14 +158,21 @@ module FSM_tb ();
 
         wait_us(20);
 
+
         @ (posedge (FSM_TOP.MODE_FSM.pause_en));
         wait_us(20);
         vid_start = 1'b1;
         @ (posedge (FSM_TOP.MODE_FSM.pause_done));
-        wait_us($urandom_range(25, 100));
-        send_data_header ();
-        send_video_data = 1'b1;
-        wait_us(2050);
+        wait_us($urandom_range(100, 250));
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'hFF);
+        send_data (8'hBB);
+        send_data (8'hA0);
+        send_data (8'hD2);
+        send_data (8'h00); // the fill FIFO state means that data will not SPI clk will end before 
+        send_data (8'h00); // the fill FIFO state means that data will not SPI clk will end before 
+        wait_us(8);
 
         $stop;
     end
@@ -154,20 +183,31 @@ module FSM_tb ();
         CLK_40 = 1; #12.5;
     end
 
+
+
+
+    ///////////////////////////////////////
+    //        SPI clock Generation       //
+    ///////////////////////////////////////
     initial begin
-        automatic integer jitter_amount = 250; // This is 10% jitter which is quite high
+        automatic integer jitter_amount = 350; // This is 10% jitter which is quite high
         automatic integer jitter1 = jitter(jitter_amount/2);
         automatic integer jitter2 = jitter(jitter_amount/2);
-        #500;  
+        #0;  
 
         SPI_clk_CDC = 1; #(500 + jitter1);
         SPI_clk_CDC = 0; #(500 - jitter1 +  jitter2); // jitter applied to falling edge or normal clock
 
         forever begin
-            jitter1 = jitter(jitter_amount/2);
-            SPI_clk_CDC = 1; #(500 - jitter2 + jitter1); 
-            jitter2 = jitter(jitter_amount/2);
-            SPI_clk_CDC = 0; #(500 - jitter1 + jitter2);
+            if (sending_data) begin
+                jitter1 = jitter(jitter_amount/2);
+                SPI_clk_CDC = 1; #(500 - jitter2 + jitter1); 
+                jitter2 = jitter(jitter_amount/2);
+                SPI_clk_CDC = 0; #(500 - jitter1 + jitter2);
+            end
+            else begin
+                SPI_clk_CDC = 0; #1000;
+            end
         end
     end
 
@@ -182,29 +222,28 @@ module FSM_tb ();
     //        File Checker       //
     ///////////////////////////////
 
-    initial begin
-        // Open a file to write
-        file1 = $fopen("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\testbench\\MISO_CDC_data.txt", "w");
-        MISO_CDC = 1'b0;
-        forever begin
-            @ (negedge SPI_clk_CDC);
-            if (~sending_header) begin
-               if (send_video_data) MISO_CDC = $random % 2;
-               else MISO_CDC = 0; 
-            end
-            $fwrite(file1, "%b\n", MISO_CDC);
-        end
-    end
+    // initial begin
+    //     // Open a file to write
+    //     file1 = $fopen("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\testbench\\MISO_CDC_data.txt", "w");
+    //     MISO_CDC = 1'b0;
+    //     forever begin
+    //         @ (negedge SPI_clk_CDC);
+    //         if (~sending_data) begin
+    //             MISO_CDC = 1'b0;
+    //         end
+    //         $fwrite(file1, "%b\n", MISO_CDC);
+    //     end
+    // end
 
-    initial begin
-        file2 = $fopen("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\testbench\\sampled_data.txt", "w");
+    // initial begin
+    //     file2 = $fopen("C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\testbench\\sampled_data.txt", "w");
 
-        forever begin
-            @ (posedge FSM_TOP.data_write_clk) begin 
-                $fwrite(file2, "%b\n", data);
-            end
-        end
-    end
+    //     forever begin
+    //         @ (posedge FSM_TOP.data_write_clk) begin 
+    //             $fwrite(file2, "%b\n", data);
+    //         end
+    //     end
+    // end
 
 
     

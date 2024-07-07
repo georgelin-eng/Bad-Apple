@@ -7,7 +7,11 @@ module FSM_top (
     input SPI_clk_CDC,               // _CDC means that CDC still needs to be dealt with
     input data_write_clk_CDC,
 
-    output reg data
+    output logic received_bit,
+    output logic video_data_ready,
+    output logic data_clk_rising_edge,
+    output logic SPI_clk_rising_edge,
+    output logic chip_select
 );
 
     /////////////////////////////
@@ -64,9 +68,9 @@ module FSM_top (
    edge_detect data_clk_edge (
         .sample_clk(CLK_40),
         .reset(reset),
-        .target_data(SPI_clk),
+        .target_data(data_write_clk),
         .rising_edge(data_clk_rising_edge),
-        .falling_edge()
+        .falling_edge(data_clk_falling_edge)
     );
 
     logic start_req;
@@ -74,11 +78,14 @@ module FSM_top (
 
     DATA_FSM DATA_FSM (
         .CLK_40(CLK_40),
-        .SPI_clk(SPI_clk),
-        .data_write_clk(data_write_clk),
+        .SPI_clk(SPI_clk), // Inside the 40MHz clock domain
+        .SPI_clk_CDC(SPI_clk_CDC),
+        .data_write_clk(data_write_clk), // Inside the 40MHz clock domain
+        .data_write_clk_CDC(data_write_clk_CDC),
         .reset(reset),
         .SPI_clk_rising_edge(SPI_clk_rising_edge),
         .data_clk_rising_edge(data_clk_rising_edge),
+        .data_clk_falling_edge(data_clk_falling_edge),
         .start_req(start_req),
         .video_data_ready(video_data_ready),
         .audio_data_ready(audio_data_ready),
@@ -89,36 +96,36 @@ module FSM_top (
         .received_bit(received_bit)
     );
 
-    logic VGA_en;
-    logic pixel_color;
-    logic pixel_data_out;
+    // logic VGA_en;
+    // logic pixel_color;
+    // logic pixel_data_out;
 
-    wire [7:0] VGA_R, VGA_B, VGA_G;
+    // wire [7:0] VGA_R, VGA_B, VGA_G;
 
-    assign pixel_data_out = received_bit;
+    // assign pixel_data_out = received_bit;
 
-    assign VGA_en = VGA_startup_en || (read_bank1 || read_bank2);
+    // assign VGA_en = VGA_startup_en || (read_bank1 || read_bank2);
 
-    always_comb begin
-        if (VGA_startup_en) pixel_color = 1'b1;
-        else                pixel_color = pixel_data_out;
-    end
+    // always_comb begin
+    //     if (VGA_startup_en) pixel_color = 1'b1;
+    //     else                pixel_color = pixel_data_out;
+    // end
 
-    VGA_top VGA_top (
-            .CLK_40(CLK_40),
-            .reset(reset),
-            .pixel_color(pixel_color), // input to VGA controller to display
-            .count_en(VGA_en),
-            .VGA_R(VGA_R),
-            .VGA_G(VGA_G),
-            .VGA_B(VGA_B),
-            .VGA_CLK(VGA_CLK),
-            .VGA_SYNC_N(VGA_SYNC_N),
-            .VGA_BLANK_N(VGA_BLANK_N),
-            .VGA_VS(VGA_VS),
-            .VGA_HS(VGA_HS),
-            .ACTIVE(ACTIVE)
-        );
+    // VGA_top VGA_top (
+    //         .CLK_40(CLK_40),
+    //         .reset(reset),
+    //         .pixel_color(pixel_color), // input to VGA controller to display
+    //         .count_en(VGA_en),
+    //         .VGA_R(VGA_R),
+    //         .VGA_G(VGA_G),
+    //         .VGA_B(VGA_B),
+    //         .VGA_CLK(VGA_CLK),
+    //         .VGA_SYNC_N(VGA_SYNC_N),
+    //         .VGA_BLANK_N(VGA_BLANK_N),
+    //         .VGA_VS(VGA_VS),
+    //         .VGA_HS(VGA_HS),
+    //         .ACTIVE(ACTIVE)
+    //     );
 
 
 endmodule  

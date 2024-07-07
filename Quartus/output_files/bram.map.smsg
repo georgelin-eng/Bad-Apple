@@ -1,1 +1,4 @@
-Warning (10268): Verilog HDL information at DATA_FSM.sv(105): always construct contains both blocking and non-blocking assignments File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv Line: 105
+Info (10281): Verilog HDL Declaration information at data_translater.sv(19): object "SPI_clk" differs only in case from object "SPI_CLK" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_translater.sv Line: 19
+Info (10281): Verilog HDL Declaration information at data_translater.sv(19): object "data_write_clk" differs only in case from object "DATA_WRITE_CLK" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/data_translater.sv Line: 19
+Warning (10268): Verilog HDL information at DATA_FSM.sv(121): always construct contains both blocking and non-blocking assignments File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv Line: 121
+Info (10281): Verilog HDL Declaration information at DATA_FSM.sv(77): object "FILL_FIFO" differs only in case from object "fill_FIFO" in the same scope File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/rtl/DATA_FSM.sv Line: 77

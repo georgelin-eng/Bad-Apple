@@ -142,7 +142,7 @@ module badApple_top (
     /////////////////////////////////
     //        Video Modules        //
     /////////////////////////////////
-; 
+
  
 
     video_top VIDEO_CONTROLLER (

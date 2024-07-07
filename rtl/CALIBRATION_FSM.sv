@@ -211,7 +211,7 @@ endmodule
 
 
 module sync_FIFO #(
-    parameter DEPTH = 32, 
+    parameter DEPTH = 128, 
     parameter DWIDTH = 1
 )
 (
@@ -233,23 +233,18 @@ module sync_FIFO #(
 
     reg [DWIDTH-1:0] FIFO [DEPTH];
 
-    always_ff @ (posedge CLK_40) begin
-        if (reset) begin
-            write_ptr <= 0;
-            read_ptr  <= 0;
-        end
-    end
-    
 
     always_ff @ (posedge write_clk) begin
-        if (write_en & !full) begin
+	    if (reset) write_ptr <= 0; 
+        else if (write_en & !full) begin
             FIFO[write_ptr] <= din;
             write_ptr <= write_ptr + 1;
         end
     end
 
     always_ff @ (posedge read_clk) begin
-        if (read_en & ! empty) begin
+	    if (reset) read_ptr <= 0;
+        else if (read_en & ! empty) begin
             dout <= FIFO [read_ptr];
             read_ptr <= read_ptr + 1;
         end

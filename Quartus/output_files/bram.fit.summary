@@ -1,16 +1,16 @@
-Fitter Status : Successful - Sun Jun 30 18:34:07 2024
+Fitter Status : Successful - Sun Jul 07 11:22:45 2024
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : bram
-Top-level Entity Name : badApple_top
+Top-level Entity Name : data_translater
 Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
-Logic utilization (in ALMs) : 321 / 32,070 ( 1 % )
-Total registers : 340
-Total pins : 124 / 457 ( 27 % )
+Logic utilization (in ALMs) : 643 / 32,070 ( 2 % )
+Total registers : 1277
+Total pins : 137 / 457 ( 30 % )
 Total virtual pins : 0
-Total block memory bits : 900,000 / 4,065,280 ( 22 % )
-Total RAM Blocks : 120 / 397 ( 30 % )
+Total block memory bits : 2,097,280 / 4,065,280 ( 52 % )
+Total RAM Blocks : 257 / 397 ( 65 % )
 Total DSP Blocks : 0 / 87 ( 0 % )
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0

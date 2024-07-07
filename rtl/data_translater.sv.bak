@@ -1,0 +1,60 @@
+module data_translater (
+   // Clocking and intputs
+   input  wire          CLOCK_50,
+   input  wire  [3:0]   KEY,            // push buttons on the De1Soc
+
+   // Data Aquisition
+   input  logic [39:0]   GPIO_0,         // MISO, SPI_clk
+   output logic [39:0]   GPIO_1,         // chip_select
+   output logic [9:0]  LEDR
+);
+
+    logic SPI_clk_CDC;
+    logic MISO_CDC;
+    logic chip_select;
+    reg   [7:0] DATA_BUFF;
+    assign SPI_clk_CDC = GPIO_0[0];  // input
+    assign MISO_CDC    = GPIO_0[1];  // input 
+
+
+    assign reset     = ~KEY[0];       // input
+    assign init      = ~KEY[1];       // input
+    assign vid_start = ~KEY[2];       // input 
+
+    assign GPIO_1[0] = chip_select;   // output
+    assign LEDR[7:0] = DATA_BUFF;
+
+    VGA_40MHz clock_generation (
+            .refclk(CLOCK_50),
+            .rst(reset),
+            .outclk_0(CLK_40),
+            .outclk_1(data_write_clk),
+            .locked(locked)
+    );
+
+    FSM_top FSM_TOP (
+        .CLK_40(CLK_40),
+        .reset(reset),
+        .init(init),
+        .vid_start(vid_start),
+        .MISO_CDC(MISO_CDC),
+        .SPI_clk_CDC(SPI_clk_CDC),
+        .data_write_clk_CDC(data_write_clk),
+        .received_bit(received_bit),
+        .video_data_ready(video_data_ready),
+        .chip_select(chip_select)
+    );
+
+
+    /////////////////////////////////////
+    //   Registering my output data    //
+    /////////////////////////////////////
+
+
+    always_ff @ (posedge data_write_clk) begin
+        if (video_data_ready) begin
+            DATA_BUFF <= {DATA_BUFF[0], received_bit};
+        end
+    end
+
+endmodule

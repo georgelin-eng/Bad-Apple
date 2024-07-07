@@ -138,7 +138,8 @@ module debug_clk_gen (
 
     // parameter divisor = 331584;
     // parameter divisor = 331584; // 2 clock ticks = 1 frame, 60 frames = 120
-    parameter divisor = 4; // 2 clock ticks = 1 frame, 60 frames = 120
+    // parameter divisor = 4096; 
+    parameter divisor = 128; 
     always @(posedge CLK_40) begin
         if (reset) begin
             clk_debug   <= 1'b0;

@@ -9,6 +9,7 @@ module dff_sync2 (
     always_ff @ (posedge clk) begin
         if (reset) begin
             data_in1 <= 0;
+            data_out <= 0;
         end else begin
             data_in1 <= data_in;
             data_out <= data_in1;
