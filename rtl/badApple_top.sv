@@ -1,11 +1,12 @@
+`include "params.sv"
 module badApple_top (
    // Clocking and intputs
    input  wire          CLOCK_50,
    input  wire  [3:0]   KEY,            // push buttons on the De1Soc
 
    // Data Aquisition
-   input  logic [39:0]   GPIO_0,         // MISO
-   output logic [39:0]   GPIO_1,         // MOSI, chip_select, SPI_clk
+   input  logic [39:0]   GPIO_0,         // MISO, SPI_clk
+   output logic [39:0]   GPIO_1,         // chip_select
 
    // VGA
    output wire  [7:0]   VGA_R,          // to DAC 
@@ -21,122 +22,138 @@ module badApple_top (
    // Audio
 
 
-
    // Debugging
-   output logic [9:0]  LEDR
+   output logic [9:0]    LEDR, 
+
+   output logic [6:0]    HEX0,           // 7-segment display 0
+   output logic [6:0]    HEX1,           // 7-segment display 1 
+   output logic [6:0]    HEX2,           // 7-segment display 2 
+   output logic [6:0]    HEX3,           // 7-segment display 3
+   output logic [6:0]    HEX4,           // 7-segment display 4 
+   output logic [6:0]    HEX5            // 7-segment display 5 
 );
 
-
-    // Signal aliases
-
-    logic reset, INIATE, MOSI, MISO, chip_select;
-    logic CLK_40, SPI_clk, locked;
-    logic read_bank1, read_bank2;
-    logic mem_clk;
-
-    assign reset     = ~KEY[0];       // input
-    assign init      = ~KEY[1];       // input
-    // assign MISO      = GPIO_0[0];     // input
-    assign MISO      = 1'b1;          // get out of write state just for video playback testing
-    assign GPIO_1[1] = MOSI;          // output
-    assign GPIO_1[2] = chip_select;   // output
-    assign GPIO_1[3] = SPI_clk;       // output
-
-	 assign LEDR[0] = reset;
-	 assign LEDR[1] = init;
-     assign LEDR[2] = read_bank1 | read_bank2;
-    //  assign LEDR[3] = read_bank2;
-	 
-	 // Debug
-	 assign GPIO_1[4] = VGA_VS;
-	 assign GPIO_1[5] = VGA_HS;
-	//  assign GPIO_1[6] = VGA_CLK;
-	 assign GPIO_1[7] = VGA_SYNC_N;
-	 assign GPIO_1[8] = VGA_BLANK_N;
-	 assign GPIO_1[9] = VGA_R;
-	 assign GPIO_1[10] = VGA_G;
-	 assign GPIO_1[11] = VGA_B;
-     assign GPIO_1[6] = mem_clk; // in theory should always look like VGA_CLK
-	 logic clk_debug;
-     logic [3:0] bank_counter;
-     assign LEDR [7:4] = bank_counter;
-
+    /////////////////////////////////    
+    //   Input and output Signals  //
     /////////////////////////////////
-    //          Parameters         //
-    /////////////////////////////////
+    logic chip_select;
+    assign reset       = ~KEY[0];       // input
+    assign init        = ~KEY[1];       // input
+    assign vid_start   = ~KEY[2];       // input 
+
+    assign SPI_clk_CDC = GPIO_0[0];     // input
+    assign MISO_CDC    = GPIO_0[1];     // input 
 
 
+    assign GPIO_1[0]   = chip_select;   // output
 
 
     /////////////////////////////////
     //       Clock Generation      //
     /////////////////////////////////
+    
+    `ifndef DEBUG_ON
+        VGA_40MHz clock_generation (
+                .refclk(CLOCK_50),
+                .rst(reset),
+                .outclk_0(CLK_40),
+                .outclk_1(data_write_clk_CDC),
+                .locked(locked)
+        );
+
+        debug_clk_gen  #( .divisor (`FRAME_PIXEL_COUNT / 32) ) DEBUG_CLK 
+        (
+            .CLK_40(CLK_40),
+            .reset(reset),
+            .clk_debug(clk_debug)
+        );
+    `endif 
 
 
-    // clk enable signals are generated as well as regular clocks 
-    // This is to keep logic inside the same clock domain within the FPGA
-    // RAM read and write in video banks is done via a dedicated clock mux
-    // This is indented to be the only other clock domain
+    /////////////////////////////////
+    //    Clock Domain Crossing    //
+    /////////////////////////////////
 
-    wire SPI_clk_en, audio_clk_en;
+    // Here the SPI and data clocks are oversampled and brought into the
+    // 40MHz clock domain 
 
-    clk_en_gen CLK_EN_GEN (
-        .CLK_40(CLK_40),
+    dff_sync2 SPI_CLK (
+        .clk(CLK_40),                 // target clock domain
         .reset(reset),
-        .SPI_clk_en(SPI_clk_en),
-        .audio_clk_en(audio_clk_en)
+        .data_in(SPI_clk_CDC),        // clock domain that you're coming from
+        .data_out(SPI_clk)            // new data that's now in target clock domain
     );
 
-
-    debug_clk_gen DEBUG_CLK (
-        .CLK_40(CLK_40),
+    dff_sync2 DATA_CLK (
+        .clk(CLK_40),                 // target clock domain
         .reset(reset),
-        .clk_debug(clk_debug)
+        .data_in(data_write_clk_CDC),        // clock domain that you're coming from
+        .data_out(data_write_clk)            // new data that's now in target clock domain
     );
 
-    VGA_40MHz clock_generation (
-            .refclk(CLOCK_50),
-            .rst(reset),
-            .outclk_0(CLK_40),
-            .outclk_1(SPI_clk),
-            .locked(locked)
+     dff_sync2 DATA (
+        .clk(CLK_40),                 // target clock domain
+        .reset(reset),
+        .data_in(MISO_CDC),           // clock domain that you're coming from
+        .data_out(MISO)               // new data that's now in target clock domain
+    );
+
+    /////////////////////////////////
+    //       Edge Detection        //
+    /////////////////////////////////
+    edge_detect SPI_edge (
+        .sample_clk(CLK_40),
+        .reset(reset),
+        .target_data(SPI_clk),
+        .rising_edge(SPI_clk_rising_edge),
+        .falling_edge(SPI_clk_falling_edge)
+    );
+
+   edge_detect data_clk_edge (
+        .sample_clk(CLK_40),
+        .reset(reset),
+        .target_data(data_write_clk),
+        .rising_edge(data_clk_rising_edge),
+        .falling_edge(data_clk_falling_edge)
     );
 
 
     /////////////////////////////////
     //       Data Acquisition      //
     /////////////////////////////////
-
     MODE_FSM MODE_FSM (
         .CLK_40(CLK_40),
         .reset (reset),
         .init(init),
+        .vid_start(vid_start),
         
-        .switch_mode(start_req),
+        .switch_mode(switch_mode),
+        .start_data_FSM(start_data_FSM),
         .read_bank1 (read_bank1),
         .read_bank2 (read_bank2),
-        .phase_cal_en (phase_cal_en),
-        .VGA_en (VGA_sync_en),
+        .VGA_startup_en (VGA_startup_en),
         .pause_en(pause_en)
     );
     
-
-    // Instantiate data aquisition FSM
-   DATA_FSM DATA_FSM (
-        .CLK_40 (CLK_40),
-        .SPI_clk_en(SPI_clk_en),
-        .reset (reset),
-        .init(init),
-
+    DATA_FSM DATA_FSM (
+        .CLK_40(CLK_40),
+        .SPI_clk(SPI_clk), // Inside the 40MHz clock domain
+        .SPI_clk_CDC(SPI_clk_CDC),
+        .data_write_clk(data_write_clk), // Inside the 40MHz clock domain
+        .data_write_clk_CDC(data_write_clk_CDC),
+        .reset(reset),
+        .SPI_clk_rising_edge(SPI_clk_rising_edge),
+        .SPI_clk_falling_edge(SPI_clk_falling_edge),
+        .data_clk_rising_edge(data_clk_rising_edge),
+        .data_clk_falling_edge(data_clk_falling_edge),
         .start_req(start_req),
         .video_data_ready(video_data_ready),
         .audio_data_ready(audio_data_ready),
 
         .MISO(MISO),
-        .MOSI(MOSI),
         .chip_select(chip_select),
 
-        .write_audio ()
+        .received_bit(received_bit)
     );
 
     /////////////////////////////////
@@ -144,19 +161,18 @@ module badApple_top (
     /////////////////////////////////
 
  
-
     video_top VIDEO_CONTROLLER (
         .CLK_40(CLK_40),
-        .SPI_clk(SPI_clk),
+        .data_write_clk(data_write_clk),
+        .data_clk_rising_edge(data_clk_rising_edge),
         .reset(reset),
         .read_bank1 (read_bank1),
         .read_bank2 (read_bank2),
         .chip_select(chip_select),
         .video_data_ready(video_data_ready),
-        .VGA_sync_en(VGA_sync_en), 
-
-        .SPI_clk_en(SPI_clk_en),
-        .MISO(MISO),
+        .VGA_en(VGA_en), 
+        .VGA_startup_en(VGA_startup_en), 
+        .received_bit(received_bit),
 
         .VGA_R(VGA_R),
         .VGA_G(VGA_G),
@@ -165,10 +181,15 @@ module badApple_top (
         .VGA_SYNC_N(VGA_SYNC_N),
         .VGA_BLANK_N(VGA_BLANK_N),
         .VGA_VS(VGA_VS),
-        .VGA_HS(VGA_HS),
-        .bank_counter(bank_counter),
-        .mem_clk(mem_clk)
+        .VGA_HS(VGA_HS)
     );
+
+    /////////////////////////////////
+    //       Video Data Path       //
+    /////////////////////////////////
+
+    assign VGA_en = VGA_startup_en || (read_bank1 || read_bank2);
+    assign start_req = switch_mode || start_data_FSM;
 
 
     /////////////////////////////////
@@ -187,5 +208,34 @@ module badApple_top (
 
     // top level clock enable generator
     // contains 1Mhz SPI clock and 8kHz audio clock 
+
+    ///////////////////////////////
+    //    Debugging             //
+    ///////////////////////////////
+
+    reg   [23:0] DATA_BUFF;
+
+    always_ff @ (posedge data_write_clk) begin // seems like this can work but not using the deticated clocking resources
+        if (video_data_ready) begin
+            DATA_BUFF <= {DATA_BUFF[22:0], received_bit};
+        end
+    end
+
+    // Extract 4-bit nibbles from DATA_BUFF
+    wire [3:0] nibble0 = DATA_BUFF[3:0];
+    wire [3:0] nibble1 = DATA_BUFF[7:4];
+    wire [3:0] nibble2 = DATA_BUFF[11:8];
+    wire [3:0] nibble3 = DATA_BUFF[15:12];
+    wire [3:0] nibble4 = DATA_BUFF[19:16];
+    wire [3:0] nibble5 = DATA_BUFF[23:20];
+
+    // Instantiate hex_to_7segment modules for each display
+    hex_to_7segment u0 (.hex_digit(nibble0), .segments(HEX0));
+    hex_to_7segment u1 (.hex_digit(nibble1), .segments(HEX1));
+    hex_to_7segment u2 (.hex_digit(nibble2), .segments(HEX2));
+    hex_to_7segment u3 (.hex_digit(nibble3), .segments(HEX3));
+    hex_to_7segment u4 (.hex_digit(nibble4), .segments(HEX4));
+    hex_to_7segment u5 (.hex_digit(nibble5), .segments(HEX5));
+
 
 endmodule

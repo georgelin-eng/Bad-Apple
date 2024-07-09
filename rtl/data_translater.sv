@@ -95,12 +95,18 @@ module data_translater (
 
     logic get_data_en;
 
-    always_ff @ (posedge CLK_40) begin
-        get_data_en <= video_data_ready & data_clk_rising_edge;
-    end
+    // always_ff @ (posedge CLK_40) begin
+    //     get_data_en <= video_data_ready & data_clk_rising_edge;
+    // end
     
-    always_ff @ (posedge CLK_40) begin
-        if (get_data_en) begin
+    // always_ff @ (posedge CLK_40) begin
+    //     if (get_data_en) begin
+    //         DATA_BUFF <= {DATA_BUFF[22:0], received_bit};
+    //     end
+    // end
+
+    always_ff @ (posedge data_write_clk) begin // seems like this can work but not using the deticated clocking resources
+        if (video_data_ready) begin
             DATA_BUFF <= {DATA_BUFF[22:0], received_bit};
         end
     end

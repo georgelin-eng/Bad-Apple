@@ -207,45 +207,45 @@ module single_clk_ram # (
     input                      we, clk
 );                            // data     // 30,000 addresses for 200x150
     (* ramstyle = "M10K" *) reg [0:0] mem [NUM_ADDR-1:0];
-	parameter path1 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_1.mem";
-    parameter path2 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_2.mem";
-    parameter path3 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_3.mem";
-    parameter path4 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_4.mem";
-    parameter path5 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_5.mem";
-    parameter path6 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_6.mem";
-    parameter path7 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_7.mem";
-    parameter path8 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_8.mem";
-    parameter path9 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_9.mem";
-    parameter path10 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_10.mem";
-    parameter path11 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_11.mem";
-    parameter path12 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_12.mem";
-    parameter path13 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_13.mem";
-    parameter path14 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_14.mem";
-    parameter path15 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_15.mem";
+	// parameter path1 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_1.mem";
+    // parameter path2 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_2.mem";
+    // parameter path3 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_3.mem";
+    // parameter path4 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_4.mem";
+    // parameter path5 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_5.mem";
+    // parameter path6 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_6.mem";
+    // parameter path7 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_7.mem";
+    // parameter path8 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_8.mem";
+    // parameter path9 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_9.mem";
+    // parameter path10 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_10.mem";
+    // parameter path11 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_11.mem";
+    // parameter path12 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_12.mem";
+    // parameter path13 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_13.mem";
+    // parameter path14 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_14.mem";
+    // parameter path15 = "C:\\Users\\flipa\\OneDrive - UBC\\Projects\\Bad-Apple\\rtl\\frame_15.mem";
 
-    initial begin
-        case(frame)
-            4'd1 : $readmemb(path1, mem);
-            4'd2 : $readmemb(path2, mem);
-            4'd3 : $readmemb(path3, mem);
-            4'd4 : $readmemb(path4, mem);
-            4'd5 : $readmemb(path5, mem);
-            4'd6 : $readmemb(path6, mem);
-            4'd7 : $readmemb(path7, mem);
-            4'd8 : $readmemb(path8, mem);
-            4'd9 : $readmemb(path9, mem);
-            4'd10 : $readmemb(path10, mem);
-            4'd11 : $readmemb(path11, mem);
-            4'd12 : $readmemb(path12, mem);
-            4'd13 : $readmemb(path13, mem);
-            4'd14 : $readmemb(path14, mem);
-            4'd15 : $readmemb(path15, mem);
+    // initial begin
+    //     case(frame)
+    //         4'd1 : $readmemb(path1, mem);
+    //         4'd2 : $readmemb(path2, mem);
+    //         4'd3 : $readmemb(path3, mem);
+    //         4'd4 : $readmemb(path4, mem);
+    //         4'd5 : $readmemb(path5, mem);
+    //         4'd6 : $readmemb(path6, mem);
+    //         4'd7 : $readmemb(path7, mem);
+    //         4'd8 : $readmemb(path8, mem);
+    //         4'd9 : $readmemb(path9, mem);
+    //         4'd10 : $readmemb(path10, mem);
+    //         4'd11 : $readmemb(path11, mem);
+    //         4'd12 : $readmemb(path12, mem);
+    //         4'd13 : $readmemb(path13, mem);
+    //         4'd14 : $readmemb(path14, mem);
+    //         4'd15 : $readmemb(path15, mem);
 
-            default: $readmemb(path5, mem);
-        endcase
-    end
+    //         default: $readmemb(path5, mem);
+    //     endcase
+    // end
 
-    always @ (negedge clk) begin
+    always @ (posedge clk) begin
         if (we)
             mem[write_address] <= d; // write operation
         q <= mem[read_address];      // read operation

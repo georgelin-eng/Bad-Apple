@@ -1,16 +1,17 @@
 `include "params.sv"
 module video_top (
     input logic          CLK_40, 
-    input logic          SPI_clk,
+    input logic          data_write_clk,
+    input logic          data_clk_rising_edge,
     input logic          reset,
     input logic          read_bank1,
     input logic          read_bank2,
     input logic          chip_select,         // used to pre-empitvely switch to SPI clock on the expectation of incoming data
     input logic          video_data_ready,
-    input logic          VGA_sync_en, 
-    input logic          SPI_clk_en,          // writing into video bank
+    input logic          VGA_en,
+    input logic          VGA_startup_en,      // sets pixel color to pure white in the VGA startup/sync mode
 
-    input logic          MISO,                // incoming data
+    input logic          received_bit,        // incoming data
 
     // VGA
     output wire  [7:0]   VGA_R,          // to DAC 
@@ -20,13 +21,8 @@ module video_top (
     output wire          VGA_SYNC_N,     // to DAC, Active low for sync
     output wire          VGA_BLANK_N,    // to DAC, Active low for blanking
     output wire          VGA_VS,         // to VGA, Active high for sync
-    output wire          VGA_HS,         // to VGA, Active high for sync
+    output wire          VGA_HS          // to VGA, Active high for sync
 
-    output  wire [3:0]    bank_counter,
-    output  wire          mem_clk
-    // output logic [19:0]  GPIO_0,         
-    // output logic [9:0]   LEDR,         
-    // output logic         clk_debug   
 );
 
     //////////////////////////////////
@@ -37,10 +33,10 @@ module video_top (
     parameter mode       = `MODE;
     parameter RESOLUTION = "800x600";
 
-    parameter WHOLE_LINE            = (mode == "NORMAL") ? 1056 : 104 ;
-    parameter WHOLE_FRAME           = (mode == "NORMAL") ? 628  : 64 ;
-    parameter ACTIVE_SCREEN_WIDTH   = (mode == "NORMAL") ? 800  : 80 ;
-    parameter ACTIVE_SCREEN_HEIGHT  = (mode == "NORMAL") ? 600  : 60 ;
+    parameter WHOLE_LINE            = (mode == "NORMAL") ? 1056 : 40 ;
+    parameter WHOLE_FRAME           = (mode == "NORMAL") ? 628  : 32 ;
+    parameter ACTIVE_SCREEN_WIDTH   = (mode == "NORMAL") ? 800  : 32 ;
+    parameter ACTIVE_SCREEN_HEIGHT  = (mode == "NORMAL") ? 600  : 24 ;
 
     parameter X_WIDTH  = ACTIVE_SCREEN_WIDTH / 4;    // for memory bank
     parameter Y_HEIGHT = ACTIVE_SCREEN_HEIGHT / 4;  // for memory bank
@@ -65,17 +61,10 @@ module video_top (
     //////////////////////////////
     //       Data Path          //
     //////////////////////////////
-	logic data_in;
-    logic video_bank_sel;
     logic bank1_out, bank2_out;
-    logic bank1_mem_clk, bank2_mem_clk;
-    logic [3:0] bank_counter1, bank_counter2;
     logic ACTIVE;
 
     assign pixel_data_out = read_bank1 ? bank1_out : bank2_out; // Pixel color read from memory
-    assign bank_counter = read_bank1 ? bank_counter1 : bank_counter2; // Pixel color read from memory
-    assign mem_clk     = read_bank1 ? bank1_mem_clk : bank2_mem_clk;
-    assign data_in = MISO;
 
     ///////////////////////////////////
     //         Video Memory          //
@@ -92,8 +81,8 @@ module video_top (
         .CLK_40(CLK_40),
         .reset(reset),
         .read_pixel_clk_en(CLK_40),
-        .SPI_clk_en(SPI_clk_en),
-        .SPI_clk(SPI_clk),
+        .data_write_clk(data_write_clk),
+        .data_clk_rising_edge(data_clk_rising_edge),
         .read_enable(read_bank1),
         .chip_select(chip_select),
         .video_data_ready(video_data_ready),
@@ -101,11 +90,9 @@ module video_top (
         .VGA_y_pos(VGA_y_pos),
         .mem_x_pos(mem_x_pos),
         .mem_y_pos(mem_y_pos),
-        .data_in(data_in),
+        .data_in(received_bit),
         .active(ACTIVE),
-        .data_out(bank1_out),
-        .bank_counter(bank_counter1),
-        .mem_clk(bank1_mem_clk)
+        .data_out(bank1_out)
     );
 
     // Instantiate the video_bank module. It should have a size of 200x150 as well
@@ -119,8 +106,8 @@ module video_top (
         .CLK_40(CLK_40),
         .reset(reset),
         .read_pixel_clk_en(CLK_40), // not set to logic 1 due the way the clock mux works
-        .SPI_clk_en(SPI_clk_en),
-        .SPI_clk(SPI_clk),
+        .data_write_clk(data_write_clk),
+        .data_clk_rising_edge(data_clk_rising_edge),
         .read_enable(read_bank2),
         .chip_select(chip_select),
         .video_data_ready(video_data_ready),
@@ -128,11 +115,9 @@ module video_top (
         .VGA_y_pos(VGA_y_pos),
         .mem_x_pos(mem_x_pos),
         .mem_y_pos(mem_y_pos),
-        .data_in(data_in),
+        .data_in(received_bit),
         .active(ACTIVE),
-        .data_out(bank2_out),
-        .bank_counter(bank_counter2),
-        .mem_clk(bank2_mem_clk)
+        .data_out(bank2_out)
     );
 
 
@@ -163,8 +148,8 @@ module video_top (
     ) mem_pos_tracker (
         // Connect module ports
         .CLK_40(CLK_40),
-        .clk_en(SPI_clk_en),
-        .count_en(video_data_ready), // only start the count once writing starts
+        .clk_en(data_clk_rising_edge),     // I need it to increment another time
+        .count_en(video_data_ready),       // only start the count once writing starts
         .reset(reset),
         .x_pos(mem_x_pos),
         .y_pos(mem_y_pos)
@@ -172,17 +157,17 @@ module video_top (
 
     //////////////////////////////
     //       VGA Controller     //
-    //////////////////////////////;
-    reg VGA_en;
-
-    always_ff @( CLK_40 ) begin 
-        VGA_en <= VGA_sync_en || (read_bank1 || read_bank2); 
+    //////////////////////////////
+    logic pixel_color;
+    always_comb begin
+        if (VGA_startup_en) pixel_color = 1'b1;
+        else                pixel_color = pixel_data_out;
     end
 
     VGA_top VGA_controller (
             .CLK_40(CLK_40),
             .reset(reset),
-            .pixel_color(pixel_data_out), // input to VGA controller to display
+            .pixel_color(pixel_color),  // input to VGA controller to display
             .count_en(VGA_en),
             .VGA_R(VGA_R),
             .VGA_G(VGA_G),

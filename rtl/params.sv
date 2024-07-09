@@ -1,12 +1,18 @@
-// `define DEBUG_ON  // comment this line out in order to run a short simulation on video
+`define DEBUG_ON  // comment this line out in order to run a short simulation on video
 // `define SHORT_VGA_STARTUP 
+// `define ONLY_40MHz_CLOCK_DOMAIN
 
 //////////////////////////////////////
 
-`define SYNCH_TIME 10 // how many seconds is required VGA signal to be aquired by device
+`ifndef DEBUG_ON
+    `define SYNCH_TIME 10 // how many seconds is required VGA signal to be aquired by device
+`else 
+    `define SYNCH_TIME 1
+`endif
+
 `define DATA_CMD 8'hAA
 `define DATA_HEADER 8'b11111111
-`define FIFO_BUFF_AMOUNT 10
+`define FIFO_BUFF_AMOUNT 8
 
 
 /////////////////////////////////////

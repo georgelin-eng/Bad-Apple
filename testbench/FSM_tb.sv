@@ -18,6 +18,7 @@ module FSM_tb ();
     logic data;
     integer file1, file2;
 
+    parameter MEM_SIZE = `VIDEO_MEM_CELL_COUNT;
 
     FSM_top FSM_TOP (
         .CLK_40(CLK_40),
@@ -34,7 +35,7 @@ module FSM_tb ();
         .chip_select(chip_select)
     );
 
-    reg [23:0] DATA_BUFF;
+    reg [MEM_SIZE-1:0] DATA_BUFF;
     logic get_data_en;
 
     always_ff @ (posedge CLK_40) begin
@@ -43,7 +44,7 @@ module FSM_tb ();
     
     always_ff @ (posedge CLK_40) begin
         if (get_data_en) begin
-            DATA_BUFF <= {DATA_BUFF[22:0], received_bit};
+            DATA_BUFF <= {DATA_BUFF[MEM_SIZE-2:0], received_bit};
         end
     end
 
@@ -131,6 +132,28 @@ module FSM_tb ();
         sending_data = 0;  // Assuming you're clearing sending_data after sending data
     endtask
 
+     task static send_video_payload ();
+        wait_us($urandom_range(10, 50)); // this should simulate how long it takes PC to send data over
+        send_data (8'h00);
+        send_data (8'hFF);
+
+        // 15 frames * 48 bits per frame 
+        for (int i = 0; i < 15; i = i + 1) begin
+            send_data (8'hBB); 
+            send_data (8'hA0);
+            send_data (8'hD2);
+            send_data (8'hBB); 
+            send_data (8'hA0);
+            send_data (8'hD2);
+        end
+
+        send_data (8'h00); 
+        send_data (8'h00); 
+        send_data (8'h00); 
+        @ (posedge (FSM_TOP.MODE_FSM.switch_mode));
+
+    endtask
+
 
     initial begin
         sending_data = 0;
@@ -158,21 +181,13 @@ module FSM_tb ();
 
         wait_us(20);
 
+        // @ (posedge (FSM_TOP.MODE_FSM.pause_en));
 
-        @ (posedge (FSM_TOP.MODE_FSM.pause_en));
-        wait_us(20);
-        vid_start = 1'b1;
-        @ (posedge (FSM_TOP.MODE_FSM.pause_done));
-        wait_us($urandom_range(100, 250));
-        send_data (8'h00);
-        send_data (8'h00);
-        send_data (8'hFF);
-        send_data (8'hBB);
-        send_data (8'hA0);
-        send_data (8'hD2);
-        send_data (8'h00); // the fill FIFO state means that data will not SPI clk will end before 
-        send_data (8'h00); // the fill FIFO state means that data will not SPI clk will end before 
-        wait_us(8);
+        @ (posedge (FSM_TOP.MODE_FSM.startup_done));
+
+        send_video_payload();
+
+        wait_us(10);
 
         $stop;
     end
@@ -185,15 +200,14 @@ module FSM_tb ();
 
 
 
-
     ///////////////////////////////////////
     //        SPI clock Generation       //
     ///////////////////////////////////////
     initial begin
-        automatic integer jitter_amount = 350; // This is 10% jitter which is quite high
+        automatic integer jitter_amount = 150; // This is 10% jitter which is quite high
         automatic integer jitter1 = jitter(jitter_amount/2);
         automatic integer jitter2 = jitter(jitter_amount/2);
-        #0;  
+        #200;  
 
         SPI_clk_CDC = 1; #(500 + jitter1);
         SPI_clk_CDC = 0; #(500 - jitter1 +  jitter2); // jitter applied to falling edge or normal clock
@@ -213,6 +227,7 @@ module FSM_tb ();
 
 
     initial forever begin
+        # 14.6;
         data_write_clk_CDC = 1; #500;
         data_write_clk_CDC = 0; #500;
     end

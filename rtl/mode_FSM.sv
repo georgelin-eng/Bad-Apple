@@ -52,14 +52,14 @@ module MODE_FSM(
                                 else              nextstate = IDLE;
 
             // Startup States
-            VGA_STARTUP        :if (startup_done) nextstate = PAUSE_SCREEN_ASYNC;
+            VGA_STARTUP        :if (startup_done) nextstate = READ_B1_WRITE_B2;
                                 else              nextstate = VGA_STARTUP;
             // BADAPPLE_OS        :if (OS_done)      nextstate = PAUSE_SCREEN_ASYNC;
                                 // else              nextstate = BADAPPLE_OS;
-            PAUSE_SCREEN_ASYNC :if (vid_start)    nextstate = PAUSE_SCREEN_SYNC;
-                                else              nextstate = PAUSE_SCREEN_ASYNC;
-            PAUSE_SCREEN_SYNC  :if (pause_done)   nextstate = READ_B1_WRITE_B2;
-                                else              nextstate = PAUSE_SCREEN_SYNC;
+            // PAUSE_SCREEN_ASYNC :if (vid_start)    nextstate = PAUSE_SCREEN_SYNC;
+            //                     else              nextstate = PAUSE_SCREEN_ASYNC;
+            // PAUSE_SCREEN_SYNC  :if (pause_done)   nextstate = READ_B1_WRITE_B2;
+            //                     else              nextstate = PAUSE_SCREEN_SYNC;
 
             // Main Video Playing States
             READ_B1_WRITE_B2 : if (switch_mode)   nextstate = READ_B2_WRITE_B1;
@@ -158,7 +158,7 @@ module MODE_FSM(
     // Startup data FSM on initial transition from the pause screen to 
     // starting video display
     always_ff @ (posedge CLK_40) begin
-        if (state==PAUSE_SCREEN_SYNC & nextstate==READ_B1_WRITE_B2) begin
+        if (state==VGA_STARTUP & nextstate==READ_B1_WRITE_B2) begin
             start_data_FSM <= 1'b1;
         end
         else start_data_FSM <= 1'b0;
