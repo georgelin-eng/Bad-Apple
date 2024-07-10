@@ -1,5 +1,5 @@
 Timing Analyzer report for bram
-Sun Jul 07 20:29:37 2024
+Tue Jul 09 22:09:15 2024
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -102,22 +102,22 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 12          ;
 ;                            ;             ;
-; Average used               ; 2.24        ;
+; Average used               ; 2.70        ;
 ; Maximum used               ; 12          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  12.5%      ;
-;     Processor 3            ;  12.2%      ;
-;     Processor 4            ;  12.2%      ;
-;     Processor 5            ;  10.9%      ;
-;     Processor 6            ;  10.9%      ;
-;     Processor 7            ;  10.9%      ;
-;     Processor 8            ;  10.9%      ;
-;     Processor 9            ;  10.9%      ;
-;     Processor 10           ;  10.9%      ;
-;     Processor 11           ;  10.9%      ;
-;     Processor 12           ;  10.9%      ;
+;     Processor 2            ;  16.2%      ;
+;     Processor 3            ;  16.1%      ;
+;     Processor 4            ;  16.0%      ;
+;     Processor 5            ;  15.2%      ;
+;     Processor 6            ;  15.2%      ;
+;     Processor 7            ;  15.2%      ;
+;     Processor 8            ;  15.2%      ;
+;     Processor 9            ;  15.2%      ;
+;     Processor 10           ;  15.2%      ;
+;     Processor 11           ;  15.2%      ;
+;     Processor 12           ;  15.2%      ;
 +----------------------------+-------------+
 
 
@@ -126,7 +126,7 @@ refer to the applicable agreement for further details.
 +---------------+--------+--------------------------+
 ; SDC File Path ; Status ; Read at                  ;
 +---------------+--------+--------------------------+
-; DE1_SoC.sdc   ; OK     ; Sun Jul 07 20:29:18 2024 ;
+; DE1_SoC.sdc   ; OK     ; Tue Jul 09 22:08:50 2024 ;
 +---------------+--------+--------------------------+
 
 
@@ -139,7 +139,6 @@ refer to the applicable agreement for further details.
 ; CLOCK_50                                                                               ; Base      ; 20.000   ; 50.0 MHz  ; 0.000 ; 10.000  ;            ;           ;             ;       ;        ;           ;            ;          ;                                                                                      ;                                                                                           ; { CLOCK_50 }                                                                               ;
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; Generated ; 2.500    ; 400.0 MHz ; 0.000 ; 1.250   ; 50.00      ; 1         ; 8           ;       ;        ;           ;            ; false    ; CLOCK_50                                                                             ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|refclkin      ; { clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] }   ;
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; Generated ; 25.000   ; 40.0 MHz  ; 0.000 ; 12.500  ; 50.00      ; 10        ; 1           ;       ;        ;           ;            ; false    ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|vco0ph[0] ; { clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk } ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk ; Generated ; 1000.000 ; 1.0 MHz   ; 0.000 ; 500.000 ; 50.00      ; 400       ; 1           ;       ;        ;           ;            ; false    ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] ; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|vco0ph[0] ; { clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk } ;
 ; SPI_clk_CDC                                                                            ; Base      ; 1000.000 ; 1.0 MHz   ; 0.000 ; 500.000 ;            ;           ;             ;       ;        ;           ;            ;          ;                                                                                      ;                                                                                           ; { GPIO_0[0] }                                                                              ;
 +----------------------------------------------------------------------------------------+-----------+----------+-----------+-------+---------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+
 
@@ -149,8 +148,8 @@ refer to the applicable agreement for further details.
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
 ; Fmax      ; Restricted Fmax ; Clock Name                                                                             ; Note ;
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
-; 67.46 MHz ; 67.46 MHz       ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ;      ;
-; 79.85 MHz ; 79.85 MHz       ; altera_reserved_tck                                                                    ;      ;
+; 67.82 MHz ; 67.82 MHz       ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ;      ;
+; 81.99 MHz ; 81.99 MHz       ; altera_reserved_tck                                                                    ;      ;
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -166,19 +165,19 @@ HTML report is unavailable in plain text report export.
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                                  ; Slack  ; End Point TNS ;
 +----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.088  ; 0.000         ;
-; altera_reserved_tck                                                                    ; 10.405 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.127  ; 0.000         ;
+; altera_reserved_tck                                                                    ; 10.568 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Slow 1100mV 85C Model Hold Summary                                                                              ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                                  ; Slack  ; End Point TNS ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; -1.330 ; -1.330        ;
-; altera_reserved_tck                                                                    ; 0.380  ; 0.000         ;
-+----------------------------------------------------------------------------------------+--------+---------------+
++----------------------------------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Hold Summary                                                                             ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                                  ; Slack ; End Point TNS ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.364 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 0.541 ; 0.000         ;
++----------------------------------------------------------------------------------------+-------+---------------+
 
 
 +----------------------------------------------+
@@ -186,7 +185,7 @@ HTML report is unavailable in plain text report export.
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; altera_reserved_tck ; 30.087 ; 0.000         ;
+; altera_reserved_tck ; 27.281 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -195,7 +194,7 @@ HTML report is unavailable in plain text report export.
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; altera_reserved_tck ; 0.752 ; 0.000         ;
+; altera_reserved_tck ; 0.887 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -206,8 +205,8 @@ HTML report is unavailable in plain text report export.
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; 1.250  ; 0.000         ;
 ; CLOCK_50                                                                               ; 9.900  ; 0.000         ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.269 ; 0.000         ;
-; altera_reserved_tck                                                                    ; 15.301 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.146 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 15.104 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
@@ -218,7 +217,7 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 3
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-Worst Case Available Settling Time: 23.282 ns
+Worst Case Available Settling Time: 22.341 ns
 
 
 
@@ -228,8 +227,8 @@ Worst Case Available Settling Time: 23.282 ns
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
 ; Fmax      ; Restricted Fmax ; Clock Name                                                                             ; Note ;
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
-; 68.29 MHz ; 68.29 MHz       ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ;      ;
-; 82.34 MHz ; 82.34 MHz       ; altera_reserved_tck                                                                    ;      ;
+; 68.52 MHz ; 68.52 MHz       ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ;      ;
+; 83.56 MHz ; 83.56 MHz       ; altera_reserved_tck                                                                    ;      ;
 +-----------+-----------------+----------------------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -239,19 +238,19 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                                  ; Slack  ; End Point TNS ;
 +----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.178  ; 0.000         ;
-; altera_reserved_tck                                                                    ; 10.594 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.203  ; 0.000         ;
+; altera_reserved_tck                                                                    ; 10.683 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Slow 1100mV 0C Model Hold Summary                                                                               ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                                  ; Slack  ; End Point TNS ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; -1.281 ; -1.281        ;
-; altera_reserved_tck                                                                    ; 0.381  ; 0.000         ;
-+----------------------------------------------------------------------------------------+--------+---------------+
++----------------------------------------------------------------------------------------------------------------+
+; Slow 1100mV 0C Model Hold Summary                                                                              ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                                  ; Slack ; End Point TNS ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.382 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 0.544 ; 0.000         ;
++----------------------------------------------------------------------------------------+-------+---------------+
 
 
 +----------------------------------------------+
@@ -259,7 +258,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; altera_reserved_tck ; 30.229 ; 0.000         ;
+; altera_reserved_tck ; 27.553 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -268,7 +267,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; altera_reserved_tck ; 0.711 ; 0.000         ;
+; altera_reserved_tck ; 0.847 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -279,8 +278,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; 1.250  ; 0.000         ;
 ; CLOCK_50                                                                               ; 9.926  ; 0.000         ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.265 ; 0.000         ;
-; altera_reserved_tck                                                                    ; 15.313 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.139 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 15.106 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
@@ -291,7 +290,7 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 3
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-Worst Case Available Settling Time: 23.385 ns
+Worst Case Available Settling Time: 22.471 ns
 
 
 
@@ -301,19 +300,19 @@ Worst Case Available Settling Time: 23.385 ns
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                                  ; Slack  ; End Point TNS ;
 +----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 7.778  ; 0.000         ;
-; altera_reserved_tck                                                                    ; 12.942 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 7.894  ; 0.000         ;
+; altera_reserved_tck                                                                    ; 13.035 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Fast 1100mV 85C Model Hold Summary                                                                              ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                                  ; Slack  ; End Point TNS ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; -0.750 ; -0.750        ;
-; altera_reserved_tck                                                                    ; 0.161  ; 0.000         ;
-+----------------------------------------------------------------------------------------+--------+---------------+
++----------------------------------------------------------------------------------------------------------------+
+; Fast 1100mV 85C Model Hold Summary                                                                             ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                                  ; Slack ; End Point TNS ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.179 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 0.213 ; 0.000         ;
++----------------------------------------------------------------------------------------+-------+---------------+
 
 
 +----------------------------------------------+
@@ -321,7 +320,7 @@ Worst Case Available Settling Time: 23.385 ns
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; altera_reserved_tck ; 31.073 ; 0.000         ;
+; altera_reserved_tck ; 28.828 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -330,7 +329,7 @@ Worst Case Available Settling Time: 23.385 ns
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; altera_reserved_tck ; 0.412 ; 0.000         ;
+; altera_reserved_tck ; 0.455 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -341,8 +340,8 @@ Worst Case Available Settling Time: 23.385 ns
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; 1.250  ; 0.000         ;
 ; CLOCK_50                                                                               ; 9.643  ; 0.000         ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.202 ; 0.000         ;
-; altera_reserved_tck                                                                    ; 15.060 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.055 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 14.913 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
@@ -353,7 +352,7 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 3
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-Worst Case Available Settling Time: 23.834 ns
+Worst Case Available Settling Time: 23.111 ns
 
 
 
@@ -363,19 +362,19 @@ Worst Case Available Settling Time: 23.834 ns
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                                  ; Slack  ; End Point TNS ;
 +----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 8.160  ; 0.000         ;
-; altera_reserved_tck                                                                    ; 13.372 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 8.246  ; 0.000         ;
+; altera_reserved_tck                                                                    ; 13.466 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Fast 1100mV 0C Model Hold Summary                                                                               ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                                  ; Slack  ; End Point TNS ;
-+----------------------------------------------------------------------------------------+--------+---------------+
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; -0.725 ; -0.725        ;
-; altera_reserved_tck                                                                    ; 0.142  ; 0.000         ;
-+----------------------------------------------------------------------------------------+--------+---------------+
++----------------------------------------------------------------------------------------------------------------+
+; Fast 1100mV 0C Model Hold Summary                                                                              ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                                  ; Slack ; End Point TNS ;
++----------------------------------------------------------------------------------------+-------+---------------+
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.168 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 0.200 ; 0.000         ;
++----------------------------------------------------------------------------------------+-------+---------------+
 
 
 +----------------------------------------------+
@@ -383,7 +382,7 @@ Worst Case Available Settling Time: 23.834 ns
 +---------------------+--------+---------------+
 ; Clock               ; Slack  ; End Point TNS ;
 +---------------------+--------+---------------+
-; altera_reserved_tck ; 31.291 ; 0.000         ;
+; altera_reserved_tck ; 29.378 ; 0.000         ;
 +---------------------+--------+---------------+
 
 
@@ -392,7 +391,7 @@ Worst Case Available Settling Time: 23.834 ns
 +---------------------+-------+---------------+
 ; Clock               ; Slack ; End Point TNS ;
 +---------------------+-------+---------------+
-; altera_reserved_tck ; 0.369 ; 0.000         ;
+; altera_reserved_tck ; 0.401 ; 0.000         ;
 +---------------------+-------+---------------+
 
 
@@ -403,8 +402,8 @@ Worst Case Available Settling Time: 23.834 ns
 +----------------------------------------------------------------------------------------+--------+---------------+
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; 1.250  ; 0.000         ;
 ; CLOCK_50                                                                               ; 9.632  ; 0.000         ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.273 ; 0.000         ;
-; altera_reserved_tck                                                                    ; 15.096 ; 0.000         ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 11.143 ; 0.000         ;
+; altera_reserved_tck                                                                    ; 14.936 ; 0.000         ;
 +----------------------------------------------------------------------------------------+--------+---------------+
 
 
@@ -415,27 +414,27 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 3
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-Worst Case Available Settling Time: 23.957 ns
+Worst Case Available Settling Time: 23.333 ns
 
 
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                                                                                                  ;
-+-----------------------------------------------------------------------------------------+--------+--------+----------+---------+---------------------+
-; Clock                                                                                   ; Setup  ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
-+-----------------------------------------------------------------------------------------+--------+--------+----------+---------+---------------------+
-; Worst-case Slack                                                                        ; 5.088  ; -1.330 ; 30.087   ; 0.369   ; 1.250               ;
-;  CLOCK_50                                                                               ; N/A    ; N/A    ; N/A      ; N/A     ; 9.632               ;
-;  altera_reserved_tck                                                                    ; 10.405 ; 0.142  ; 30.087   ; 0.369   ; 15.060              ;
-;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; N/A    ; N/A    ; N/A      ; N/A     ; 1.250               ;
-;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.088  ; -1.330 ; N/A      ; N/A     ; 11.202              ;
-; Design-wide TNS                                                                         ; 0.0    ; -1.33  ; 0.0      ; 0.0     ; 0.0                 ;
-;  CLOCK_50                                                                               ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
-;  altera_reserved_tck                                                                    ; 0.000  ; 0.000  ; 0.000    ; 0.000   ; 0.000               ;
-;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; N/A    ; N/A    ; N/A      ; N/A     ; 0.000               ;
-;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.000  ; -1.330 ; N/A      ; N/A     ; 0.000               ;
-+-----------------------------------------------------------------------------------------+--------+--------+----------+---------+---------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                                                                                                 ;
++-----------------------------------------------------------------------------------------+--------+-------+----------+---------+---------------------+
+; Clock                                                                                   ; Setup  ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++-----------------------------------------------------------------------------------------+--------+-------+----------+---------+---------------------+
+; Worst-case Slack                                                                        ; 5.127  ; 0.168 ; 27.281   ; 0.401   ; 1.250               ;
+;  CLOCK_50                                                                               ; N/A    ; N/A   ; N/A      ; N/A     ; 9.632               ;
+;  altera_reserved_tck                                                                    ; 10.568 ; 0.200 ; 27.281   ; 0.401   ; 14.913              ;
+;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; N/A    ; N/A   ; N/A      ; N/A     ; 1.250               ;
+;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 5.127  ; 0.168 ; N/A      ; N/A     ; 11.055              ;
+; Design-wide TNS                                                                         ; 0.0    ; 0.0   ; 0.0      ; 0.0     ; 0.0                 ;
+;  CLOCK_50                                                                               ; N/A    ; N/A   ; N/A      ; N/A     ; 0.000               ;
+;  altera_reserved_tck                                                                    ; 0.000  ; 0.000 ; 0.000    ; 0.000   ; 0.000               ;
+;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; N/A    ; N/A   ; N/A      ; N/A     ; 0.000               ;
+;  clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 0.000  ; 0.000 ; N/A      ; N/A     ; 0.000               ;
++-----------------------------------------------------------------------------------------+--------+-------+----------+---------+---------------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -616,8 +615,8 @@ Worst Case Available Settling Time: 23.957 ns
 ; KEY[0]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; KEY[1]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; CLOCK_50            ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; GPIO_0[0]           ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; GPIO_0[1]           ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; GPIO_0[0]           ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; altera_reserved_tms ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; altera_reserved_tck ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; altera_reserved_tdi ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
@@ -665,10 +664,10 @@ Worst Case Available Settling Time: 23.957 ns
 ; GPIO_1[33]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; GPIO_1[34]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; GPIO_1[35]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
-; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
-; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
+; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
+; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 ; GPIO_1[38]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
-; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
+; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; VGA_R[0]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 ; VGA_R[1]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; VGA_R[2]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
@@ -795,10 +794,10 @@ Worst Case Available Settling Time: 23.957 ns
 ; GPIO_1[33]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO_1[34]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO_1[35]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
-; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
-; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
+; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
+; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 ; GPIO_1[38]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
-; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
+; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; VGA_R[0]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 ; VGA_R[1]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; VGA_R[2]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
@@ -925,10 +924,10 @@ Worst Case Available Settling Time: 23.957 ns
 ; GPIO_1[33]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; GPIO_1[34]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; GPIO_1[35]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
-; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
-; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
+; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
+; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 ; GPIO_1[38]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
-; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
+; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; VGA_R[0]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 ; VGA_R[1]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; VGA_R[2]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
@@ -1055,10 +1054,10 @@ Worst Case Available Settling Time: 23.957 ns
 ; GPIO_1[33]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; GPIO_1[34]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; GPIO_1[35]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
-; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
-; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
+; GPIO_1[36]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
+; GPIO_1[37]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
 ; GPIO_1[38]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
-; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
+; GPIO_1[39]          ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; VGA_R[0]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
 ; VGA_R[1]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; VGA_R[2]            ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
@@ -1149,9 +1148,8 @@ Worst Case Available Settling Time: 23.957 ns
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                                             ; To Clock                                                                               ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
-; altera_reserved_tck                                                                    ; altera_reserved_tck                                                                    ; 6612     ; 0        ; 56       ; 0        ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 468966   ; 0        ; 202      ; 0        ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 1        ; 1        ; 0        ; 0        ;
+; altera_reserved_tck                                                                    ; altera_reserved_tck                                                                    ; 9912     ; 0        ; 56       ; 0        ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 19814    ; 0        ; 202      ; 0        ;
 ; SPI_clk_CDC                                                                            ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 1        ; 1        ; 0        ; 0        ;
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
@@ -1162,9 +1160,8 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                                             ; To Clock                                                                               ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
-; altera_reserved_tck                                                                    ; altera_reserved_tck                                                                    ; 6612     ; 0        ; 56       ; 0        ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 468966   ; 0        ; 202      ; 0        ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 1        ; 1        ; 0        ; 0        ;
+; altera_reserved_tck                                                                    ; altera_reserved_tck                                                                    ; 9912     ; 0        ; 56       ; 0        ;
+; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 19814    ; 0        ; 202      ; 0        ;
 ; SPI_clk_CDC                                                                            ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; 1        ; 1        ; 0        ; 0        ;
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
@@ -1175,7 +1172,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +---------------------+---------------------+----------+----------+----------+----------+
 ; From Clock          ; To Clock            ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------+---------------------+----------+----------+----------+----------+
-; altera_reserved_tck ; altera_reserved_tck ; 354      ; 0        ; 0        ; 0        ;
+; altera_reserved_tck ; altera_reserved_tck ; 458      ; 0        ; 0        ; 0        ;
 +---------------------+---------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -1185,7 +1182,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +---------------------+---------------------+----------+----------+----------+----------+
 ; From Clock          ; To Clock            ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------+---------------------+----------+----------+----------+----------+
-; altera_reserved_tck ; altera_reserved_tck ; 354      ; 0        ; 0        ; 0        ;
+; altera_reserved_tck ; altera_reserved_tck ; 458      ; 0        ; 0        ; 0        ;
 +---------------------+---------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -1208,9 +1205,9 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Property                        ; Setup ; Hold ;
 +---------------------------------+-------+------+
 ; Illegal Clocks                  ; 0     ; 0    ;
-; Unconstrained Clocks            ; 2     ; 2    ;
+; Unconstrained Clocks            ; 1     ; 1    ;
 ; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 385   ; 385  ;
+; Unconstrained Input Port Paths  ; 384   ; 384  ;
 ; Unconstrained Output Ports      ; 69    ; 69   ;
 ; Unconstrained Output Port Paths ; 269   ; 269  ;
 +---------------------------------+-------+------+
@@ -1224,11 +1221,9 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; CLOCK_50                                                                               ; CLOCK_50                                                                               ; Base      ; Constrained   ;
 ; GPIO_0[0]                                                                              ; SPI_clk_CDC                                                                            ; Base      ; Constrained   ;
 ; altera_reserved_tck                                                                    ; altera_reserved_tck                                                                    ; Base      ; Constrained   ;
+; clk_divider:DATA_CLK_GEN|clk_out                                                       ;                                                                                        ; Base      ; Unconstrained ;
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]   ; Generated ; Constrained   ;
 ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk ; Generated ; Constrained   ;
-; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk ; clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk ; Generated ; Constrained   ;
-; debug_clk_gen:DEBUG_CLK|clk_debug                                                      ;                                                                                        ; Base      ; Unconstrained ;
-; dff_sync2:DATA_CLK|data_out                                                            ;                                                                                        ; Base      ; Unconstrained ;
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+-----------+---------------+
 
 
@@ -1418,7 +1413,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun Jul 07 20:29:15 2024
+    Info: Processing started: Tue Jul 09 22:08:46 2024
 Info: Command: quartus_sta bad_apple -c bram
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -1434,199 +1429,181 @@ Info (332104): Reading SDC File: 'DE1_SoC.sdc'
 Info (332110): Deriving PLL clocks
     Info (332110): create_generated_clock -source {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|refclkin} -multiply_by 8 -duty_cycle 50.00 -name {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]} {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]}
     Info (332110): create_generated_clock -source {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|vco0ph[0]} -divide_by 10 -duty_cycle 50.00 -name {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk} {clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk}
-    Info (332110): create_generated_clock -source {clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|vco0ph[0]} -divide_by 400 -duty_cycle 50.00 -name {clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk} {clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER|divclk}
-Warning (332060): Node: dff_sync2:DATA_CLK|data_out was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by dff_sync2:DATA_CLK|data_out
-Warning (332060): Node: debug_clk_gen:DEBUG_CLK|clk_debug was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_sh84:auto_generated|ram_block1a0~porta_address_reg6 is being clocked by debug_clk_gen:DEBUG_CLK|clk_debug
+Warning (332174): Ignored filter at DE1_SoC.sdc(12): data_write_clk could not be matched with a port File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/DE1_SoC.sdc Line: 12
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(12): Argument <targets> is an empty collection File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/DE1_SoC.sdc Line: 12
+    Info (332050): create_clock -name {data_write_clk} -period 1000.0 [get_ports {data_write_clk}] File: C:/Users/flipa/OneDrive - UBC/Projects/Bad-Apple/Quartus/DE1_SoC.sdc Line: 12
+Warning (332060): Node: clk_divider:DATA_CLK_GEN|clk_out was determined to be a clock but was found without an associated clock assignment.
+    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by clk_divider:DATA_CLK_GEN|clk_out
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL  from: refclkin  to: fbclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_REFCLK_SELECT  from: clkin[0]  to: clkout
-    Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
-Info (332146): Worst-case setup slack is 5.088
+Info (332146): Worst-case setup slack is 5.127
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     5.088               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    10.405               0.000 altera_reserved_tck 
-Critical Warning (332148): Timing requirements not met
-    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case hold slack is -1.330
+    Info (332119):     5.127               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    10.568               0.000 altera_reserved_tck 
+Info (332146): Worst-case hold slack is 0.364
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.330              -1.330 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):     0.380               0.000 altera_reserved_tck 
-Info (332146): Worst-case recovery slack is 30.087
+    Info (332119):     0.364               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):     0.541               0.000 altera_reserved_tck 
+Info (332146): Worst-case recovery slack is 27.281
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    30.087               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.752
+    Info (332119):    27.281               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.887
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.752               0.000 altera_reserved_tck 
+    Info (332119):     0.887               0.000 altera_reserved_tck 
 Info (332146): Worst-case minimum pulse width slack is 1.250
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     1.250               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] 
     Info (332119):     9.900               0.000 CLOCK_50 
-    Info (332119):    11.269               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    15.301               0.000 altera_reserved_tck 
+    Info (332119):    11.146               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    15.104               0.000 altera_reserved_tck 
 Info (332114): Report Metastability: Found 3 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 3
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-    Info (332114): Worst Case Available Settling Time: 23.282 ns
+    Info (332114): Worst Case Available Settling Time: 22.341 ns
     Info (332114): 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Warning (332060): Node: dff_sync2:DATA_CLK|data_out was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by dff_sync2:DATA_CLK|data_out
-Warning (332060): Node: debug_clk_gen:DEBUG_CLK|clk_debug was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_sh84:auto_generated|ram_block1a0~porta_address_reg6 is being clocked by debug_clk_gen:DEBUG_CLK|clk_debug
+Warning (332060): Node: clk_divider:DATA_CLK_GEN|clk_out was determined to be a clock but was found without an associated clock assignment.
+    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by clk_divider:DATA_CLK_GEN|clk_out
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL  from: refclkin  to: fbclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_REFCLK_SELECT  from: clkin[0]  to: clkout
-    Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
-Info (332146): Worst-case setup slack is 5.178
+Info (332146): Worst-case setup slack is 5.203
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     5.178               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    10.594               0.000 altera_reserved_tck 
-Critical Warning (332148): Timing requirements not met
-    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case hold slack is -1.281
+    Info (332119):     5.203               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    10.683               0.000 altera_reserved_tck 
+Info (332146): Worst-case hold slack is 0.382
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.281              -1.281 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):     0.381               0.000 altera_reserved_tck 
-Info (332146): Worst-case recovery slack is 30.229
+    Info (332119):     0.382               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):     0.544               0.000 altera_reserved_tck 
+Info (332146): Worst-case recovery slack is 27.553
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    30.229               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.711
+    Info (332119):    27.553               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.847
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.711               0.000 altera_reserved_tck 
+    Info (332119):     0.847               0.000 altera_reserved_tck 
 Info (332146): Worst-case minimum pulse width slack is 1.250
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     1.250               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] 
     Info (332119):     9.926               0.000 CLOCK_50 
-    Info (332119):    11.265               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    15.313               0.000 altera_reserved_tck 
+    Info (332119):    11.139               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    15.106               0.000 altera_reserved_tck 
 Info (332114): Report Metastability: Found 3 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 3
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-    Info (332114): Worst Case Available Settling Time: 23.385 ns
+    Info (332114): Worst Case Available Settling Time: 22.471 ns
     Info (332114): 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Warning (332060): Node: dff_sync2:DATA_CLK|data_out was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by dff_sync2:DATA_CLK|data_out
-Warning (332060): Node: debug_clk_gen:DEBUG_CLK|clk_debug was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_sh84:auto_generated|ram_block1a0~porta_address_reg6 is being clocked by debug_clk_gen:DEBUG_CLK|clk_debug
+Warning (332060): Node: clk_divider:DATA_CLK_GEN|clk_out was determined to be a clock but was found without an associated clock assignment.
+    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by clk_divider:DATA_CLK_GEN|clk_out
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL  from: refclkin  to: fbclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_REFCLK_SELECT  from: clkin[0]  to: clkout
-    Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
-Info (332146): Worst-case setup slack is 7.778
+Info (332146): Worst-case setup slack is 7.894
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     7.778               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    12.942               0.000 altera_reserved_tck 
-Critical Warning (332148): Timing requirements not met
-    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case hold slack is -0.750
+    Info (332119):     7.894               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    13.035               0.000 altera_reserved_tck 
+Info (332146): Worst-case hold slack is 0.179
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.750              -0.750 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):     0.161               0.000 altera_reserved_tck 
-Info (332146): Worst-case recovery slack is 31.073
+    Info (332119):     0.179               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):     0.213               0.000 altera_reserved_tck 
+Info (332146): Worst-case recovery slack is 28.828
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    31.073               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.412
+    Info (332119):    28.828               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.455
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.412               0.000 altera_reserved_tck 
+    Info (332119):     0.455               0.000 altera_reserved_tck 
 Info (332146): Worst-case minimum pulse width slack is 1.250
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     1.250               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] 
     Info (332119):     9.643               0.000 CLOCK_50 
-    Info (332119):    11.202               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    15.060               0.000 altera_reserved_tck 
+    Info (332119):    11.055               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    14.913               0.000 altera_reserved_tck 
 Info (332114): Report Metastability: Found 3 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 3
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-    Info (332114): Worst Case Available Settling Time: 23.834 ns
+    Info (332114): Worst Case Available Settling Time: 23.111 ns
     Info (332114): 
 Info: Analyzing Fast 1100mV 0C Model
-Warning (332060): Node: dff_sync2:DATA_CLK|data_out was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by dff_sync2:DATA_CLK|data_out
-Warning (332060): Node: debug_clk_gen:DEBUG_CLK|clk_debug was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_sh84:auto_generated|ram_block1a0~porta_address_reg6 is being clocked by debug_clk_gen:DEBUG_CLK|clk_debug
+Warning (332060): Node: clk_divider:DATA_CLK_GEN|clk_out was determined to be a clock but was found without an associated clock assignment.
+    Info (13166): Register video_top:VIDEO_CONTROLLER|video_bank:VIDEO_BANK1|clock_mux:CLOCK_MUX|ena_r2[1] is being clocked by clk_divider:DATA_CLK_GEN|clk_out
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL  from: refclkin  to: fbclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
     Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_REFCLK_SELECT  from: clkin[0]  to: clkout
-    Info (332098): Cell: clock_generation|vga_40mhz_inst|altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
-Info (332146): Worst-case setup slack is 8.160
+Info (332146): Worst-case setup slack is 8.246
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     8.160               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    13.372               0.000 altera_reserved_tck 
-Critical Warning (332148): Timing requirements not met
-    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case hold slack is -0.725
+    Info (332119):     8.246               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    13.466               0.000 altera_reserved_tck 
+Info (332146): Worst-case hold slack is 0.168
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.725              -0.725 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):     0.142               0.000 altera_reserved_tck 
-Info (332146): Worst-case recovery slack is 31.291
+    Info (332119):     0.168               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):     0.200               0.000 altera_reserved_tck 
+Info (332146): Worst-case recovery slack is 29.378
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    31.291               0.000 altera_reserved_tck 
-Info (332146): Worst-case removal slack is 0.369
+    Info (332119):    29.378               0.000 altera_reserved_tck 
+Info (332146): Worst-case removal slack is 0.401
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.369               0.000 altera_reserved_tck 
+    Info (332119):     0.401               0.000 altera_reserved_tck 
 Info (332146): Worst-case minimum pulse width slack is 1.250
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     1.250               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0] 
     Info (332119):     9.632               0.000 CLOCK_50 
-    Info (332119):    11.273               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
-    Info (332119):    15.096               0.000 altera_reserved_tck 
+    Info (332119):    11.143               0.000 clock_generation|vga_40mhz_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk 
+    Info (332119):    14.936               0.000 altera_reserved_tck 
 Info (332114): Report Metastability: Found 3 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 3
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
-    Info (332114): Worst Case Available Settling Time: 23.957 ns
+    Info (332114): Worst Case Available Settling Time: 23.333 ns
     Info (332114): 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 13 warnings
-    Info: Peak virtual memory: 5352 megabytes
-    Info: Processing ended: Sun Jul 07 20:29:37 2024
-    Info: Elapsed time: 00:00:22
-    Info: Total CPU time (on all processors): 00:00:30
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 5383 megabytes
+    Info: Processing ended: Tue Jul 09 22:09:15 2024
+    Info: Elapsed time: 00:00:29
+    Info: Total CPU time (on all processors): 00:00:52
 
 

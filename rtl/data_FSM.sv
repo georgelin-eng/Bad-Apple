@@ -181,13 +181,13 @@ module DATA_FSM (
                                 DATA_HEADER_XNOR_BUFF <= ~(DATA_HEADER_BUFF ^ `DATA_HEADER);
 
                                 num_match <= DATA_HEADER_XNOR_BUFF[0] + 
-                                            DATA_HEADER_XNOR_BUFF[1] +
-                                            DATA_HEADER_XNOR_BUFF[2] +
-                                            DATA_HEADER_XNOR_BUFF[3] +
-                                            DATA_HEADER_XNOR_BUFF[4] +
-                                            DATA_HEADER_XNOR_BUFF[5] +
-                                            DATA_HEADER_XNOR_BUFF[6] +
-                                            DATA_HEADER_XNOR_BUFF[7];
+                                             DATA_HEADER_XNOR_BUFF[1] +
+                                             DATA_HEADER_XNOR_BUFF[2] +
+                                             DATA_HEADER_XNOR_BUFF[3] +
+                                             DATA_HEADER_XNOR_BUFF[4] +
+                                             DATA_HEADER_XNOR_BUFF[5] +
+                                             DATA_HEADER_XNOR_BUFF[6] +
+                                             DATA_HEADER_XNOR_BUFF[7];
 
                                 parse_done <=(num_match >= 4); // higher to sample later
                              end
@@ -250,7 +250,7 @@ module DATA_FSM (
     );
 
 
-    logic [10:0] video_write_sync_counter;
+   (* syn_preserve = 1 *) reg [19:0] video_write_sync_counter;
 
     // Switch Mode Counter Behaviour
     // An enable signal will be generated after each memory cell is filled
@@ -260,31 +260,25 @@ module DATA_FSM (
     // RECEIVE_V -> EMPTY FIFO delay will be 2 clock cycles from the rising edge of data_clk
     // video_data_ready will go low on the next rising edge of data_clk
 
+    (* syn_preserve = 1 *) reg video_sync_count_inc_en; 
     always_ff @ (posedge CLK_40) begin
-        if (reset) 
-            video_write_sync_counter <= 0;
-        else if ((video_data_ready | parse_done) & data_clk_rising_edge) begin
-            video_write_sync_counter <= video_write_sync_counter + 1;
-
-            if (video_write_sync_counter == (`VIDEO_MEM_CELL_COUNT -1)) begin
-                video_bank_full <= 1'b1;
-                video_write_sync_counter <= 'b0;
-            end
-        end
-        else if (chip_select) begin
-                video_write_sync_counter <= 'b0;
-        end
-        else if (video_bank_full) video_bank_full <= 1'b0; 
+       video_sync_count_inc_en <= (video_data_ready | parse_done) & data_clk_rising_edge;
     end
 
-  counter #( .THRESHOLD(`AUDIO_MEM_CELL_COUNT)) 
-    AUDIO_WRITE_MODE_SYNC  (
-        .clk(CLK_40),
-        .reset(reset),
-        .count_en(audio_data_ready),
-        .clk_en(data_clk_rising_edge),
-        .enable_signal(audio_bank_full)
-    );
+    always_ff @ (posedge CLK_40) begin
+        if (reset) 
+            video_write_sync_counter <= 'b0;
+        else 
+            if (video_sync_count_inc_en) begin
+            video_write_sync_counter <= video_write_sync_counter + 1;
+                if (video_write_sync_counter == (`VIDEO_MEM_CELL_COUNT - 1)) begin // seems to end up missing the video_bank_full?
+                    video_bank_full          <= 1'b1;
+                    video_write_sync_counter <= 'b0;
+                end
+            end
+            else if (video_bank_full) video_bank_full <= 1'b0; 
+            else if (chip_select)     video_write_sync_counter <= 'b0;
+    end
 
     // FIFO delay amount 
     counter  #( .THRESHOLD(`FIFO_BUFF_AMOUNT))  

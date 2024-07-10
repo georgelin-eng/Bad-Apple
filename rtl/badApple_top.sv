@@ -60,15 +60,20 @@ module badApple_top (
                 .outclk_1(data_write_clk_CDC),
                 .locked(locked)
         );
-
-        debug_clk_gen  #( .divisor (`FRAME_PIXEL_COUNT / 32) ) DEBUG_CLK 
+        clk_divider  #( .divisor (`FRAME_PIXEL_COUNT / 32) ) DEBUG_CLK 
         (
             .CLK_40(CLK_40),
             .reset(reset),
-            .clk_debug(clk_debug)
+            .clk_out(clk_debug)
         );
     `endif 
 
+    clk_divider # (.divisor(20)) DATA_CLK_GEN
+    (
+        .CLK_40(CLK_40),
+        .reset(reset),
+        .clk_out(data_write_clk)
+    );
 
     /////////////////////////////////
     //    Clock Domain Crossing    //
@@ -82,13 +87,6 @@ module badApple_top (
         .reset(reset),
         .data_in(SPI_clk_CDC),        // clock domain that you're coming from
         .data_out(SPI_clk)            // new data that's now in target clock domain
-    );
-
-    dff_sync2 DATA_CLK (
-        .clk(CLK_40),                 // target clock domain
-        .reset(reset),
-        .data_in(data_write_clk_CDC),        // clock domain that you're coming from
-        .data_out(data_write_clk)            // new data that's now in target clock domain
     );
 
      dff_sync2 DATA (
@@ -209,9 +207,9 @@ module badApple_top (
     // top level clock enable generator
     // contains 1Mhz SPI clock and 8kHz audio clock 
 
-    ///////////////////////////////
-    //    Debugging             //
-    ///////////////////////////////
+    /////////////////////////////////
+    //         Debugging           //
+    /////////////////////////////////
 
     reg   [23:0] DATA_BUFF;
 

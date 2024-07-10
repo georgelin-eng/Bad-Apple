@@ -180,4 +180,13 @@ module video_top (
             .ACTIVE(ACTIVE)
         );
 
+
+    /////////////////////////////////
+    //         Debugging           //
+    /////////////////////////////////
+
+    // Read out the contents of memory one bit at a time 
+    // Maybe it's the glitch at the end that's causing it?
+
+
 endmodule

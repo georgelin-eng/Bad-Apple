@@ -129,22 +129,22 @@ module vsync_gen # (
 endmodule
 
 
-module  debug_clk_gen #( parameter divisor = 128 )
+module  clk_divider #( parameter divisor = 128 )
 (
     input      CLK_40,  // 50MHz clock from the oscilator - the system clock 
     input      reset,
-    output reg  clk_debug // 25MHz clk that will be used to drive the monitor - being used as a clk enable
+    output reg  clk_out // 25MHz clk that will be used to drive the monitor - being used as a clk enable
 );
     reg  [31:0] clk_counter; // 1 bit counter used for frequency division of CLK_40
 
     always @(posedge CLK_40) begin
         if (reset) begin
-            clk_debug   <= 1'b0;
+            clk_out   <= 1'b0;
             clk_counter <= 1'b0;
         end else begin
             clk_counter <= clk_counter + 1;
             if (clk_counter == divisor) begin
-                clk_debug <= ~clk_debug;
+                clk_out <= ~clk_out;
                 clk_counter <= 0;
             end
         end

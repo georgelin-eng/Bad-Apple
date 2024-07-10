@@ -70,13 +70,26 @@ module video_bank # (
     // current VGA pixel position
     // the scaled down version of x and y is not used for last pixel logic as this causes
     // a bug where bank_counter increments 4 times instead of once when the last pixel is reached
-    logic last_pixel;
-    always_comb begin
-        if (read_enable) 
-            last_pixel = (VGA_y_pos == HEIGHT-1) && (VGA_x_pos == WIDTH-1); 
-        else 
-            last_pixel = (mem_x_pos == X_WIDTH-1) && (mem_y_pos == Y_HEIGHT-1);
+
+    reg last_pixel, last_pixel_latched;
+    always_ff @ (posedge CLK_40) begin
+        if (read_enable)
+            last_pixel <= (VGA_y_pos == HEIGHT-1) && (VGA_x_pos == WIDTH-1); 
+        else begin
+            last_pixel <= (mem_x_pos == X_WIDTH-1) && (mem_y_pos == Y_HEIGHT-1); 
+            last_pixel_latched <= 1'b0;
+
+            if (last_pixel) last_pixel_latched <= 1'b1;
+        end
     end
+
+    // logic last_pixel;
+    // always_comb begin
+    //     if (read_enable) 
+    //         last_pixel = (VGA_y_pos == HEIGHT-1) && (VGA_x_pos == WIDTH-1); 
+    //     else 
+    //         last_pixel = (mem_x_pos == X_WIDTH-1) && (mem_y_pos == Y_HEIGHT-1);
+    // end
 
     /////////////////////////////////
     //        FSM Controller       //
@@ -107,7 +120,7 @@ module video_bank # (
             .clk_en(data_clk_en),
             .reset(reset),
             .video_data_ready(video_data_ready),
-            .last_pixel(last_pixel),      
+            .last_pixel(last_pixel & ~last_pixel_latched),      
             .read_enable(read_enable),
 
             .bank_counter(bank_counter)

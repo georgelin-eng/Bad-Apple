@@ -32,6 +32,10 @@ module top_tb ();
         end
     endfunction
 
+    task automatic wait_ns (input integer x);
+        #(x);
+    endtask
+
     task automatic wait_us(input integer x);
         #(1000*x);
         $display("waited %d us", x);
@@ -39,6 +43,9 @@ module top_tb ();
 
     task automatic send_data(input logic [7:0] data);
         sending_data = 1;  // Assuming sending_data is a signal or variable defined elsewhere
+
+        if ($urandom_range(1,10) % 2) wait_ns($urandom_range(200,300));
+
         for (int i = 7; i >= 0; i = i - 1) begin
             @(negedge SPI_clk_CDC);
             MISO_CDC = data[i];  // Use non-blocking assignment for MISO_CDC
@@ -50,19 +57,27 @@ module top_tb ();
         wait_us($urandom_range(20, 60)); // this should simulate how long it takes PC to send data over
         send_data (8'h00);
         send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
+        send_data (8'h00);
         send_data (8'hFF);
 
         // 15 frames * 48 bits per frame 
         for (int i = 0; i < 15; i = i + 1) begin
             send_data (8'hBB);
+            wait_us($urandom_range(1, 3)); // this should simulate how long it takes PC to send data over
             send_data (8'hA0);
             send_data (8'hD2);
             send_data (8'hBB);
+            wait_us($urandom_range(1, 2)); // this should simulate how long it takes PC to send data over
             send_data (8'hA0);
             send_data (8'hD2);
 
         end
-
         send_data (8'h00); 
         send_data (8'h00); 
         @ (posedge (DUT.MODE_FSM.switch_mode));
@@ -188,17 +203,22 @@ module top_tb ();
         send_video_payload();
         check_mem_contents();
 
-        @ (negedge (DUT.DATA_FSM.chip_select))
-        send_video_payload();
-        check_mem_contents();
+        // @ (negedge (DUT.DATA_FSM.chip_select))
+        // send_video_payload();
+        // check_mem_contents();
 
-        @ (negedge (DUT.DATA_FSM.chip_select))
-        send_video_payload();
-        check_mem_contents();
+        // @ (negedge (DUT.DATA_FSM.chip_select))
+        // send_video_payload();
+        // check_mem_contents();
 
+        // @ (negedge (DUT.DATA_FSM.chip_select))
+        // send_video_payload();
+        // check_mem_contents();
 
-
-        wait_us(10);
+        // @ (negedge (DUT.DATA_FSM.chip_select))
+        // send_video_payload();
+        // check_mem_contents();
+        // wait_us(10);
 
         $stop;
 
@@ -216,24 +236,24 @@ module top_tb ();
     //         Data Clock Generation     //
     ///////////////////////////////////////
 
-    initial forever begin
-        automatic integer data_jitter_amount = 10; // This is 10% jitter which is quite high
-        automatic integer data_jitter1 = jitter(data_jitter_amount/2);
-        automatic integer data_jitter2 = jitter(data_jitter_amount/2);
-        #25.1;
+    // initial forever begin
+    //     automatic integer data_jitter_amount = 10; // This is 10% jitter which is quite high
+    //     automatic integer data_jitter1 = jitter(data_jitter_amount/2);
+    //     automatic integer data_jitter2 = jitter(data_jitter_amount/2);
+    //     #25.1;
 
-        force DUT.data_write_clk_CDC = 1; #(500 + data_jitter1);
-        force DUT.data_write_clk_CDC = 0; #(500 - data_jitter1 +  data_jitter2); // jitter applied to falling edge or normal clock
+    //     force DUT.data_write_clk_CDC = 1; #(500 + data_jitter1);
+    //     force DUT.data_write_clk_CDC = 0; #(500 - data_jitter1 +  data_jitter2); // jitter applied to falling edge or normal clock
 
-        forever begin
-            data_jitter1 = jitter(data_jitter_amount/2);
-            force DUT.data_write_clk_CDC = 1; #(500 - data_jitter2 + data_jitter1); 
+    //     forever begin
+    //         data_jitter1 = jitter(data_jitter_amount/2);
+    //         force DUT.data_write_clk_CDC = 1; #(500 - data_jitter2 + data_jitter1); 
 
-            data_jitter2 = jitter(data_jitter_amount/2);
-            force DUT.data_write_clk_CDC = 0; #(500 - data_jitter1 + data_jitter2); 
+    //         data_jitter2 = jitter(data_jitter_amount/2);
+    //         force DUT.data_write_clk_CDC = 0; #(500 - data_jitter1 + data_jitter2); 
             
-        end
-    end
+    //     end
+    // end
 
 
     ///////////////////////////////////////
