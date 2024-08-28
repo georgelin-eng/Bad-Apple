@@ -61,7 +61,8 @@ This project utilizes the built in fractional divider PLL IP provided by Alterra
 
 <!-- There is a data aquisition FSM which acts as a wrapper for another SPI FSM which will drive the logic behind the SPI communication protocol used. -->
 ### System Architecture
-![image](https://github.com/user-attachments/assets/f48baf55-effa-41de-a12a-e82e47a700bd)
+![image](https://github.com/user-attachments/assets/ddcc3d5b-e83f-4b77-adc1-7ebffb165566)
+
 
 ### Timing Diagram
 ![image](https://github.com/user-attachments/assets/dbf80c21-fb72-47c6-953b-64151de76063)
