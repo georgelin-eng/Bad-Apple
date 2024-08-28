@@ -70,6 +70,10 @@ This project utilizes the built in fractional divider PLL IP provided by Alterra
 
 <!-- ### Video Buffering Scheme -->
 
+### Video Demo
+https://github.com/user-attachments/assets/29e6b5bd-a6af-4b76-946b-5535790065f2
+
+
 
 
 ### Audio Buffering Scheme
