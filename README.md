@@ -60,8 +60,16 @@ This project utilizes the built in fractional divider PLL IP provided by Alterra
 ## Data Aquisition Control Scheme
 
 <!-- There is a data aquisition FSM which acts as a wrapper for another SPI FSM which will drive the logic behind the SPI communication protocol used. -->
+### System Architecture
+![image](https://github.com/user-attachments/assets/f48baf55-effa-41de-a12a-e82e47a700bd)
+
+### Timing Diagram
+![image](https://github.com/user-attachments/assets/dbf80c21-fb72-47c6-953b-64151de76063)
+
 
 <!-- ### Video Buffering Scheme -->
+
+
 
 ### Audio Buffering Scheme
 
